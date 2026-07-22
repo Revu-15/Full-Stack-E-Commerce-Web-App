@@ -1,0 +1,48 @@
+# render.yaml — Render Blueprint for LuxeCart
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Deploy both services with one click from your GitHub repo.
+
+services:
+  # ── Backend: Express REST API ──────────────────────────────────────────────
+  - type: web
+    name: luxecart-api
+    runtime: node
+    region: singapore   # Choose: oregon, frankfurt, singapore, ohio
+    plan: free          # Free tier: 750 hrs/month, spins down after inactivity
+    rootDir: apps/backend
+    buildCommand: npm install -g pnpm@9 && pnpm install && npx prisma generate && npx tsc
+    startCommand: node dist/app.js
+    healthCheckPath: /health
+
+    # Environment Variables — set these in Render dashboard (Settings > Environment)
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 5000
+
+      # CLIENT_URL — set to your Vercel frontend URL after deploying frontend
+      - key: CLIENT_URL
+        fromService:
+          type: web
+          name: luxecart-api
+          property: host
+        # Override this with your actual Vercel URL in the dashboard
+
+      # ── All secrets below must be set manually in Render dashboard ──────────
+      # DATABASE_URL        → Your Neon PostgreSQL connection string
+      # JWT_ACCESS_SECRET   → Random 64-char string
+      # JWT_REFRESH_SECRET  → Random 64-char string (different from above)
+      # GOOGLE_CLIENT_ID    → From Google Cloud Console
+      # GOOGLE_CLIENT_SECRET→ From Google Cloud Console
+      # SMTP_USER           → Your Gmail address
+      # SMTP_PASS           → Your Gmail App Password
+      # CLOUDINARY_CLOUD_NAME → From Cloudinary dashboard
+      # CLOUDINARY_API_KEY    → From Cloudinary dashboard
+      # CLOUDINARY_API_SECRET → From Cloudinary dashboard
+      # STRIPE_SECRET_KEY     → From Stripe dashboard (sk_live_... for production)
+      # STRIPE_WEBHOOK_SECRET → From Stripe webhook settings
+      # RAZORPAY_KEY_ID       → From Razorpay dashboard
+      # RAZORPAY_KEY_SECRET   → From Razorpay dashboard
