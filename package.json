@@ -1,0 +1,25 @@
+{
+  "name": "luxecart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LuxeCart — Production Full Stack E-Commerce Platform",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "type-check": "turbo run type-check",
+    "backend:dev": "pnpm --filter @luxecart/backend dev",
+    "frontend:dev": "pnpm --filter @luxecart/frontend dev",
+    "db:migrate": "pnpm --filter @luxecart/backend db:migrate",
+    "db:seed": "pnpm --filter @luxecart/backend db:seed",
+    "db:studio": "pnpm --filter @luxecart/backend db:studio"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
