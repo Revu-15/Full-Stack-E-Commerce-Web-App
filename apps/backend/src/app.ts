@@ -45,8 +45,19 @@ app.use(
 
 app.use(
   cors({
-    origin: [config.clientUrl],
-    credentials: true, // Required for cookies cross-origin
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like server-to-server, curl, Postman)
+      if (!origin) return callback(null, true);
+      if (
+        origin === config.clientUrl ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Allow all valid web clients
+    },
+    credentials: true, // Required for HTTP-only cookies cross-origin
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
