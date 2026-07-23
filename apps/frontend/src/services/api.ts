@@ -1,150 +1,114 @@
-import { Product, Category, Order } from '@/types';
+import { Product, Category } from '@/types';
 
 export const MOCK_CATEGORIES: Category[] = [
-  {
-    id: 'cat-1',
-    name: 'Audio & Acoustics',
-    slug: 'audio-acoustics',
-    description: 'Premium headphones, studio monitors & spatial audio gear',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'cat-2',
-    name: 'Smart Devices',
-    slug: 'smart-devices',
-    description: 'Flagship smartwatches, tablets & ambient gadgets',
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'cat-3',
-    name: 'Luxury Timepieces',
-    slug: 'luxury-timepieces',
-    description: 'Crafted mechanical movement & sapphire crystal watches',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'cat-4',
-    name: 'Apparel & Kicks',
-    slug: 'apparel-kicks',
-    description: 'Designer outerwear, limited edition sneakers & accessories',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
-  },
+  { id: 'cat-mobiles', name: 'Mobiles', slug: 'mobiles', description: 'Flagship smartphones, 5G devices & accessories', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80' },
+  { id: 'cat-laptops', name: 'Laptops', slug: 'laptops', description: 'Ultra-thin ultrabooks, gaming laptops & workstations', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80' },
+  { id: 'cat-electronics', name: 'Electronics', slug: 'electronics', description: '4K Smart TVs, wireless audio, cameras & drones', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80' },
+  { id: 'cat-fashion', name: 'Fashion', slug: 'fashion', description: 'Designer denim, jackets, streetwear & apparel', image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80' },
+  { id: 'cat-shoes', name: 'Shoes', slug: 'shoes', description: 'Performance running kicks, sneakers & boots', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80' },
+  { id: 'cat-watches', name: 'Watches', slug: 'watches', description: 'Automatic timepieces & retina smartwatches', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=80' },
+  { id: 'cat-grocery', name: 'Grocery', slug: 'grocery', description: 'Organic produce, gourmet coffee & pantry items', image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80' },
+  { id: 'cat-home', name: 'Home & Kitchen', slug: 'home-kitchen', description: 'Smart appliances, cookware & minimalist decor', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&q=80' },
+  { id: 'cat-beauty', name: 'Beauty', slug: 'beauty', description: 'Luxury skincare, fragrances & cosmetics', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80' },
+  { id: 'cat-books', name: 'Books', slug: 'books', description: 'Bestselling novels, tech guides & biographies', image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80' },
+  { id: 'cat-toys', name: 'Toys', slug: 'toys', description: 'STEM kits, RC drones, action figures & games', image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&q=80' },
+  { id: 'cat-sports', name: 'Sports', slug: 'sports', description: 'Fitness gear, yoga mats, dumbbells & cycles', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80' },
 ];
 
-export const MOCK_PRODUCTS: Product[] = [
-  {
-    id: 'prod-1',
-    name: 'Apex ANC Wireless Studio Headphones',
-    slug: 'apex-anc-wireless-studio-headphones',
-    description: 'Industry-leading noise cancellation, 40mm beryllium drivers, 50h battery life and lossless spatial audio.',
-    price: 349.99,
-    discountPrice: 299.99,
-    sku: 'APX-ANC-01',
-    stock: 45,
-    images: [
-      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 4.9,
-    reviewCount: 128,
-    isFeatured: true,
-    category: MOCK_CATEGORIES[0],
-    brand: { id: 'b-1', name: 'LuxeAudio', slug: 'luxeaudio' },
-  },
-  {
-    id: 'prod-2',
-    name: 'Chronos Sapphire Automatic Watch',
-    slug: 'chronos-sapphire-automatic-watch',
-    description: 'Precision 24-jewel automatic movement, 100m water resistance, genuine Italian leather strap.',
-    price: 899.00,
-    discountPrice: 799.00,
-    sku: 'CHR-SAP-02',
-    stock: 12,
-    images: [
-      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 5.0,
-    reviewCount: 42,
-    isFeatured: true,
-    category: MOCK_CATEGORIES[2],
-    brand: { id: 'b-2', name: 'Chronos', slug: 'chronos' },
-  },
-  {
-    id: 'prod-3',
-    name: 'Pulse X Retina Smartwatch Ultra',
-    slug: 'pulse-x-retina-smartwatch-ultra',
-    description: 'Titanium chassis, 3000-nit OLED display, ECG monitoring, dual-frequency GPS and 7-day battery.',
-    price: 499.99,
-    discountPrice: 449.99,
-    sku: 'PLS-RTN-03',
-    stock: 30,
-    images: [
-      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 4.8,
-    reviewCount: 96,
-    isFeatured: true,
-    category: MOCK_CATEGORIES[1],
-    brand: { id: 'b-3', name: 'PulseTech', slug: 'pulsetech' },
-  },
-  {
-    id: 'prod-4',
-    name: 'Vortex Red Edition Performance Kicks',
-    slug: 'vortex-red-edition-performance-kicks',
-    description: 'Carbon fiber plate, responsive nitrogen-infused foam, breathable knit upper designed for maximum speed.',
-    price: 199.99,
-    discountPrice: 169.99,
-    sku: 'VRX-RED-04',
-    stock: 22,
-    images: [
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 4.7,
-    reviewCount: 215,
-    isFeatured: true,
-    category: MOCK_CATEGORIES[3],
-    brand: { id: 'b-4', name: 'Vortex Athletics', slug: 'vortex' },
-  },
-  {
-    id: 'prod-5',
-    name: 'Luminary Minimalist Desk Lamp',
-    slug: 'luminary-minimalist-desk-lamp',
-    description: 'Smart ambient color temperature control, Qi wireless charging pad built into anodized aluminum base.',
-    price: 129.50,
-    discountPrice: null,
-    sku: 'LUM-DSK-05',
-    stock: 55,
-    images: [
-      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 4.6,
-    reviewCount: 38,
-    isFeatured: false,
-    category: MOCK_CATEGORIES[1],
-    brand: { id: 'b-5', name: 'Luminary', slug: 'luminary' },
-  },
-  {
-    id: 'prod-6',
-    name: 'Acoustica Wooden Bookshelf Speakers',
-    slug: 'acoustica-wooden-bookshelf-speakers',
-    description: 'Hand-finished walnut cabinet, silk dome tweeters, Bluetooth 5.3 & optical input for audiophile clarity.',
-    price: 449.00,
-    discountPrice: 399.00,
-    sku: 'ACT-WOD-06',
-    stock: 18,
-    images: [
-      'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80',
-    ],
-    rating: 4.9,
-    reviewCount: 84,
-    isFeatured: false,
-    category: MOCK_CATEGORIES[0],
-    brand: { id: 'b-1', name: 'LuxeAudio', slug: 'luxeaudio' },
-  },
-];
+const BRANDS = ['Apple', 'Samsung', 'Sony', 'Nike', 'Adidas', 'Dell', 'Lenovo', 'Asus', 'Bose', 'Puma', 'Logitech', 'Canon', 'LG', 'KitchenAid', 'Seiko'];
+
+const SAMPLE_IMAGES: Record<string, string[]> = {
+  mobiles: [
+    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80',
+    'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&q=80',
+    'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800&q=80',
+  ],
+  laptops: [
+    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80',
+    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80',
+    'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800&q=80',
+  ],
+  electronics: [
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
+    'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&q=80',
+    'https://images.unsplash.com/photo-1593359677879-a4bb92f4e5f1?w=800&q=80',
+  ],
+  fashion: [
+    'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80',
+    'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80',
+    'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=800&q=80',
+  ],
+  shoes: [
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80',
+  ],
+  watches: [
+    'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80',
+    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
+  ],
+  grocery: [
+    'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
+    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+  ],
+  'home-kitchen': [
+    'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80',
+    'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80',
+  ],
+  beauty: [
+    'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
+  ],
+  books: [
+    'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&q=80',
+  ],
+  toys: [
+    'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=800&q=80',
+  ],
+  sports: [
+    'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
+  ],
+};
+
+function generate100Products(): Product[] {
+  const products: Product[] = [];
+  let idCounter = 1;
+
+  MOCK_CATEGORIES.forEach((category) => {
+    const images = SAMPLE_IMAGES[category.slug] || SAMPLE_IMAGES['electronics'];
+    const itemsPerCategory = Math.floor(100 / MOCK_CATEGORIES.length) + (category.slug === 'mobiles' ? 4 : 0);
+
+    for (let i = 1; i <= itemsPerCategory; i++) {
+      const brandName = BRANDS[Math.floor(Math.random() * BRANDS.length)];
+      const basePrice = Math.floor(Math.random() * 800) + 29;
+      const discountPrice = Math.random() > 0.3 ? Math.floor(basePrice * 0.8) : null;
+      const rating = Math.round((4.0 + Math.random() * 1.0) * 10) / 10;
+      const reviewCount = Math.floor(Math.random() * 450) + 12;
+
+      products.push({
+        id: `prod-${idCounter}`,
+        name: `${brandName} ${category.name.replace('&', '')} Pro ${i}`,
+        slug: `${brandName.toLowerCase()}-${category.slug}-pro-${i}-${idCounter}`,
+        description: `Premium ${category.name} product with top-tier build quality, 1-year warranty, fast NexPrime delivery, and high performance.`,
+        price: basePrice,
+        discountPrice,
+        sku: `SKU-${category.slug.toUpperCase()}-${idCounter}`,
+        stock: Math.floor(Math.random() * 60) + 5,
+        images,
+        rating,
+        reviewCount,
+        isFeatured: i <= 2,
+        category,
+        brand: { id: `brand-${brandName.toLowerCase()}`, name: brandName, slug: brandName.toLowerCase() },
+      });
+
+      idCounter++;
+    }
+  });
+
+  return products;
+}
+
+export const MOCK_PRODUCTS: Product[] = generate100Products();
 
 export async function fetchProducts(query?: string, categorySlug?: string): Promise<Product[]> {
   try {
@@ -170,7 +134,7 @@ export async function fetchProducts(query?: string, categorySlug?: string): Prom
       }
     }
   } catch (e) {
-    // Fall back to mock data
+    // Fallback to 100 generated products
   }
 
   let filtered = [...MOCK_PRODUCTS];

@@ -15,7 +15,7 @@ import { Footer } from '@/components/Footer';
 
 import { Product, CartItem } from '@/types';
 import { MOCK_CATEGORIES, MOCK_PRODUCTS, fetchProducts } from '@/services/api';
-import { Filter, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { SlidersHorizontal, Sparkles, Zap, Flame, Award, Clock, Star, TrendingUp } from 'lucide-react';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
@@ -29,18 +29,15 @@ export default function Home() {
     { id: 'cart-1', product: MOCK_PRODUCTS[0], quantity: 1, selectedColor: 'Obsidian Black', selectedSize: 'M' }
   ]);
   const [wishlist, setWishlist] = useState<Product[]>([MOCK_PRODUCTS[1]]);
-  const [user, setUser] = useState<{ name: string; email: string; role: 'CUSTOMER' | 'ADMIN' } | null>({
-    name: 'John Doe',
-    email: 'customer@luxecart.com',
-    role: 'CUSTOMER',
-  });
+  const [user, setUser] = useState<{ name: string; email: string; role: 'CUSTOMER' | 'ADMIN' } | null>(null);
   const [orders, setOrders] = useState([
-    { id: 'ORD-849201', date: 'Jul 22, 2026', status: 'SHIPPED', total: 299.99, itemsCount: 1 }
+    { id: 'ORD-849201', date: 'Jul 23, 2026', status: 'SHIPPED', total: 299.99, itemsCount: 1 }
   ]);
 
   // Modal Controls
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -52,9 +49,9 @@ export default function Home() {
     });
   }, [searchQuery, selectedCategory]);
 
-  // Filter & Sort Logic
+  // Filter & Section Categorization for Step 4
   const filteredProducts = useMemo(() => {
-    let result = products.filter((p) => {
+    return products.filter((p) => {
       const price = p.discountPrice || p.price;
       const matchesPrice = price <= priceRange;
       const matchesSearch = searchQuery === '' || 
@@ -63,17 +60,13 @@ export default function Home() {
       const matchesCat = selectedCategory === 'all' || p.category.slug === selectedCategory;
       return matchesPrice && matchesSearch && matchesCat;
     });
+  }, [products, searchQuery, selectedCategory, priceRange]);
 
-    if (sortBy === 'price-low') {
-      result.sort((a, b) => (a.discountPrice || a.price) - (b.discountPrice || b.price));
-    } else if (sortBy === 'price-high') {
-      result.sort((a, b) => (b.discountPrice || b.price) - (a.discountPrice || a.price));
-    } else if (sortBy === 'rating') {
-      result.sort((a, b) => b.rating - a.rating);
-    }
-
-    return result;
-  }, [products, searchQuery, selectedCategory, priceRange, sortBy]);
+  // Step 4 Sections
+  const todaysDeals = useMemo(() => filteredProducts.filter((p) => p.discountPrice != null).slice(0, 8), [filteredProducts]);
+  const bestSellers = useMemo(() => [...filteredProducts].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 8), [filteredProducts]);
+  const trendingProducts = useMemo(() => [...filteredProducts].sort((a, b) => b.rating - a.rating).slice(0, 8), [filteredProducts]);
+  const newArrivals = useMemo(() => filteredProducts.slice(10, 18), [filteredProducts]);
 
   // Actions
   const handleAddToCart = (product: Product, size?: string, color?: string) => {
@@ -96,6 +89,11 @@ export default function Home() {
       ];
     });
     setIsCartOpen(true);
+  };
+
+  const handleBuyNow = (product: Product) => {
+    handleAddToCart(product);
+    setIsCheckoutOpen(true);
   };
 
   const handleUpdateQuantity = (id: string, delta: number) => {
@@ -129,48 +127,129 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0b0c10] text-gray-100 flex flex-col font-sans">
-      {/* Navigation Bar */}
+      {/* Step 1: Navbar */}
       <Navbar
         cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
         wishlistCount={wishlist.length}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
         onOpenCart={() => setIsCartOpen(true)}
-        onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenAuth={(mode = 'LOGIN') => { setAuthMode(mode); setIsAuthOpen(true); }}
         onOpenDashboard={() => setIsDashboardOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
         user={user}
       />
 
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Step 1: Hero Banner */}
         <HeroBanner onShopNow={() => setSelectedCategory('all')} />
 
-        {/* Featured Category Section */}
+        {/* Step 1: Featured Categories (12 Categories) */}
         <CategoryGrid
           categories={MOCK_CATEGORIES}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
 
-        {/* Main Product Catalog Section */}
+        {/* Step 4 Section 1: Today's Deals */}
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+                <Flame className="w-6 h-6 text-amber-500 animate-bounce" />
+                <span>Today's <span className="nex-text-gradient">Lightning Deals</span></span>
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">Limited-time discounts up to 40% OFF with NexPrime Delivery</p>
+            </div>
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" /> Ends in 05h 42m
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {todaysDeals.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isWishlisted={wishlist.some((p) => p.id === product.id)}
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={(p) => handleAddToCart(p)}
+                onBuyNow={(p) => handleBuyNow(p)}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Step 4 Section 2: Best Sellers */}
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+                <Award className="w-6 h-6 text-yellow-400" />
+                <span>Best <span className="nex-text-gradient">Sellers</span></span>
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">Most ordered products across all 12 categories</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {bestSellers.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isWishlisted={wishlist.some((p) => p.id === product.id)}
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={(p) => handleAddToCart(p)}
+                onBuyNow={(p) => handleBuyNow(p)}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Step 4 Section 3: Trending Products */}
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+                <TrendingUp className="w-6 h-6 text-orange-400" />
+                <span>Trending <span className="nex-text-gradient">Right Now</span></span>
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">Products trending in customer searches today</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {trendingProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isWishlisted={wishlist.some((p) => p.id === product.id)}
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={(p) => handleAddToCart(p)}
+                onBuyNow={(p) => handleBuyNow(p)}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Full 100 Products Catalog Grid */}
         <section id="catalog" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Catalog Controls Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>Product <span className="gradient-text">Catalog</span></span>
-                <span className="text-xs bg-purple-500/20 text-purple-300 font-bold px-2.5 py-0.5 rounded-full border border-purple-500/30">
-                  {filteredProducts.length} Items
-                </span>
+                <span>All NexCart <span className="nex-text-gradient">Products (100 Items)</span></span>
               </h2>
-              <p className="text-xs text-gray-400 mt-1">Explore luxury items with instant filtering and search</p>
+              <p className="text-xs text-gray-400 mt-1">Explore our complete 100 demo product inventory</p>
             </div>
 
-            {/* Filter Bar */}
-            <div className="flex flex-wrap items-center gap-3">
-              {/* Max Price Slider */}
-              <div className="flex items-center gap-2 glass-panel px-3 py-1.5 rounded-xl border border-white/10">
+            {/* Price Filter */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 glass-panel px-3.5 py-2 rounded-xl border border-white/10">
                 <span className="text-xs text-gray-400">Max Price:</span>
                 <input
                   type="range"
@@ -179,63 +258,30 @@ export default function Home() {
                   step="50"
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-24 accent-purple-500 cursor-pointer"
+                  className="w-24 accent-amber-500 cursor-pointer"
                 />
-                <span className="text-xs font-bold text-purple-300">${priceRange}</span>
-              </div>
-
-              {/* Sort By Dropdown */}
-              <div className="flex items-center gap-2 glass-panel px-3 py-1.5 rounded-xl border border-white/10">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-purple-400" />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-transparent text-xs text-gray-200 focus:outline-none cursor-pointer"
-                >
-                  <option value="featured" className="bg-gray-900 text-gray-200">Featured</option>
-                  <option value="price-low" className="bg-gray-900 text-gray-200">Price: Low to High</option>
-                  <option value="price-high" className="bg-gray-900 text-gray-200">Price: High to Low</option>
-                  <option value="rating" className="bg-gray-900 text-gray-200">Highest Rated</option>
-                </select>
+                <span className="text-xs font-bold text-amber-300">${priceRange}</span>
               </div>
             </div>
           </div>
 
-          {/* Product Grid */}
-          {filteredProducts.length === 0 ? (
-            <div className="text-center py-20 glass-card rounded-3xl p-8 border border-white/10">
-              <Sparkles className="w-10 h-10 text-purple-400 mx-auto mb-3 animate-bounce" />
-              <h3 className="text-lg font-bold text-white">No products found matching filters</h3>
-              <p className="text-xs text-gray-400 mt-1">Try resetting your search query or price slider threshold.</p>
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                  setPriceRange(1000);
-                }}
-                className="mt-4 gradient-btn text-white text-xs font-bold py-2.5 px-6 rounded-full"
-              >
-                Reset All Filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  isWishlisted={wishlist.some((p) => p.id === product.id)}
-                  onToggleWishlist={handleToggleWishlist}
-                  onAddToCart={(p) => handleAddToCart(p)}
-                  onQuickView={(p) => setQuickViewProduct(p)}
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isWishlisted={wishlist.some((p) => p.id === product.id)}
+                onToggleWishlist={handleToggleWishlist}
+                onAddToCart={(p) => handleAddToCart(p)}
+                onBuyNow={(p) => handleBuyNow(p)}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
         </section>
       </main>
 
-      {/* Slide-over Cart Drawer */}
+      {/* Cart Drawer */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -248,7 +294,7 @@ export default function Home() {
         }}
       />
 
-      {/* Quick View Product Modal */}
+      {/* Quick View Modal */}
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
@@ -260,7 +306,7 @@ export default function Home() {
         isWishlisted={quickViewProduct ? wishlist.some((p) => p.id === quickViewProduct.id) : false}
       />
 
-      {/* Multi-step Checkout Modal */}
+      {/* Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
@@ -268,18 +314,19 @@ export default function Home() {
         onOrderSuccess={handleOrderSuccess}
       />
 
-      {/* Auth Modal */}
+      {/* Step 2 & Step 3 Auth Modal (Sign Up & Login) */}
       <AuthModal
         isOpen={isAuthOpen}
+        initialTab={authMode}
         onClose={() => setIsAuthOpen(false)}
         onLoginSuccess={(u) => setUser(u)}
       />
 
-      {/* User Dashboard */}
+      {/* User Dashboard & Order History */}
       <UserDashboard
         isOpen={isDashboardOpen}
         onClose={() => setIsDashboardOpen(false)}
-        user={user}
+        user={user || { name: 'Guest User', email: 'guest@nexcart.com', role: 'CUSTOMER' }}
         onLogout={() => setUser(null)}
         wishlist={wishlist}
         orders={orders}
@@ -292,7 +339,7 @@ export default function Home() {
         products={products}
       />
 
-      {/* Footer */}
+      {/* Step 1 Footer */}
       <Footer />
     </div>
   );

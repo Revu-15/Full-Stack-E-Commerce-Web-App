@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { Product } from '@/types';
-import { Heart, ShoppingBag, Eye, Star } from 'lucide-react';
+import { Heart, ShoppingBag, Eye, Star, Zap, ShieldCheck } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
   isWishlisted: boolean;
   onToggleWishlist: (p: Product) => void;
   onAddToCart: (p: Product) => void;
+  onBuyNow: (p: Product) => void;
   onQuickView: (p: Product) => void;
 }
 
@@ -17,17 +18,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isWishlisted,
   onToggleWishlist,
   onAddToCart,
+  onBuyNow,
   onQuickView,
 }) => {
   const discountPercent = product.discountPrice
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
 
+  const currentPrice = product.discountPrice || product.price;
+
   return (
     <div className="group relative glass-card rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
       <div>
         {/* Image & Action Overlay */}
-        <div className="relative aspect-square rounded-xl overflow-hidden bg-black/40 mb-4">
+        <div className="relative aspect-square rounded-xl overflow-hidden bg-black/40 mb-3">
           <img
             src={product.images[0]}
             alt={product.name}
@@ -37,15 +41,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Badges */}
           <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10">
             {discountPercent > 0 && (
-              <span className="px-2.5 py-0.5 rounded-md bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-md">
+              <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-orange-600 text-black text-[10px] font-extrabold uppercase tracking-wider shadow-md">
                 -{discountPercent}% OFF
               </span>
             )}
-            {product.isFeatured && (
-              <span className="px-2 py-0.5 rounded-md bg-amber-500/90 text-black text-[10px] font-bold uppercase tracking-wider">
-                FEATURED
-              </span>
-            )}
+            <span className="px-2 py-0.5 rounded-md bg-blue-600/90 text-white text-[9px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+              <Zap className="w-2.5 h-2.5" /> NexPrime
+            </span>
           </div>
 
           {/* Wishlist Button */}
@@ -73,21 +75,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        {/* Category & Brand */}
-        <div className="flex items-center justify-between text-[11px] text-purple-400 font-semibold mb-1">
-          <span>{product.category.name}</span>
-          {product.brand && <span className="text-gray-400 font-normal">{product.brand.name}</span>}
+        {/* Brand & Stock Status */}
+        <div className="flex items-center justify-between text-[11px] mb-1">
+          <span className="text-amber-400 font-bold">{product.brand?.name || 'NexCart Brand'}</span>
+          <span className={`font-semibold ${product.stock > 10 ? 'text-emerald-400' : 'text-pink-400'}`}>
+            {product.stock > 10 ? 'In Stock' : `Only ${product.stock} left`}
+          </span>
         </div>
 
         {/* Title */}
         <h3 
           onClick={() => onQuickView(product)}
-          className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-1 cursor-pointer mb-2"
+          className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1 cursor-pointer mb-1.5"
         >
           {product.name}
         </h3>
 
-        {/* Rating */}
+        {/* Rating Stars & Review Count */}
         <div className="flex items-center gap-1.5 mb-3">
           <div className="flex items-center text-amber-400">
             <Star className="w-3.5 h-3.5 fill-current" />
@@ -97,26 +101,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </div>
 
-      {/* Pricing & Add to Cart */}
-      <div className="flex items-center justify-between pt-3 border-t border-white/10 mt-2">
-        <div>
-          <span className="text-lg font-extrabold text-white">
-            ${product.discountPrice ? product.discountPrice.toFixed(2) : product.price.toFixed(2)}
-          </span>
-          {product.discountPrice && (
-            <span className="block text-xs text-gray-400 line-through">
-              ${product.price.toFixed(2)}
-            </span>
-          )}
+      {/* Pricing & Buttons */}
+      <div className="space-y-2 pt-2 border-t border-white/10 mt-1">
+        <div className="flex items-baseline justify-between">
+          <div>
+            <span className="text-lg font-extrabold text-white">${currentPrice.toFixed(2)}</span>
+            {product.discountPrice && (
+              <span className="text-xs text-gray-400 line-through ml-2">${product.price.toFixed(2)}</span>
+            )}
+          </div>
+          <span className="text-[10px] text-gray-400">Free Delivery</span>
         </div>
 
-        <button
-          onClick={() => onAddToCart(product)}
-          className="gradient-btn text-white p-2.5 rounded-xl shadow-lg shadow-purple-600/20 hover:scale-105 active:scale-95 transition-all"
-          title="Add to Cart"
-        >
-          <ShoppingBag className="w-4 h-4" />
-        </button>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => onAddToCart(product)}
+            className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold py-2 rounded-xl border border-white/10 transition-colors flex items-center justify-center gap-1"
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Add Cart</span>
+          </button>
+
+          <button
+            onClick={() => onBuyNow(product)}
+            className="nex-btn-gradient text-xs font-extrabold py-2 rounded-xl transition-transform active:scale-95 shadow-md shadow-amber-500/20"
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
     </div>
   );
