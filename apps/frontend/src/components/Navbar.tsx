@@ -31,11 +31,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/10 shadow-2xl transition-all">
       {/* Top Announcement Bar */}
-      <div className="bg-gradient-to-r from-purple-900/60 via-indigo-900/60 to-purple-900/60 text-xs text-purple-200 py-1.5 px-4 text-center flex items-center justify-center gap-2 border-b border-purple-500/20">
-        <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-        <span>Summer Sale Live! Get up to <strong>30% OFF</strong> luxury acoustics & smart wearables with code <strong>LUXE30</strong></span>
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 ml-2" />
-        <span className="hidden md:inline text-emerald-300">Verified Authentic</span>
+      <div className="bg-gradient-to-r from-amber-600/80 via-yellow-600/80 to-amber-600/80 text-xs text-black font-semibold py-1.5 px-4 text-center flex items-center justify-center gap-2 border-b border-amber-500/20">
+        <Sparkles className="w-3.5 h-3.5 text-black animate-pulse" />
+        <span><strong>NexPrime Sale Live!</strong> Get <strong>FREE 1-Day Delivery</strong> & Extra 30% OFF with code <strong>NEX30</strong></span>
+        <ShieldCheck className="w-3.5 h-3.5 text-black ml-2" />
+        <span className="hidden md:inline">Amazon-Grade Guarantee</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
@@ -49,12 +49,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-105 transition-transform">
-              <ShoppingBag className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+              <ShoppingBag className="w-5 h-5 text-black font-bold" />
             </div>
             <div>
-              <span className="text-2xl font-extrabold tracking-tight gradient-text">LuxeCart</span>
-              <span className="block text-[10px] uppercase tracking-widest text-purple-400 font-semibold -mt-1">Luxury E-Store</span>
+              <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400 -webkit-background-clip-text text-transparent">NexCart</span>
+              <span className="block text-[10px] uppercase tracking-widest text-amber-400 font-bold -mt-1">Everything You Need</span>
             </div>
           </a>
         </div>

@@ -10,13 +10,13 @@ export const Footer: React.FC = () => {
         {/* Brand Column */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <ShoppingBag className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <ShoppingBag className="w-4 h-4 text-black font-bold" />
             </div>
-            <span className="text-2xl font-extrabold tracking-tight gradient-text">LuxeCart</span>
+            <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 to-yellow-400 -webkit-background-clip-text text-transparent">NexCart</span>
           </div>
           <p className="text-xs leading-relaxed font-light">
-            Production-grade full-stack e-commerce experience built with Next.js 15, TypeScript, Express & PostgreSQL.
+            Production-grade full-stack Amazon-like e-commerce platform built with Next.js 15, TypeScript, Express & PostgreSQL.
           </p>
           <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium">
             <ShieldCheck className="w-4 h-4" />

@@ -17,17 +17,17 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onShopNow }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Copy */}
         <div className="space-y-6 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span>2026 Next-Gen Luxe Collection</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>NexCart — Amazon-Scale Everything Store</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Elevate Your Style with <span className="gradient-text">Future Technology</span> & Timeless Design.
+            Order <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400 -webkit-background-clip-text text-transparent">Anything</span>, Delivered Fast to Your Doorstep.
           </h1>
 
           <p className="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-            Discover precision acoustics, smart wearables, luxury timepieces, and high-performance footwear crafted with uncompromising quality.
+            Shop millions of products with NexPrime 1-Day Free Shipping, instant checkout, verified reviews, and 24/7 buyer protection.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
