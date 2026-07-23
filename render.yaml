@@ -12,7 +12,7 @@ services:
     region: singapore   # Choose: oregon, frankfurt, singapore, ohio
     plan: free          # Free tier: 750 hrs/month, spins down after inactivity
     rootDir: apps/backend
-    buildCommand: npm install -g pnpm@9 && pnpm install --frozen-lockfile && npx prisma generate && npx tsc
+    buildCommand: npx pnpm@9 install --frozen-lockfile && npx prisma generate && npx tsc
     startCommand: node dist/app.js
     healthCheckPath: /health
 
