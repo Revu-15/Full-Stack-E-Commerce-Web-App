@@ -148,15 +148,29 @@ export const MOCK_PRODUCTS: Product[] = [
 
 export async function fetchProducts(query?: string, categorySlug?: string): Promise<Product[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1'}/products`, {
-      cache: 'no-store',
-    });
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://luxecart-api-x5ek.onrender.com/api/v1';
+    let url = `${baseUrl}/products?`;
+    if (query) url += `search=${encodeURIComponent(query)}&`;
+    if (categorySlug && categorySlug !== 'all') url += `category=${encodeURIComponent(categorySlug)}&`;
+
+    const res = await fetch(url, { cache: 'no-store' });
     if (res.ok) {
-      const data = await res.json();
-      if (data?.data?.products) return data.data.products;
+      const json = await res.json();
+      const rawProducts = json?.data?.products || json?.data;
+      if (Array.isArray(rawProducts) && rawProducts.length > 0) {
+        return rawProducts.map((p: any) => ({
+          ...p,
+          price: Number(p.price) || 199.99,
+          discountPrice: p.discountPrice ? Number(p.discountPrice) : null,
+          category: p.category || { id: 'c-1', name: 'General', slug: 'general' },
+          images: Array.isArray(p.images) && p.images.length > 0 ? p.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'],
+          rating: Number(p.rating) || 4.8,
+          reviewCount: Number(p.reviewCount) || 24,
+        }));
+      }
     }
   } catch (e) {
-    // Fall back to mock data gracefully
+    // Fall back to mock data
   }
 
   let filtered = [...MOCK_PRODUCTS];
