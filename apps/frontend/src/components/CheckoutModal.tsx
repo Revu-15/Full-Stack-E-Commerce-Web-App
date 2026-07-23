@@ -19,16 +19,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 }) => {
   const [step, setStep] = useState<'ADDRESS' | 'PAYMENT' | 'CONFIRMATION'>('ADDRESS');
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    email: 'customer@luxecart.com',
-    phone: '+1 234 567 8900',
-    street: '742 Evergreen Terrace',
-    city: 'San Francisco',
-    state: 'CA',
-    zip: '94102',
-    country: 'United States',
+    name: 'Revanth Customer',
+    email: 'customer@nexcart.com',
+    phone: '+91 98765 43210',
+    street: '100 NexCart Way, Tech Park',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    zip: '500081',
+    country: 'India',
   });
-  const [paymentGateway, setPaymentGateway] = useState<'STRIPE' | 'RAZORPAY' | 'COD'>('STRIPE');
+  const [paymentGateway, setPaymentGateway] = useState<'STRIPE' | 'RAZORPAY' | 'COD'>('RAZORPAY');
   const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isOpen) return null;
@@ -37,7 +37,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     const price = item.product.discountPrice || item.product.price;
     return acc + price * item.quantity;
   }, 0);
-  const total = subtotal * 1.08; // subtotal + tax
+  const total = Math.round(subtotal * 1.18); // subtotal + 18% GST
 
   const handleSubmitAddress = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,15 +68,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
         {/* Step Stepper */}
         <div className="flex items-center justify-center gap-4 mb-8 text-xs font-bold uppercase tracking-wider">
-          <span className={`px-3 py-1 rounded-full ${step === 'ADDRESS' ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-400'}`}>
+          <span className={`px-3 py-1 rounded-full ${step === 'ADDRESS' ? 'bg-amber-500 text-black font-extrabold' : 'bg-white/10 text-gray-400'}`}>
             1. Address
           </span>
           <span className="text-gray-600">—</span>
-          <span className={`px-3 py-1 rounded-full ${step === 'PAYMENT' ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-400'}`}>
+          <span className={`px-3 py-1 rounded-full ${step === 'PAYMENT' ? 'bg-amber-500 text-black font-extrabold' : 'bg-white/10 text-gray-400'}`}>
             2. Payment
           </span>
           <span className="text-gray-600">—</span>
-          <span className={`px-3 py-1 rounded-full ${step === 'CONFIRMATION' ? 'bg-emerald-600 text-white' : 'bg-white/10 text-gray-400'}`}>
+          <span className={`px-3 py-1 rounded-full ${step === 'CONFIRMATION' ? 'bg-emerald-500 text-black font-extrabold' : 'bg-white/10 text-gray-400'}`}>
             3. Order Placed
           </span>
         </div>
@@ -85,7 +85,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         {step === 'ADDRESS' && (
           <form onSubmit={handleSubmitAddress} className="space-y-4">
             <h2 className="text-xl font-extrabold flex items-center gap-2">
-              <Truck className="w-5 h-5 text-purple-400" />
+              <Truck className="w-5 h-5 text-amber-400" />
               <span>Shipping Address</span>
             </h2>
 
@@ -97,7 +97,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div>
@@ -107,7 +107,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
@@ -119,7 +119,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 required
                 value={formData.street}
                 onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -131,7 +131,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   required
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div>
@@ -141,24 +141,24 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   required
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">Postal Code</label>
+                <label className="block text-xs text-gray-400 mb-1">PIN Code</label>
                 <input
                   type="text"
                   required
                   value={formData.zip}
                   onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full gradient-btn text-white font-bold py-3 rounded-xl mt-6 text-xs uppercase tracking-wider"
+              className="w-full nex-btn-gradient text-black font-extrabold py-3 rounded-xl mt-6 text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20"
             >
               Continue to Payment
             </button>
@@ -169,15 +169,25 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         {step === 'PAYMENT' && (
           <div className="space-y-6">
             <h2 className="text-xl font-extrabold flex items-center gap-2">
-              <CreditCard className="w-5 h-5 text-purple-400" />
+              <CreditCard className="w-5 h-5 text-amber-400" />
               <span>Select Payment Method</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div
+                onClick={() => setPaymentGateway('RAZORPAY')}
+                className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
+                  paymentGateway === 'RAZORPAY' ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-white/5 border-white/10'
+                }`}
+              >
+                <span className="font-extrabold text-sm text-amber-400">Razorpay</span>
+                <span className="text-[10px] text-gray-400">UPI / NetBanking / GPay</span>
+              </div>
+
+              <div
                 onClick={() => setPaymentGateway('STRIPE')}
                 className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
-                  paymentGateway === 'STRIPE' ? 'bg-purple-600/20 border-purple-500' : 'bg-white/5 border-white/10'
+                  paymentGateway === 'STRIPE' ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-white/5 border-white/10'
                 }`}
               >
                 <span className="font-extrabold text-sm text-purple-300">Stripe</span>
@@ -185,23 +195,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
 
               <div
-                onClick={() => setPaymentGateway('RAZORPAY')}
-                className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
-                  paymentGateway === 'RAZORPAY' ? 'bg-purple-600/20 border-purple-500' : 'bg-white/5 border-white/10'
-                }`}
-              >
-                <span className="font-extrabold text-sm text-indigo-300">Razorpay</span>
-                <span className="text-[10px] text-gray-400">UPI / NetBanking / Wallet</span>
-              </div>
-
-              <div
                 onClick={() => setPaymentGateway('COD')}
                 className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
-                  paymentGateway === 'COD' ? 'bg-purple-600/20 border-purple-500' : 'bg-white/5 border-white/10'
+                  paymentGateway === 'COD' ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-white/5 border-white/10'
                 }`}
               >
                 <span className="font-extrabold text-sm text-emerald-300">Cash on Delivery</span>
-                <span className="text-[10px] text-gray-400">Pay upon delivery</span>
+                <span className="text-[10px] text-gray-400">Pay cash upon delivery</span>
               </div>
             </div>
 
@@ -209,15 +209,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs">
               <div className="flex justify-between text-gray-300">
                 <span>Items ({items.length})</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between text-gray-300">
-                <span>Shipping & Tax</span>
-                <span>${(total - subtotal).toFixed(2)}</span>
+                <span>Shipping & GST</span>
+                <span>₹{(total - subtotal).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between font-extrabold text-white text-sm pt-2 border-t border-white/10">
                 <span>Total Payable</span>
-                <span className="text-purple-300">${total.toFixed(2)}</span>
+                <span className="text-amber-300">₹{total.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
@@ -231,14 +231,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <button
                 onClick={handleProcessPayment}
                 disabled={isProcessing}
-                className="w-2/3 gradient-btn text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30"
+                className="w-2/3 nex-btn-gradient text-black font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20"
               >
                 {isProcessing ? (
                   <span>Processing Payment...</span>
                 ) : (
                   <>
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>Pay ${total.toFixed(2)}</span>
+                    <ShieldCheck className="w-4 h-4 text-black" />
+                    <span>Pay ₹{total.toLocaleString('en-IN')}</span>
                   </>
                 )}
               </button>
@@ -254,12 +254,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             </div>
             <h2 className="text-2xl font-extrabold text-white">Order Successfully Placed!</h2>
             <p className="text-xs text-gray-300 max-w-sm mx-auto">
-              Thank you for shopping at LuxeCart! Confirmation email & tracking links have been sent to <strong>{formData.email}</strong>.
+              Thank you for shopping at NexCart! Confirmation email & tracking links have been sent to <strong>{formData.email}</strong>.
             </p>
 
             <button
               onClick={onClose}
-              className="gradient-btn text-white font-bold py-3 px-8 rounded-full text-xs mt-4"
+              className="nex-btn-gradient text-black font-extrabold py-3 px-8 rounded-full text-xs mt-4 shadow-lg shadow-amber-500/20"
             >
               Continue Shopping
             </button>

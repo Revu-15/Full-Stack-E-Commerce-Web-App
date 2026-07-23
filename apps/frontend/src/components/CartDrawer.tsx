@@ -33,22 +33,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   }, 0);
 
   const discountAmount = appliedCoupon ? (subtotal * appliedCoupon.discountPercent) / 100 : 0;
-  const shippingFee = subtotal > 150 || items.length === 0 ? 0 : 15;
-  const taxAmount = (subtotal - discountAmount) * 0.08;
+  const shippingFee = subtotal > 1500 || items.length === 0 ? 0 : 99;
+  const taxAmount = Math.round((subtotal - discountAmount) * 0.18);
   const grandTotal = Math.max(0, subtotal - discountAmount + shippingFee + taxAmount);
 
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
     setCouponError('');
     const code = couponCode.trim().toUpperCase();
-    if (code === 'LUXE30') {
-      setAppliedCoupon({ code: 'LUXE30', discountPercent: 30 });
+    if (code === 'NEX30') {
+      setAppliedCoupon({ code: 'NEX30', discountPercent: 30 });
       setCouponError('');
     } else if (code === 'WELCOME10') {
       setAppliedCoupon({ code: 'WELCOME10', discountPercent: 10 });
       setCouponError('');
     } else {
-      setCouponError('Invalid coupon code. Try LUXE30 or WELCOME10.');
+      setCouponError('Invalid coupon code. Try NEX30 or WELCOME10.');
     }
   };
 
@@ -65,8 +65,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           {/* Header */}
           <div className="p-6 border-b border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl gradient-btn">
-                <ShoppingBag className="w-5 h-5 text-white" />
+              <div className="p-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500">
+                <ShoppingBag className="w-5 h-5 text-black font-bold" />
               </div>
               <div>
                 <h2 className="text-lg font-extrabold tracking-tight">Your Cart</h2>
@@ -89,10 +89,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <h3 className="text-base font-bold text-gray-300">Your cart is empty</h3>
-                <p className="text-xs text-gray-400 max-w-xs mt-1">Explore our luxury catalog and discover performance acoustics & smart gear.</p>
+                <p className="text-xs text-gray-400 max-w-xs mt-1">Explore our catalog and discover items with free NexPrime delivery.</p>
                 <button
                   onClick={onClose}
-                  className="mt-6 gradient-btn text-white text-xs font-semibold py-2.5 px-6 rounded-full"
+                  className="mt-6 nex-btn-gradient text-black text-xs font-bold py-2.5 px-6 rounded-full"
                 >
                   Start Shopping
                 </button>
@@ -122,7 +122,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
-                        <p className="text-[11px] text-purple-400 font-medium mt-0.5">${price.toFixed(2)}</p>
+                        <p className="text-[11px] text-amber-400 font-bold mt-0.5">₹{price.toLocaleString('en-IN')}</p>
                       </div>
 
                       {/* Quantity Modifier */}
@@ -144,7 +144,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         </div>
 
                         <span className="text-xs font-extrabold text-white">
-                          ${(price * item.quantity).toFixed(2)}
+                          ₹{(price * item.quantity).toLocaleString('en-IN')}
                         </span>
                       </div>
                     </div>
@@ -163,15 +163,15 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <Tag className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
-                    placeholder="Coupon code (LUXE30)"
+                    placeholder="Coupon code (NEX30)"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-9 pr-3 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-9 pr-3 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-amber-500"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-white/10 hover:bg-white/20 text-xs font-semibold px-4 rounded-xl border border-white/10 transition-colors"
+                  className="bg-white/10 hover:bg-white/20 text-xs font-semibold px-4 rounded-xl border border-white/10 transition-colors text-amber-300"
                 >
                   Apply
                 </button>
@@ -198,35 +198,35 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="space-y-1.5 text-xs text-gray-300">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Discount</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+                    <span>-₹{Math.round(discountAmount).toLocaleString('en-IN')}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{shippingFee === 0 ? <strong className="text-emerald-400">FREE</strong> : `$${shippingFee.toFixed(2)}`}</span>
+                  <span>{shippingFee === 0 ? <strong className="text-emerald-400">FREE</strong> : `₹${shippingFee}`}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Estimated Tax (8%)</span>
-                  <span>${taxAmount.toFixed(2)}</span>
+                  <span>Estimated GST (18%)</span>
+                  <span>₹{taxAmount.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm font-extrabold text-white pt-2 border-t border-white/10">
                   <span>Total</span>
-                  <span className="text-base text-purple-300">${grandTotal.toFixed(2)}</span>
+                  <span className="text-base text-amber-300">₹{Math.round(grandTotal).toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
               {/* Checkout Button */}
               <button
                 onClick={() => onProceedToCheckout(appliedCoupon?.code, discountAmount)}
-                className="w-full gradient-btn text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 text-sm shadow-xl shadow-purple-600/30"
+                className="w-full nex-btn-gradient text-black font-extrabold py-3 px-6 rounded-xl flex items-center justify-center gap-2 text-sm shadow-xl shadow-amber-500/20"
               >
                 <span>Proceed to Checkout</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-black font-bold" />
               </button>
             </div>
           )}

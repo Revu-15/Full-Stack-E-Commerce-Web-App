@@ -56,7 +56,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
                     className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${
-                      selectedImage === idx ? 'border-purple-500 scale-105' : 'border-white/10 opacity-60'
+                      selectedImage === idx ? 'border-amber-500 scale-105' : 'border-white/10 opacity-60'
                     }`}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
@@ -69,7 +69,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           {/* Details */}
           <div className="space-y-4">
             <div>
-              <span className="text-xs font-semibold text-purple-400 uppercase tracking-widest">
+              <span className="text-xs font-semibold text-amber-400 uppercase tracking-widest">
                 {product.category.name}
               </span>
               <h2 className="text-2xl font-extrabold text-white mt-1">{product.name}</h2>
@@ -87,9 +87,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
             {/* Price */}
             <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-extrabold text-white">${price.toFixed(2)}</span>
+              <span className="text-2xl font-extrabold text-white">₹{price.toLocaleString('en-IN')}</span>
               {product.discountPrice && (
-                <span className="text-sm text-gray-400 line-through">${product.price.toFixed(2)}</span>
+                <span className="text-sm text-gray-400 line-through">₹{product.price.toLocaleString('en-IN')}</span>
               )}
             </div>
 
@@ -100,13 +100,13 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               <div>
                 <label className="block text-xs text-gray-400 mb-1.5 font-semibold">Select Color</label>
                 <div className="flex gap-2">
-                  {['Obsidian Black', 'Midnight Violet', 'Titanium Silver'].map((color) => (
+                  {['Obsidian Black', 'Gold Yellow', 'Titanium Silver'].map((color) => (
                     <button
                       key={color}
                       onClick={() => setSelectedColor(color)}
                       className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
                         selectedColor === color
-                          ? 'bg-purple-600/30 border-purple-500 text-purple-200 font-bold'
+                          ? 'bg-amber-600/30 border-amber-500 text-amber-200 font-bold'
                           : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
                       }`}
                     >
@@ -125,7 +125,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                       onClick={() => setSelectedSize(size)}
                       className={`w-9 h-9 rounded-lg border text-xs font-bold transition-all ${
                         selectedSize === size
-                          ? 'gradient-btn text-white border-transparent'
+                          ? 'bg-amber-500 text-black font-extrabold border-transparent'
                           : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
                       }`}
                     >
@@ -140,9 +140,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             <div className="flex gap-3 pt-4 border-t border-white/10">
               <button
                 onClick={() => onAddToCart(product, selectedSize, selectedColor)}
-                className="flex-1 gradient-btn text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30"
+                className="flex-1 nex-btn-gradient text-black font-extrabold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20"
               >
-                <ShoppingBag className="w-4 h-4" />
+                <ShoppingBag className="w-4 h-4 text-black font-bold" />
                 <span>Add to Cart</span>
               </button>
 
@@ -161,10 +161,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             {/* Badges */}
             <div className="flex items-center gap-4 text-[11px] text-gray-400 pt-2">
               <span className="flex items-center gap-1">
-                <Truck className="w-3.5 h-3.5 text-purple-400" /> Free Shipping Over $150
+                <Truck className="w-3.5 h-3.5 text-amber-400" /> Free Delivery
               </span>
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 2-Year Warranty
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 1-Year Warranty
               </span>
             </div>
           </div>

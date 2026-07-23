@@ -102,7 +102,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onShopNow }) => {
             {/* Floating Offer Badge */}
             <div className="absolute top-6 right-6 glass-panel px-4 py-2 rounded-2xl border border-purple-500/30 text-right shadow-lg">
               <span className="block text-xs font-semibold text-purple-300">Featured Highlight</span>
-              <span className="text-lg font-extrabold text-white">$299.99 <span className="text-xs text-gray-400 line-through">$349.99</span></span>
+              <span className="text-lg font-extrabold text-white">₹24,999 <span className="text-xs text-gray-400 line-through">₹29,999</span></span>
             </div>
           </div>
         </div>

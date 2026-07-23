@@ -105,9 +105,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="space-y-2 pt-2 border-t border-white/10 mt-1">
         <div className="flex items-baseline justify-between">
           <div>
-            <span className="text-lg font-extrabold text-white">${currentPrice.toFixed(2)}</span>
+            <span className="text-lg font-extrabold text-white">₹{currentPrice.toLocaleString('en-IN')}</span>
             {product.discountPrice && (
-              <span className="text-xs text-gray-400 line-through ml-2">${product.price.toFixed(2)}</span>
+              <span className="text-xs text-gray-400 line-through ml-2">₹{product.price.toLocaleString('en-IN')}</span>
             )}
           </div>
           <span className="text-[10px] text-gray-400">Free Delivery</span>

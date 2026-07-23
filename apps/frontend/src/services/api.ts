@@ -73,14 +73,30 @@ function generate100Products(): Product[] {
   const products: Product[] = [];
   let idCounter = 1;
 
+  const CATEGORY_PRICE_RANGES: Record<string, { min: number; max: number }> = {
+    mobiles: { min: 12999, max: 89999 },
+    laptops: { min: 34999, max: 129999 },
+    electronics: { min: 2999, max: 49999 },
+    fashion: { min: 999, max: 5999 },
+    shoes: { min: 1499, max: 12999 },
+    watches: { min: 2499, max: 29999 },
+    grocery: { min: 199, max: 1999 },
+    'home-kitchen': { min: 1299, max: 15999 },
+    beauty: { min: 499, max: 4999 },
+    books: { min: 299, max: 1499 },
+    toys: { min: 599, max: 4999 },
+    sports: { min: 799, max: 9999 },
+  };
+
   MOCK_CATEGORIES.forEach((category) => {
     const images = SAMPLE_IMAGES[category.slug] || SAMPLE_IMAGES['electronics'];
     const itemsPerCategory = Math.floor(100 / MOCK_CATEGORIES.length) + (category.slug === 'mobiles' ? 4 : 0);
+    const range = CATEGORY_PRICE_RANGES[category.slug] || { min: 999, max: 9999 };
 
     for (let i = 1; i <= itemsPerCategory; i++) {
       const brandName = BRANDS[Math.floor(Math.random() * BRANDS.length)];
-      const basePrice = Math.floor(Math.random() * 800) + 29;
-      const discountPrice = Math.random() > 0.3 ? Math.floor(basePrice * 0.8) : null;
+      const basePrice = Math.floor(Math.random() * (range.max - range.min)) + range.min;
+      const discountPrice = Math.random() > 0.3 ? Math.floor(basePrice * 0.85) : null;
       const rating = Math.round((4.0 + Math.random() * 1.0) * 10) / 10;
       const reviewCount = Math.floor(Math.random() * 450) + 12;
 
