@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
               <ShoppingBag className="w-4 h-4 text-black font-bold" />
             </div>
-            <span className="text-2xl font-extrabold tracking-tight nex-text-gradient">NexCart</span>
+            <span className="text-2xl font-extrabold tracking-tight text-amber-400">NexCart</span>
           </div>
           <p className="text-xs leading-relaxed font-light">
             About NexCart: Your next-generation everything store. Inspired by Amazon, Flipkart, and Apple to deliver fast 1-day shipping and 100% verified products.

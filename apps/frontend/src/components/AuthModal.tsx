@@ -98,7 +98,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-extrabold tracking-tight nex-text-gradient">NexCart Account</h2>
+          <h2 className="text-2xl font-extrabold tracking-tight text-amber-400">NexCart Account</h2>
           <p className="text-xs text-gray-400 mt-1">Amazon-grade secure authentication</p>
         </div>
 

@@ -159,7 +159,7 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
                 <Flame className="w-6 h-6 text-amber-500 animate-bounce" />
-                <span>Today's <span className="nex-text-gradient">Lightning Deals</span></span>
+                <span>Today's <span className="text-amber-400 font-extrabold">Lightning Deals</span></span>
               </h2>
               <p className="text-xs text-gray-400 mt-1">Limited-time discounts up to 40% OFF with NexPrime Delivery</p>
             </div>
@@ -189,7 +189,7 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
                 <Award className="w-6 h-6 text-yellow-400" />
-                <span>Best <span className="nex-text-gradient">Sellers</span></span>
+                <span>Best <span className="text-amber-400 font-extrabold">Sellers</span></span>
               </h2>
               <p className="text-xs text-gray-400 mt-1">Most ordered products across all 12 categories</p>
             </div>
@@ -216,7 +216,7 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
                 <TrendingUp className="w-6 h-6 text-orange-400" />
-                <span>Trending <span className="nex-text-gradient">Right Now</span></span>
+                <span>Trending <span className="text-amber-400 font-extrabold">Right Now</span></span>
               </h2>
               <p className="text-xs text-gray-400 mt-1">Products trending in customer searches today</p>
             </div>
@@ -242,7 +242,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-white/10">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>All NexCart <span className="nex-text-gradient">Products (100 Items)</span></span>
+                <span>All NexCart <span className="text-amber-400 font-extrabold">Products (100 Items)</span></span>
               </h2>
               <p className="text-xs text-gray-400 mt-1">Explore our complete 100 demo product inventory</p>
             </div>

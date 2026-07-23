@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <ShoppingBag className="w-5 h-5 text-black font-extrabold" />
             </div>
             <div>
-              <span className="text-2xl font-extrabold tracking-tight nex-text-gradient">NexCart</span>
+              <span className="text-2xl font-extrabold tracking-tight text-amber-400">NexCart</span>
               <span className="block text-[10px] uppercase tracking-widest text-amber-400 font-bold -mt-1">Everything You Need</span>
             </div>
           </a>
@@ -72,7 +72,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             type="text"
             placeholder="Search Mobiles, Laptops, Fashion, Grocery..."
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(e) => {
+              onSearchChange(e.target.value);
+              if (e.target.value.trim().length > 0) {
+                document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
             className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-4 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/50 transition-all"
           />
           {searchQuery && (

@@ -23,7 +23,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onShopNow }) => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Order <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400 -webkit-background-clip-text text-transparent">Anything</span>, Delivered Fast to Your Doorstep.
+            Order <span className="text-amber-400 underline decoration-amber-500/40 underline-offset-8">Anything</span>, Delivered Fast to Your Doorstep.
           </h1>
 
           <p className="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">

@@ -20,7 +20,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Explore <span className="nex-text-gradient">Featured Categories</span>
+            Explore <span className="text-amber-400">Featured Categories</span>
           </h2>
           <p className="text-sm text-gray-400 mt-1">12 major departments for everything you need</p>
         </div>
