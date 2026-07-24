@@ -1,167 +1,148 @@
 <p align="center">
-  <h1 align="center">🛒 LuxeCart</h1>
-  <p align="center">Production Full Stack E-Commerce Web Application</p>
+  <h1 align="center">🛒 NexCart E-Commerce Platform</h1>
+  <p align="center">Production Full-Stack E-Commerce & Retail Shopping Web Application</p>
   <p align="center">
-    <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" />
-    <img src="https://img.shields.io/badge/TypeScript-5.4-blue?style=for-the-badge&logo=typescript" />
-    <img src="https://img.shields.io/badge/Prisma-5-2D3748?style=for-the-badge&logo=prisma" />
-    <img src="https://img.shields.io/badge/PostgreSQL-Neon-336791?style=for-the-badge&logo=postgresql" />
-    <img src="https://img.shields.io/badge/Express.js-4-green?style=for-the-badge&logo=express" />
+    <a href="https://full-stack-e-commerce-web-app-front-xi.vercel.app"><img src="https://img.shields.io/badge/Live%20Demo-Vercel-brightgreen?style=for-the-badge&logo=vercel" /></a>
+    <img src="https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react" />
+    <img src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite" />
+    <img src="https://img.shields.io/badge/Node.js-20-339933?style=for-the-badge&logo=nodedotjs" />
+    <img src="https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express" />
+    <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge" />
   </p>
 </p>
 
 ---
 
-## ✨ Overview
-
-LuxeCart is a **production-grade, full-stack e-commerce platform** built with a modern, scalable technology stack. It follows **Clean Architecture**, **SOLID principles**, and **MVC patterns** throughout.
-
-> **Status:** 🚧 Phase 1 Complete — Backend Foundation & Auth API
+## 🌟 Live Demo
+🔗 **Deployed Store**: [https://full-stack-e-commerce-web-app-front-xi.vercel.app](https://full-stack-e-commerce-web-app-front-xi.vercel.app)
 
 ---
 
-## 🏗️ Tech Stack
+## ✨ Overview
+
+**NexCart** is a modern, high-performance, full-stack e-commerce platform modeled after top-tier retail platforms like Amazon and Flipkart. Built with a sleek dark/light design system, fast client-side state management, and real-time backend synchronization, NexCart supports:
+
+- 🛒 **624 Authentic Products** across 12 distinct shopping categories with realistic market prices in INR (₹).
+- 🔍 **Live Search & Autocomplete**: Real-time multi-attribute search with search history, trending suggestions, and category filters.
+- ⚡ **Seamless Authentication**: 1-Click direct account creation, email/password login, and GitHub social sign-in.
+- 🔐 **Protected Super Admin Dashboard**: Complete merchant portal with real-time order polling, revenue metrics, customer CRM, catalog management, and printable GST invoices.
+- 🚚 **Order Tracking & Management**: Live status progression (`Accepted` ➡️ `Processing` ➡️ `Shipped` ➡️ `Delivered`) for customers.
+
+---
+
+## 🏗️ Technology Stack
 
 | Layer | Technology |
 | :---- | :--------- |
-| **Frontend** | Next.js 15, React 19, TypeScript, Tailwind CSS, Shadcn UI, Framer Motion |
-| **State** | Redux Toolkit, RTK Query |
-| **Backend** | Express.js, TypeScript, Prisma ORM |
-| **Database** | PostgreSQL (Neon Serverless) |
-| **Auth** | JWT (access + refresh tokens), Google OAuth 2.0, bcrypt |
-| **Payments** | Stripe, Razorpay |
-| **Storage** | Cloudinary |
-| **Email** | Nodemailer (Gmail SMTP) |
-| **Monorepo** | Turborepo + pnpm workspaces |
-| **Deployment** | Vercel (frontend), Render (backend), Neon (database) |
+| **Frontend Framework** | React 18, Vite 5, JavaScript (ESNext) |
+| **Styling & Theme** | Modern Vanilla CSS Design Tokens, Glassmorphism, Dark/Light Mode |
+| **Icons** | Lucide React |
+| **Backend API** | Node.js, Express.js |
+| **Database & Persistence** | In-Memory Database with JSON Persistence & LocalStorage Fallbacks |
+| **Authentication** | JWT (JSON Web Tokens), GitHub Social Auth |
+| **Build & Deployment** | Vite, Vercel (Frontend), Render (Backend API) |
 
 ---
 
-## 📁 Project Structure
+## 🚀 Key Features
+
+### 🛍️ Customer Experience
+- **Interactive Hero & Deals**: Dynamic promotional banners, deal of the day counters, and category pills.
+- **Product Catalog & Filters**: Filter by category, brand, price range, rating, discount, stock status, color, and size.
+- **Product Detail Modal**: High-res product images gallery, seller information, stock availability, specs, and customer reviews.
+- **Cart & Wishlist Drawers**: Real-time quantity adjustments, coupon application, save for later, and instant subtotal calculation.
+- **Express Checkout**: Address selection, payment method choices (UPI, Credit/Debit Card, Net Banking, COD), QR payment options, and instant order confirmation.
+- **User Orders Portal**: Track active orders, view shipment timelines, cancel orders, and download printable GST tax invoices.
+
+### 🛡️ Merchant & Super Admin Portal
+- **Real-Time Order Polling**: Syncs incoming customer orders automatically every 8 seconds across all devices.
+- **Analytics & Revenue Metrics**: Live total revenue, monthly sales charts, daily order counters, and top-performing products.
+- **Inventory & Product Management**: Add new products, update prices, modify stock levels, or remove items.
+- **Customer CRM**: View registered customer profiles, total orders count, and spent history.
+- **GST Invoice Generator**: Generate clean, professional printable invoices for any customer order.
+
+---
+
+## 📁 Repository Structure
 
 ```
-luxecart/
-├── apps/
-│   ├── backend/              # Express REST API (Phase 1 ✅)
-│   │   ├── prisma/           # Schema + migrations + seed
-│   │   └── src/
-│   │       ├── config/       # Env, database
-│   │       ├── controllers/  # Route handlers
-│   │       ├── middlewares/  # Auth, rate limit, error, validate
-│   │       ├── repositories/ # Prisma data access layer
-│   │       ├── routes/       # Express routers
-│   │       ├── services/     # Business logic
-│   │       ├── types/        # TypeScript augmentations
-│   │       ├── utils/        # JWT, email, logger, AppError
-│   │       ├── validators/   # Zod schemas
-│   │       └── app.ts        # Entry point
-│   └── frontend/             # Next.js 15 App (Phase 3 🔜)
-└── packages/
-    └── shared/               # Shared TypeScript types
+Full-Stack-E-Commerce-Web-App/
+├── src/                      # Main React Application
+│   ├── components/           # Core UI Components
+│   │   ├── Navbar.jsx        # Sticky navigation, search, cart & auth buttons
+│   │   ├── HeroBanner.jsx    # Deals & promotional sliders
+│   │   ├── ProductCatalog.jsx# Filterable product grid
+│   │   ├── CartDrawer.jsx    # Shopping cart side drawer
+│   │   ├── CheckoutModal.jsx # Checkout & payment gateway modal
+│   │   ├── AuthModal.jsx     # Direct signup, login & GitHub social auth
+│   │   ├── AdminDashboard.jsx# Restricted Super Admin panel
+│   │   └── UserOrdersModal.jsx# Customer order tracking & invoices
+│   ├── context/
+│   │   └── ShopContext.jsx   # Global state provider
+│   ├── services/
+│   │   └── api.js            # Central API client & product dataset
+│   ├── App.jsx               # Main App shell
+│   └── main.jsx              # React DOM entry point & ErrorBoundary
+├── backend/                  # Express REST API Server
+│   ├── server.js             # Express API endpoints
+│   ├── db.js                 # Database operations
+│   └── seed.js               # Data seeder
+├── public/                   # Static assets
+├── vercel.json               # Vercel deployment configuration
+├── vite.config.js            # Vite build setup
+└── package.json              # Project dependencies & scripts
 ```
 
 ---
 
-## 🔐 Auth API Endpoints
-
-| Method | Endpoint | Description |
-| :----- | :------- | :---------- |
-| `POST` | `/api/v1/auth/register` | Register + email verification |
-| `POST` | `/api/v1/auth/login` | Login → JWT cookies |
-| `POST` | `/api/v1/auth/logout` | Clear auth cookies |
-| `POST` | `/api/v1/auth/refresh` | Rotate access token |
-| `GET` | `/api/v1/auth/me` | Get current user |
-| `GET` | `/api/v1/auth/verify-email/:token` | Verify email |
-| `POST` | `/api/v1/auth/forgot-password` | Send reset email |
-| `POST` | `/api/v1/auth/reset-password/:token` | Reset password |
-| `GET` | `/api/v1/auth/google/init` | Google OAuth |
-
-📚 **Full Swagger docs**: `http://localhost:5000/api-docs`
-
----
-
-## 🚀 Getting Started
+## 🛠️ Local Setup Instructions
 
 ### Prerequisites
-- Node.js >= 20
-- pnpm >= 9 (`npm install -g pnpm`)
-- PostgreSQL database ([neon.tech](https://neon.tech) — free)
+- Node.js >= 20.x
+- npm >= 10.x
 
-### 1. Clone & Install
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/Revu-15/Full-Stack-E-Commerce-Web-App.git
 cd Full-Stack-E-Commerce-Web-App
-pnpm install
 ```
 
-### 2. Configure Environment
+### 2. Install Dependencies
 
 ```bash
-cp .env.example apps/backend/.env
-# Edit apps/backend/.env — add your DATABASE_URL and secrets
+npm install
 ```
 
-### 3. Database Setup
+### 3. Run Development Server
 
 ```bash
-# Run from project root using cmd (Windows)
-cd apps/backend
-npx prisma migrate dev --name init
-npx tsx prisma/seed.ts
+# Start Frontend Dev Server (Port 3000)
+npm run dev
+
+# (Optional) Start Backend Express Server (Port 5000)
+npm run backend
 ```
 
-**Seed credentials:**
-| Role | Email | Password |
-| :--- | :---- | :------- |
-| Admin | `admin@luxecart.com` | `Admin@123456` |
-| Customer | `customer@luxecart.com` | `Customer@123` |
-
-### 4. Start Backend
+### 4. Build for Production
 
 ```bash
-cd apps/backend
-npx tsx src/app.ts
+npm run build
+npm run preview
 ```
-
-Server runs at: `http://localhost:5000`
-Swagger UI at: `http://localhost:5000/api-docs`
 
 ---
 
-## 🗄️ Database Schema
+## 🔒 Security & Privacy
 
-15 entities: `User`, `Address`, `Category`, `Brand`, `Product`, `ProductVariant`, `Review`, `Cart`, `CartItem`, `Wishlist`, `Coupon`, `Order`, `OrderItem`, `OrderStatusLog`, `Payment`, `Banner`
-
----
-
-## 📋 Development Roadmap
-
-| Phase | Status | Description |
-| :---- | :----- | :---------- |
-| **Phase 1** | ✅ Complete | Backend foundation, Auth API, Prisma schema |
-| **Phase 2** | 🔜 Next | Products, Cart, Orders, Payments, Admin APIs |
-| **Phase 3** | 🔜 | Next.js 15 frontend setup + design system |
-| **Phase 4** | 🔜 | Shopping UI (catalog, cart, checkout) |
-| **Phase 5** | 🔜 | Account pages, order tracking, wishlist |
-| **Phase 6** | 🔜 | Admin dashboard + analytics |
-| **Phase 7** | 🔜 | Testing, SEO, Lighthouse optimization |
-| **Phase 8** | 🔜 | Deployment: Vercel + Render + CI/CD |
-
----
-
-## 🔒 Security Features
-
-- **Helmet** — HTTP security headers
-- **CORS** — Origin whitelist with credentials
-- **Rate Limiting** — Tiered (Global/Auth/Strict)
-- **bcrypt** — Password hashing (12 rounds)
-- **JWT** — HTTP-only cookies, token versioning
-- **Zod** — Runtime schema validation on all inputs
-- **Anti-enumeration** — Consistent responses on sensitive endpoints
+- **Protected Admin Panel**: Super Admin credentials are strictly authenticated and never hardcoded or displayed publicly on login screens.
+- **Isolated User Sessions**: Order history and user profiles are tied to specific authenticated user tokens.
+- **Sanitized Input Handling**: Runtime validation on all search, checkout, and registration forms.
 
 ---
 
 ## 📄 License
 
-MIT © [Revu-15](https://github.com/Revu-15)
+Distributed under the MIT License. See `LICENSE` for details.
+
+Developed with ❤️ by [Revu-15](https://github.com/Revu-15).
