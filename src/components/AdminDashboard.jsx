@@ -22,8 +22,8 @@ export default function AdminDashboard() {
     }
   });
 
-  const [adminEmail, setAdminEmail] = useState('admin@nexcart.com');
-  const [adminPassword, setAdminPassword] = useState('Admin@123');
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
   const [authError, setAuthError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
@@ -179,7 +179,7 @@ export default function AdminDashboard() {
         addToast('Super Admin authenticated successfully', 'success');
         loadAdminData();
       } else {
-        setAuthError('Invalid Admin credentials. Try admin@nexcart.com / Admin@123');
+        setAuthError('Invalid Admin credentials. Access denied.');
       }
     } catch (err) {
       setAuthError(err.message || 'Admin authentication failed');
@@ -329,7 +329,7 @@ export default function AdminDashboard() {
           </form>
 
           <div style={{ marginTop: '1.5rem', padding: '0.8rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-            🔑 Default Super Admin Login: <strong>admin@nexcart.com</strong> / <strong>Admin@123</strong>
+            🔒 Restricted Super Admin Portal. Authorized personnel only.
           </div>
         </div>
       </div>

@@ -5,11 +5,10 @@ import { X, Lock, Mail, User, ShieldCheck, ArrowRight, KeyRound } from 'lucide-r
 export default function AuthModal() {
   const { isAuthOpen, setIsAuthOpen, loginUser, registerUser, addToast } = useShop();
 
-  const [mode, setMode] = useState('login'); // login | signup | forgot | otp
+  const [mode, setMode] = useState('login'); // login | signup | forgot
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [otpCode, setOtpCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isAuthOpen) return null;
@@ -22,15 +21,7 @@ export default function AuthModal() {
       if (mode === 'login') {
         await loginUser(email, password);
       } else if (mode === 'signup') {
-        // Transition to OTP verification step
-        setMode('otp');
-        addToast('Verification OTP code sent to your email! (Default: 123456)', 'info');
-      } else if (mode === 'otp') {
-        if (otpCode === '123456' || otpCode.length === 6) {
-          await registerUser(name, email, password);
-        } else {
-          addToast('Invalid OTP code. Please enter 123456', 'error');
-        }
+        await registerUser(name, email, password);
       } else if (mode === 'forgot') {
         addToast('Password reset link sent to your email address.', 'success');
         setMode('login');
@@ -81,10 +72,10 @@ export default function AuthModal() {
         {/* Auth Title */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '0.3rem' }}>
-            {mode === 'login' ? 'Welcome Back to NexCart' : mode === 'signup' ? 'Create Your NexCart Account' : mode === 'otp' ? 'Verify Email Address' : 'Reset Password'}
+            {mode === 'login' ? 'Welcome Back to NexCart' : mode === 'signup' ? 'Create Your NexCart Account' : 'Reset Password'}
           </h3>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            {mode === 'login' ? 'Enter your credentials to access your account & orders' : mode === 'signup' ? 'Join millions of shoppers on NexCart' : mode === 'otp' ? 'Enter the 6-digit OTP sent to your email' : 'Enter your registered email'}
+            {mode === 'login' ? 'Enter your credentials to access your account & orders' : mode === 'signup' ? 'Fill in your details below to create your account' : 'Enter your registered email'}
           </p>
         </div>
 
@@ -147,23 +138,6 @@ export default function AuthModal() {
             </div>
           )}
 
-          {mode === 'otp' && (
-            <div>
-              <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Enter 6-Digit OTP (Demo: 123456)</label>
-              <div style={{ position: 'relative', marginTop: '0.2rem' }}>
-                <KeyRound size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input
-                  type="text"
-                  required
-                  placeholder="123456"
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value)}
-                  style={{ width: '100%', padding: '0.6rem 0.6rem 0.6rem 2.2rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', letterSpacing: '0.2em', fontWeight: 900 }}
-                />
-              </div>
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={isLoading}
@@ -178,7 +152,7 @@ export default function AuthModal() {
               marginTop: '0.5rem'
             }}
           >
-            {isLoading ? 'Processing...' : mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Continue to Verification' : mode === 'otp' ? 'Verify & Create Account' : 'Send Reset Link'}
+            {isLoading ? 'Processing...' : mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Reset Link'}
           </button>
         </form>
 
