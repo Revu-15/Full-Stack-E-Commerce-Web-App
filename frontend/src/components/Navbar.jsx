@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
 import {
   ShoppingBag, Heart, Search, User, MapPin, Sparkles, ChevronDown,
-  X, History, TrendingUp, ShieldAlert, ShieldCheck, LogOut, Package, Settings, Sun, Moon
+  X, History, TrendingUp, ShieldAlert, ShieldCheck, LogOut, Package, Settings, Sun, Moon, Github
 } from 'lucide-react';
 
 const CATEGORIES_LIST = [
@@ -65,7 +65,6 @@ export default function Navbar() {
     if (searchQuery.trim()) {
       addSearchHistory(searchQuery.trim());
       setIsSearchFocused(false);
-      // Scroll to catalog smoothly
       const catalogEl = document.getElementById('product-catalog-section');
       if (catalogEl) catalogEl.scrollIntoView({ behavior: 'smooth' });
     }
@@ -79,7 +78,6 @@ export default function Navbar() {
     if (catalogEl) catalogEl.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Helper to highlight matching text in suggestions
   const highlightMatch = (text, query) => {
     if (!query) return text;
     const parts = text.split(new RegExp(`(${query})`, 'gi'));
@@ -267,6 +265,30 @@ export default function Navbar() {
               </span>
             )}
           </button>
+
+          {/* GitHub Repo Link */}
+          <a
+            href="https://github.com/Revu-15/Full-Stack-E-Commerce-Web-App"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="View Codebase on GitHub"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: '#24292e',
+              color: '#ffffff',
+              padding: '0.45rem 0.8rem',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '0.78rem',
+              fontWeight: 800,
+              textDecoration: 'none',
+              border: '1px solid #3f4448'
+            }}
+          >
+            <Github size={16} />
+            <span>GitHub</span>
+          </a>
 
           {/* Cart Button */}
           <button

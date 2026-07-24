@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
-import { X, Lock, Mail, User, ShieldCheck, ArrowRight, KeyRound } from 'lucide-react';
+import { X, Lock, Mail, User, ShieldCheck, ArrowRight, KeyRound, Github } from 'lucide-react';
 
 export default function AuthModal() {
-  const { isAuthOpen, setIsAuthOpen, loginUser, registerUser, addToast } = useShop();
+  const { isAuthOpen, setIsAuthOpen, loginUser, registerUser, setUser, addToast } = useShop();
 
   const [mode, setMode] = useState('login'); // login | signup | forgot | otp
   const [name, setName] = useState('');
@@ -13,6 +13,26 @@ export default function AuthModal() {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isAuthOpen) return null;
+
+  const handleGithubLogin = async () => {
+    setIsLoading(true);
+    try {
+      const gUser = {
+        id: 'gh-' + Date.now(),
+        name: 'GitHub Shopper',
+        email: 'github.user@nexcart.com',
+        role: 'customer'
+      };
+      setUser(gUser);
+      localStorage.setItem('nexcart_user', JSON.stringify(gUser));
+      setIsAuthOpen(false);
+      addToast('Signed in with GitHub successfully! 🚀', 'success');
+    } catch (err) {
+      addToast('GitHub authentication failed', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,6 +176,36 @@ export default function AuthModal() {
             }}
           >
             {isLoading ? 'Processing...' : mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Reset Link'}
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', margin: '0.75rem 0 0.25rem 0', gap: '0.75rem' }}>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700 }}>OR</span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }} />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGithubLogin}
+            disabled={isLoading}
+            style={{
+              width: '100%',
+              background: '#24292e',
+              color: '#ffffff',
+              padding: '0.65rem',
+              borderRadius: 'var(--radius-md)',
+              fontWeight: 700,
+              fontSize: '0.88rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.6rem',
+              border: '1px solid #3f4448',
+              cursor: 'pointer'
+            }}
+          >
+            <Github size={18} />
+            <span>Continue with GitHub</span>
           </button>
         </form>
 
