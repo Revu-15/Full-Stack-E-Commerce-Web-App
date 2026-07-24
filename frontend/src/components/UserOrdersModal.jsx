@@ -125,7 +125,7 @@ export default function UserOrdersModal() {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '0.83rem' }}>
                       <span>{order.orderId}</span>
-                      <span>${order.totalAmount?.toFixed(2)}</span>
+                      <span>₹{order.totalAmount}</span>
                     </div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
                       {order.orderDate}
@@ -229,9 +229,9 @@ export default function UserOrdersModal() {
                       <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)', padding: '0.65rem 0.85rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem' }}>
                         <div>
                           <strong style={{ color: 'var(--text-primary)' }}>{item.title}</strong>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Qty: {item.quantity} | Price: ${item.price.toFixed(2)}</span>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Qty: {item.quantity} | Price: ₹{item.price}</span>
                         </div>
-                        <span style={{ fontWeight: 900 }}>${(item.price * item.quantity).toFixed(2)}</span>
+                        <span style={{ fontWeight: 900 }}>₹{item.price * item.quantity}</span>
                       </div>
                     ))}
                   </div>

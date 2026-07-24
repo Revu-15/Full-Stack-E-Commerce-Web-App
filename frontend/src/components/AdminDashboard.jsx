@@ -426,7 +426,7 @@ export default function AdminDashboard() {
                   <span style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total Revenue</span>
                   <DollarSign size={22} color="#16a34a" />
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#16a34a' }}>${stats.totalRevenue.toLocaleString()}</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#16a34a' }}>₹{stats.totalRevenue.toLocaleString()}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>From {stats.totalOrders} total orders</div>
               </div>
 
@@ -468,7 +468,7 @@ export default function AdminDashboard() {
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{ord.items?.length || 1} item(s) • {ord.paymentMethod}</div>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontWeight: 900, fontSize: '0.9rem', color: 'var(--accent-primary)' }}>${ord.totalAmount}</div>
+                        <div style={{ fontWeight: 900, fontSize: '0.9rem', color: 'var(--accent-primary)' }}>₹{ord.totalAmount}</div>
                         <span style={{ fontSize: '0.7rem', fontWeight: 800, padding: '0.15rem 0.5rem', borderRadius: '99px', background: ord.status === 'Delivered' ? '#dcfce7' : ord.status === 'Pending' ? '#fef3c7' : '#e0f2fe', color: ord.status === 'Delivered' ? '#15803d' : ord.status === 'Pending' ? '#b45309' : '#0369a1' }}>
                           {ord.status}
                         </span>
@@ -583,7 +583,7 @@ export default function AdminDashboard() {
                       </td>
 
                       <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: 'var(--accent-primary)' }}>
-                        ${cust.totalSpent || 0}
+                        ₹{cust.totalSpent || 0}
                       </td>
 
                       <td style={{ padding: '0.85rem 1rem', textAlign: 'right' }}>
@@ -720,7 +720,7 @@ export default function AdminDashboard() {
                       </td>
 
                       <td style={{ padding: '0.85rem 1rem', fontWeight: 900, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-                        ${ord.totalAmount}
+                        ₹{ord.totalAmount}
                       </td>
 
                       <td style={{ padding: '0.85rem 1rem', textAlign: 'right' }}>
@@ -792,7 +792,7 @@ export default function AdminDashboard() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 800, fontSize: '0.85rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--text-primary)' }}>{prod.title}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{prod.brand} • {prod.category}</div>
-                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)', marginTop: '0.3rem', fontSize: '0.9rem' }}>${prod.price} <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>Stock: {prod.stock}</span></div>
+                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)', marginTop: '0.3rem', fontSize: '0.9rem' }}>₹{prod.price} <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>Stock: {prod.stock}</span></div>
                   </div>
                 </div>
               ))}
@@ -854,7 +854,7 @@ export default function AdminDashboard() {
                   {(selectedCustomerProfile.orderHistory || []).map(o => (
                     <div key={o.id} style={{ padding: '0.85rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
-                        <div style={{ fontWeight: 900 }}>{o.id} — ${o.totalAmount}</div>
+                        <div style={{ fontWeight: 900 }}>{o.id} — ₹{o.totalAmount}</div>
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{o.orderDate || o.createdAt} • Status: {o.status}</div>
                       </div>
                       <button onClick={() => { setSelectedOrderDetail(o); openInvoiceModal(o); }} style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', fontWeight: 800 }}>
@@ -901,19 +901,19 @@ export default function AdminDashboard() {
                     <img src={item.images?.[0] || item.image} alt={item.title} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 800 }}>{item.title}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Qty: {item.quantity} • Price: ${item.price}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Qty: {item.quantity} • Price: ₹{item.price}</div>
                     </div>
-                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)' }}>${(item.price * item.quantity).toFixed(2)}</div>
+                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)' }}>₹{item.price * item.quantity}</div>
                   </div>
                 ))}
               </div>
 
               {/* Cost Summary */}
               <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal:</span><span>${selectedOrderDetail.subtotal || selectedOrderDetail.totalAmount}</span></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Shipping Fee:</span><span>$0.00 (Free Express)</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal:</span><span>₹{selectedOrderDetail.subtotal || selectedOrderDetail.totalAmount}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Shipping Fee:</span><span>₹0 (Free Express)</span></div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 900, fontSize: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '0.4rem', marginTop: '0.4rem' }}>
-                  <span>Grand Total:</span><span style={{ color: 'var(--accent-primary)' }}>${selectedOrderDetail.totalAmount}</span>
+                  <span>Grand Total:</span><span style={{ color: 'var(--accent-primary)' }}>₹{selectedOrderDetail.totalAmount}</span>
                 </div>
               </div>
 

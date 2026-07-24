@@ -20,7 +20,7 @@ const BANNERS = [
     title: 'Luxury Watches & Premium Audio',
     subtitle: 'Immerse yourself in precision craftsmanship with Sony WH-1000XM5 & Apple Watch Ultra 2.',
     coupon: 'WELCOME50',
-    discount: 'SPECIAL OFFER $50 OFF',
+    discount: 'SPECIAL OFFER FLAT 20% OFF',
     bg: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
     image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80',
     category: 'Electronics'

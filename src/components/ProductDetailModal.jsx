@@ -225,16 +225,16 @@ export default function ProductDetailModal() {
             {/* Price Breakdown */}
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--text-primary)' }}>
-                ${product.price}
+                ₹{product.price}
               </span>
               {product.originalPrice && product.originalPrice > product.price && (
                 <span style={{ fontSize: '1.1rem', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
-                  ${product.originalPrice}
+                  ₹{product.originalPrice}
                 </span>
               )}
               {product.discount > 0 && (
                 <span style={{ fontSize: '0.85rem', color: '#16a34a', fontWeight: 800 }}>
-                  Save ${(product.originalPrice - product.price).toFixed(2)} ({product.discount}%)
+                  Save ₹{(product.originalPrice - product.price)} ({product.discount}%)
                 </span>
               )}
             </div>

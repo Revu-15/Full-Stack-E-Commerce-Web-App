@@ -69,7 +69,7 @@ export default function WishlistModal() {
                   <img src={product.images?.[0] || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80'} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
                 <h4 style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '0.3rem', lineHeight: 1.3 }}>{product.title}</h4>
-                <div style={{ fontWeight: 900, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>${product.price}</div>
+                <div style={{ fontWeight: 900, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>₹{product.price}</div>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <button
                     onClick={() => moveToCartFromWishlist(product)}

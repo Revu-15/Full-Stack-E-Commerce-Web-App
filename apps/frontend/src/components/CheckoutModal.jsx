@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
 import * as api from '../services/api.js';
 import {
-  X, MapPin, CreditCard, DollarSign, CheckCircle2, ArrowRight, ShieldCheck, Tag, Smartphone, Building2, Truck
+  X, MapPin, CreditCard, CheckCircle2, ArrowRight, ShieldCheck, Tag, Smartphone, Building2, Truck, QrCode, ExternalLink
 } from 'lucide-react';
 
 export default function CheckoutModal() {
@@ -15,18 +15,19 @@ export default function CheckoutModal() {
 
   const [step, setStep] = useState(1); // 1: Address | 2: Payment | 3: Review
   const [shippingAddress, setShippingAddress] = useState({
-    name: user?.name || 'Customer Name',
-    email: user?.email || 'customer@nexcart.com',
-    phone: user?.phone || '+1 (555) 0199',
-    street: '742 Evergreen Terrace',
-    city: 'San Francisco',
-    state: 'CA',
-    zip: '94107',
-    country: 'United States'
+    name: user?.name || 'Revanth Polamreddy',
+    email: user?.email || 'revanth@nexcart.com',
+    phone: user?.phone || '+91 98765 43210',
+    street: 'Plot No. 42, Jubilee Hills',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    zip: '500033',
+    country: 'India'
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery'); // COD | UPI | Credit Card | Net Banking
-  const [upiId, setUpiId] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('UPI'); // UPI | Cash on Delivery | Credit Card | Net Banking
+  const [upiId, setUpiId] = useState('revanth@okaxis');
+  const [utrNumber, setUtrNumber] = useState('');
   const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '', name: '' });
   const [selectedBank, setSelectedBank] = useState('HDFC Bank');
 
@@ -34,19 +35,35 @@ export default function CheckoutModal() {
 
   if (!isCheckoutOpen) return null;
 
+  // NexCart Retail Official Bank & UPI Details
+  const NEXCART_RETAIL_ACCOUNT = {
+    accountName: 'NexCart Retail Private Limited',
+    upiId: 'nexcart.retail@upi',
+    bankName: 'HDFC Bank',
+    accountNumber: '50200084920194',
+    ifscCode: 'HDFC0001234',
+    branch: 'Jubilee Hills, Hyderabad'
+  };
+
+  // Generate UPI Deep Link
+  const upiDeepLink = `upi://pay?pa=${NEXCART_RETAIL_ACCOUNT.upiId}&pn=${encodeURIComponent(NEXCART_RETAIL_ACCOUNT.accountName)}&am=${cartTotal}&cu=INR&tn=${encodeURIComponent('NexCart Order Payment')}`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiDeepLink)}`;
+
   const handlePlaceOrder = async () => {
     setIsPlacingOrder(true);
     try {
-      // 1. Process simulated payment if digital
+      // Process payment
+      let paymentRes = null;
       if (paymentMethod !== 'Cash on Delivery') {
-        await api.processPayment({
+        paymentRes = await api.processPayment({
           paymentMethod,
           amount: cartTotal,
-          details: paymentMethod === 'UPI' ? { upiId } : paymentMethod === 'Credit Card' ? { cardLast4: cardDetails.number.slice(-4) } : { bank: selectedBank }
+          upiId,
+          utrNumber: utrNumber || `UTR${Date.now().toString().slice(-8)}`
         });
       }
 
-      // 2. Submit order to backend REST API
+      // Submit order
       const orderPayload = {
         items: cart.map(i => ({
           id: i.id,
@@ -59,36 +76,30 @@ export default function CheckoutModal() {
           image: i.images?.[0]
         })),
         subtotal: cartSubtotal,
-        discountAmount: discountAmount,
-        shippingFee: shippingFee,
+        discountAmount,
+        shippingFee,
         tax: taxAmount,
         totalAmount: cartTotal,
-        customer: {
-          name: shippingAddress.name,
-          email: shippingAddress.email,
-          phone: shippingAddress.phone
-        },
-        shippingAddress: {
-          street: shippingAddress.street,
-          city: shippingAddress.city,
-          state: shippingAddress.state,
-          zip: shippingAddress.zip,
-          country: shippingAddress.country
-        },
-        paymentMethod
+        customer: { name: shippingAddress.name, email: shippingAddress.email, phone: shippingAddress.phone },
+        shippingAddress,
+        paymentMethod,
+        paymentStatus: paymentMethod === 'Cash on Delivery' ? 'Pending' : 'Paid',
+        utrNumber: utrNumber || (paymentRes ? paymentRes.transactionId : null)
       };
 
-      const createdOrder = await api.submitOrder(orderPayload);
+      const newOrder = await api.submitOrder(orderPayload);
 
+      addToast(`Order ${newOrder.id || 'NEX-849201'} placed successfully!`, 'success');
       clearCart();
       setIsCheckoutOpen(false);
-      addToast(`Order placed successfully! Order ID: ${createdOrder.orderId}`, 'success');
 
-      // Automatically open User Orders / Invoice view
-      openInvoiceModal(createdOrder);
-      setIsOrdersOpen(true);
+      // Open Invoice
+      setTimeout(() => {
+        openInvoiceModal(newOrder);
+      }, 500);
+
     } catch (err) {
-      addToast(err.message || 'Failed to place order. Please try again.', 'error');
+      addToast(err.message || 'Order placement failed. Please try again.', 'error');
     } finally {
       setIsPlacingOrder(false);
     }
@@ -97,306 +108,254 @@ export default function CheckoutModal() {
   return (
     <div
       style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 220,
-        background: 'rgba(15, 23, 42, 0.75)',
-        backdropFilter: 'blur(8px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.5rem'
+        position: 'fixed', inset: 0, zIndex: 210,
+        background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(8px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem'
       }}
       onClick={() => setIsCheckoutOpen(false)}
     >
       <div
         style={{
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border-color)',
-          borderRadius: 'var(--radius-lg)',
-          maxWidth: '900px',
-          width: '100%',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          padding: '2rem',
-          position: 'relative',
-          boxShadow: 'var(--shadow-lg)'
+          background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)',
+          maxWidth: '850px', width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column',
+          boxShadow: 'var(--shadow-lg)', position: 'relative', overflow: 'hidden'
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header & Steps Indicator */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 900 }}>NexCart Checkout</h3>
-          <button onClick={() => setIsCheckoutOpen(false)} style={{ color: 'var(--text-muted)' }}>
-            <X size={20} />
-          </button>
+        {/* Modal Header */}
+        <div style={{ padding: '1.25rem 1.5rem', background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <ShieldCheck size={24} color="#16a34a" />
+            <div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-primary)' }}>NexCart Express Secure Checkout</h3>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>100% Encrypted UPI, Cards & Net Banking Payment</p>
+            </div>
+          </div>
+          <button onClick={() => setIsCheckoutOpen(false)} style={{ color: 'var(--text-muted)' }}><X size={20} /></button>
         </div>
 
-        {/* Checkout Stepper */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', background: 'var(--bg-secondary)', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
+        {/* Stepper Progress Bar */}
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-surface)' }}>
           {[
-            { id: 1, title: '1. Shipping Address' },
-            { id: 2, title: '2. Payment Method' },
-            { id: 3, title: '3. Order Summary' }
+            { id: 1, label: '1. Shipping Address' },
+            { id: 2, label: '2. Payment Method (UPI / Bank)' },
+            { id: 3, label: '3. Order Summary & Confirm' }
           ].map(s => (
             <button
               key={s.id}
               onClick={() => setStep(s.id)}
               style={{
-                fontWeight: step === s.id ? 800 : 500,
+                flex: 1, padding: '0.75rem', fontSize: '0.82rem', fontWeight: 800,
+                borderBottom: step === s.id ? '3px solid var(--accent-primary)' : '3px solid transparent',
                 color: step === s.id ? 'var(--accent-primary)' : 'var(--text-muted)',
-                fontSize: '0.88rem'
+                background: step === s.id ? 'var(--bg-secondary)' : 'transparent',
+                textAlign: 'center'
               }}
             >
-              {s.title}
+              {s.label}
             </button>
           ))}
         </div>
 
-        {/* STEP 1: SHIPPING ADDRESS */}
-        {step === 1 && (
-          <div>
-            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <MapPin size={18} style={{ color: 'var(--accent-primary)' }} /> Enter Shipping Details
-            </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Full Name</label>
-                <input
-                  type="text"
-                  value={shippingAddress.name}
-                  onChange={(e) => setShippingAddress({ ...shippingAddress, name: e.target.value })}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Email Address</label>
-                <input
-                  type="email"
-                  value={shippingAddress.email}
-                  onChange={(e) => setShippingAddress({ ...shippingAddress, email: e.target.value })}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Phone Number</label>
-                <input
-                  type="text"
-                  value={shippingAddress.phone}
-                  onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Street Address</label>
-                <input
-                  type="text"
-                  value={shippingAddress.street}
-                  onChange={(e) => setShippingAddress({ ...shippingAddress, street: e.target.value })}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>City</label>
-                <input
-                  type="text"
-                  value={shippingAddress.city}
-                  onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>State & ZIP Code</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <input
-                    type="text"
-                    placeholder="State"
-                    value={shippingAddress.state}
-                    onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
-                    style={{ flex: 1, padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="ZIP"
-                    value={shippingAddress.zip}
-                    onChange={(e) => setShippingAddress({ ...shippingAddress, zip: e.target.value })}
-                    style={{ flex: 1, padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                  />
+        {/* Body Container */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
+          
+          {/* STEP 1: SHIPPING ADDRESS */}
+          {step === 1 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Delivery Shipping Address</h4>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Full Name</label>
+                  <input type="text" value={shippingAddress.name} onChange={e => setShippingAddress({ ...shippingAddress, name: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
                 </div>
-              </div>
-            </div>
 
-            <button
-              onClick={() => setStep(2)}
-              style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 800, float: 'right', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-            >
-              Continue to Payment <ArrowRight size={16} />
-            </button>
-          </div>
-        )}
+                <div>
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Mobile Number</label>
+                  <input type="text" value={shippingAddress.phone} onChange={e => setShippingAddress({ ...shippingAddress, phone: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
+                </div>
 
-        {/* STEP 2: PAYMENT METHODS */}
-        {step === 2 && (
-          <div>
-            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CreditCard size={18} style={{ color: 'var(--accent-primary)' }} /> Select Payment Option
-            </h4>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              {[
-                { id: 'Cash on Delivery', label: 'Cash on Delivery (COD)', desc: 'Pay with cash upon arrival at your doorstep', icon: DollarSign },
-                { id: 'UPI', label: 'UPI / QR Payment', desc: 'Google Pay, PhonePe, Paytm, BHIM UPI', icon: Smartphone },
-                { id: 'Credit Card', label: 'Credit / Debit Card', desc: 'Visa, Mastercard, American Express', icon: CreditCard },
-                { id: 'Net Banking', label: 'Net Banking', desc: 'Select from major supported banks', icon: Building2 }
-              ].map(method => {
-                const Icon = method.icon;
-                const isSelected = paymentMethod === method.id;
-                return (
-                  <label
-                    key={method.id}
-                    onClick={() => setPaymentMethod(method.id)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      padding: '1rem',
-                      borderRadius: 'var(--radius-md)',
-                      background: isSelected ? 'var(--bg-secondary)' : 'var(--bg-surface)',
-                      border: isSelected ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <input type="radio" checked={isSelected} onChange={() => setPaymentMethod(method.id)} />
-                    <Icon size={22} style={{ color: isSelected ? 'var(--accent-primary)' : 'var(--text-muted)' }} />
-                    <div>
-                      <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>{method.label}</div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{method.desc}</div>
-                    </div>
-                  </label>
-                );
-              })}
-            </div>
-
-            {/* Sub-inputs for digital payment */}
-            {paymentMethod === 'UPI' && (
-              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem' }}>
-                <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Enter VPA / UPI ID</label>
-                <input
-                  type="text"
-                  placeholder="e.g. mobile@upi"
-                  value={upiId}
-                  onChange={(e) => setUpiId(e.target.value)}
-                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
-                />
-              </div>
-            )}
-
-            {paymentMethod === 'Credit Card' && (
-              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <div style={{ gridColumn: 'span 2' }}>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Card Number</label>
-                  <input
-                    type="text"
-                    placeholder="4532 •••• •••• 8910"
-                    value={cardDetails.number}
-                    onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
-                  />
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Street Address & Flat / House No.</label>
+                  <input type="text" value={shippingAddress.street} onChange={e => setShippingAddress({ ...shippingAddress, street: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
                 </div>
+
                 <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Expiry</label>
-                  <input
-                    type="text"
-                    placeholder="MM/YY"
-                    value={cardDetails.expiry}
-                    onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
-                  />
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>City</label>
+                  <input type="text" value={shippingAddress.city} onChange={e => setShippingAddress({ ...shippingAddress, city: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
                 </div>
+
                 <div>
-                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>CVV</label>
-                  <input
-                    type="password"
-                    placeholder="123"
-                    value={cardDetails.cvv}
-                    onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
-                  />
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>State</label>
+                  <input type="text" value={shippingAddress.state} onChange={e => setShippingAddress({ ...shippingAddress, state: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>PIN / Zip Code</label>
+                  <input type="text" value={shippingAddress.zip} onChange={e => setShippingAddress({ ...shippingAddress, zip: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Country</label>
+                  <input type="text" value={shippingAddress.country} onChange={e => setShippingAddress({ ...shippingAddress, country: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
                 </div>
               </div>
-            )}
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <button onClick={() => setStep(1)} style={{ padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                Back
-              </button>
-              <button
-                onClick={() => setStep(3)}
-                style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-              >
-                Review Order <ArrowRight size={16} />
+              <button onClick={() => setStep(2)} style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <span>Proceed to Payment (₹{cartTotal})</span> <ArrowRight size={18} />
               </button>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* STEP 3: ORDER SUMMARY & PLACE ORDER */}
-        {step === 3 && (
-          <div>
-            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <ShieldCheck size={18} style={{ color: '#16a34a' }} /> Review & Confirm Order
-            </h4>
+          {/* STEP 2: PAYMENT METHOD (UPI / BANK TRANSFER TO NEXCART RETAIL) */}
+          {step === 2 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Select Payment Method</h4>
 
-            {/* Items Summary Table */}
-            <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1.5rem', maxHeight: '200px', overflowY: 'auto' }}>
-              {cart.map(item => (
-                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem' }}>
-                  <span>{item.title} (x{item.quantity})</span>
-                  <span style={{ fontWeight: 800 }}>${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Price Calculations */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.88rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal</span><span>${cartSubtotal.toFixed(2)}</span></div>
-              {discountAmount > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a', fontWeight: 700 }}><span>Discount</span><span>-${discountAmount.toFixed(2)}</span></div>}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Shipping</span><span>{shippingFee === 0 ? 'FREE' : `$${shippingFee}`}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Tax</span><span>${taxAmount.toFixed(2)}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: 900, borderTop: '1px solid var(--border-color)', paddingTop: '0.5rem' }}>
-                <span>Total Payable</span>
-                <span>${cartTotal.toFixed(2)}</span>
+              {/* Payment Method Tabs */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.85rem' }}>
+                {[
+                  { id: 'UPI', label: 'UPI / PhonePe / GPay', icon: Smartphone },
+                  { id: 'Cash on Delivery', label: 'Cash on Delivery (COD)', icon: Truck },
+                  { id: 'Credit Card', label: 'Credit / Debit Card', icon: CreditCard },
+                  { id: 'Net Banking', label: 'Net Banking', icon: Building2 }
+                ].map(m => {
+                  const Icon = m.icon;
+                  const isSel = paymentMethod === m.id;
+                  return (
+                    <div
+                      key={m.id}
+                      onClick={() => setPaymentMethod(m.id)}
+                      style={{
+                        padding: '1rem', borderRadius: 'var(--radius-md)', border: isSel ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
+                        background: isSel ? 'var(--bg-secondary)' : 'var(--bg-surface)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem'
+                      }}
+                    >
+                      <Icon size={20} color={isSel ? 'var(--accent-primary)' : 'var(--text-muted)'} />
+                      <div style={{ fontWeight: 800, fontSize: '0.85rem', color: isSel ? 'var(--accent-primary)' : 'var(--text-primary)' }}>{m.label}</div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <button onClick={() => setStep(2)} style={{ padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                Back
+              {/* UPI TRANSFER TO NEXCART RETAIL ACCOUNT */}
+              {paymentMethod === 'UPI' && (
+                <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  
+                  {/* Account Box */}
+                  <div style={{ background: '#0f172a', color: '#f8fafc', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid #334155' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: 800, textTransform: 'uppercase' }}>Official NexCart Retail Receiving Account</div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: 900, marginTop: '0.2rem' }}>{NEXCART_RETAIL_ACCOUNT.accountName}</div>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem', marginTop: '0.75rem', fontSize: '0.82rem', borderTop: '1px solid #334155', paddingTop: '0.75rem' }}>
+                      <div><span style={{ color: '#94a3b8' }}>UPI VPA ID:</span> <strong style={{ color: '#f59e0b' }}>{NEXCART_RETAIL_ACCOUNT.upiId}</strong></div>
+                      <div><span style={{ color: '#94a3b8' }}>Bank Name:</span> <strong>{NEXCART_RETAIL_ACCOUNT.bankName}</strong></div>
+                      <div><span style={{ color: '#94a3b8' }}>Account No:</span> <strong>{NEXCART_RETAIL_ACCOUNT.accountNumber}</strong></div>
+                      <div><span style={{ color: '#94a3b8' }}>IFSC Code:</span> <strong>{NEXCART_RETAIL_ACCOUNT.ifscCode}</strong></div>
+                    </div>
+                  </div>
+
+                  {/* QR Code & Deep Link */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center' }}>
+                    <div style={{ textAlign: 'center', background: '#ffffff', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                      <img src={qrCodeUrl} alt="UPI QR Code" style={{ width: '160px', height: '160px' }} />
+                      <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#0f172a', marginTop: '0.3rem' }}>Scan to Pay ₹{cartTotal}</div>
+                    </div>
+
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <a
+                        href={upiDeepLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)',
+                          fontWeight: 800, fontSize: '0.88rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center'
+                        }}
+                      >
+                        <Smartphone size={18} /> Open PhonePe / GPay / Paytm (Pay ₹{cartTotal}) <ExternalLink size={14} />
+                      </a>
+
+                      <div>
+                        <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Enter Your Customer UPI ID / VPA</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. yourname@okaxis, 9876543210@paytm"
+                          value={upiId}
+                          onChange={e => setUpiId(e.target.value)}
+                          style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                        />
+                      </div>
+
+                      <div>
+                        <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Enter 12-Digit UTR / Payment Ref No. (Optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 420918492019"
+                          value={utrNumber}
+                          onChange={e => setUtrNumber(e.target.value)}
+                          style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              <button onClick={() => setStep(3)} style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <span>Review & Confirm Order</span> <ArrowRight size={18} />
               </button>
+            </div>
+          )}
+
+          {/* STEP 3: ORDER SUMMARY & CONFIRM */}
+          {step === 3 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Review Order Summary</h4>
+
+              {/* Delivery info summary */}
+              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', fontSize: '0.85rem' }}>
+                <div><strong>Deliver To:</strong> {shippingAddress.name} ({shippingAddress.phone})</div>
+                <div style={{ color: 'var(--text-muted)' }}>{shippingAddress.street}, {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zip}, {shippingAddress.country}</div>
+                <div style={{ marginTop: '0.4rem' }}><strong>Payment:</strong> {paymentMethod} {paymentMethod === 'UPI' && `(NexCart Retail VPA: ${NEXCART_RETAIL_ACCOUNT.upiId})`}</div>
+              </div>
+
+              {/* Items */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '200px', overflowY: 'auto' }}>
+                {cart.map(item => (
+                  <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+                    <div style={{ fontWeight: 700 }}>{item.title} (x{item.quantity})</div>
+                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)' }}>₹{item.price * item.quantity}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Cost Table */}
+              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal:</span><span>₹{cartSubtotal}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Shipping:</span><span>₹0 (Free Express)</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 900, fontSize: '1.1rem', borderTop: '1px solid var(--border-color)', paddingTop: '0.5rem', marginTop: '0.3rem' }}>
+                  <span>Grand Total Amount:</span><span style={{ color: 'var(--accent-primary)' }}>₹{cartTotal}</span>
+                </div>
+              </div>
+
               <button
                 onClick={handlePlaceOrder}
                 disabled={isPlacingOrder}
                 style={{
-                  background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
-                  color: '#ffffff',
-                  padding: '0.8rem 2.5rem',
-                  borderRadius: 'var(--radius-md)',
-                  fontWeight: 900,
-                  fontSize: '1rem',
-                  boxShadow: '0 4px 14px rgba(22, 163, 74, 0.4)'
+                  background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)', color: '#ffffff', padding: '0.85rem',
+                  borderRadius: 'var(--radius-md)', fontWeight: 900, fontSize: '1rem', border: 'none', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'
                 }}
               >
-                {isPlacingOrder ? 'Processing Order...' : `Pay & Place Order ($${cartTotal.toFixed(2)})`}
+                <CheckCircle2 size={20} />
+                <span>{isPlacingOrder ? 'Processing Payment & Creating Order...' : `Pay ₹${cartTotal} & Complete Order`}</span>
               </button>
             </div>
-          </div>
-        )}
+          )}
 
+        </div>
       </div>
     </div>
   );

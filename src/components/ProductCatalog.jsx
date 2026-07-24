@@ -210,7 +210,7 @@ export default function ProductCatalog() {
           {/* 3. Price Range */}
           <div style={{ marginBottom: '1.5rem' }}>
             <h4 style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.6rem' }}>
-              Price Range ($)
+              Price Range (₹)
             </h4>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <input

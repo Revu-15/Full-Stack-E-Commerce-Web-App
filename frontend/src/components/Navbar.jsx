@@ -284,7 +284,7 @@ export default function Navbar() {
             <div style={{ textAlign: 'left', lineHeight: 1.1 }}>
               <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Cart</div>
               <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                ${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
+                ₹{cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
               </div>
             </div>
           </button>

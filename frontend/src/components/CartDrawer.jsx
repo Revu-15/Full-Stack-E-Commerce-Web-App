@@ -133,7 +133,7 @@ export default function CartDrawer() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
-                      <span style={{ fontWeight: 900, fontSize: '0.95rem' }}>${(item.price * item.quantity).toFixed(2)}</span>
+                      <span style={{ fontWeight: 900, fontSize: '0.95rem' }}>₹{item.price * item.quantity}</span>
 
                       {/* Quantity Selector */}
                       <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)' }}>
@@ -217,29 +217,29 @@ export default function CartDrawer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Subtotal</span>
-                <span>${cartSubtotal.toFixed(2)}</span>
+                <span>₹{cartSubtotal}</span>
               </div>
 
               {discountAmount > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a', fontWeight: 700 }}>
                   <span>Coupon Discount</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-₹{discountAmount}</span>
                 </div>
               )}
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Shipping Charges</span>
-                <span>{shippingFee === 0 ? <strong style={{ color: '#16a34a' }}>FREE</strong> : `$${shippingFee.toFixed(2)}`}</span>
+                <span>{shippingFee === 0 ? <strong style={{ color: '#16a34a' }}>FREE</strong> : `₹${shippingFee}`}</span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Estimated Tax (5%)</span>
-                <span>${taxAmount.toFixed(2)}</span>
+                <span>₹{taxAmount}</span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, color: 'var(--text-primary)', borderTop: '1px solid var(--border-color)', paddingTop: '0.5rem', marginTop: '0.2rem' }}>
                 <span>Grand Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>₹{cartTotal}</span>
               </div>
             </div>
 

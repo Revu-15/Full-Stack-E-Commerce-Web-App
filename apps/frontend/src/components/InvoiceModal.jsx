@@ -126,8 +126,8 @@ export default function InvoiceModal() {
                     {item.selectedColor && <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'block' }}>Color: {item.selectedColor}</span>}
                   </td>
                   <td style={{ padding: '0.75rem', textAlign: 'center' }}>{item.quantity}</td>
-                  <td style={{ padding: '0.75rem', textAlign: 'right' }}>${item.price.toFixed(2)}</td>
-                  <td style={{ padding: '0.75rem', textAlign: 'right', fontWeight: 800 }}>${(item.price * item.quantity).toFixed(2)}</td>
+                  <td style={{ padding: '0.75rem', textAlign: 'right' }}>₹{item.price}</td>
+                  <td style={{ padding: '0.75rem', textAlign: 'right', fontWeight: 800 }}>₹{item.price * item.quantity}</td>
                 </tr>
               ))}
             </tbody>
@@ -138,25 +138,25 @@ export default function InvoiceModal() {
             <div style={{ width: '280px', display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.85rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#64748b' }}>Subtotal:</span>
-                <span>${order.subtotal?.toFixed(2)}</span>
+                <span>₹{order.subtotal || order.totalAmount}</span>
               </div>
               {order.discountAmount > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a', fontWeight: 700 }}>
                   <span>Discount:</span>
-                  <span>-${order.discountAmount?.toFixed(2)}</span>
+                  <span>-₹{order.discountAmount}</span>
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#64748b' }}>Shipping:</span>
-                <span>{order.shippingFee === 0 ? 'FREE' : `$${order.shippingFee?.toFixed(2)}`}</span>
+                <span>{order.shippingFee === 0 ? 'FREE' : `₹${order.shippingFee}`}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#64748b' }}>Estimated Tax:</span>
-                <span>${order.tax?.toFixed(2)}</span>
+                <span>₹{order.tax || 0}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 900, borderTop: '2px solid #0f172a', paddingTop: '0.5rem', marginTop: '0.2rem' }}>
                 <span>Grand Total:</span>
-                <span>${order.totalAmount?.toFixed(2)}</span>
+                <span>₹{order.totalAmount}</span>
               </div>
             </div>
           </div>
