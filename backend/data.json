@@ -82,7 +82,7 @@
       "discount": 8,
       "rating": 4.8,
       "reviewCount": 2150,
-      "stock": 18,
+      "stock": 17,
       "images": [
         "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
@@ -148,7 +148,7 @@
       "discount": 20,
       "rating": 4.7,
       "reviewCount": 1540,
-      "stock": 15,
+      "stock": 13,
       "images": [
         "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
@@ -582,7 +582,7 @@
       "discount": 10,
       "rating": 4.9,
       "reviewCount": 890,
-      "stock": 12,
+      "stock": 11,
       "images": [
         "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
         "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
@@ -6048,6 +6048,162 @@
     }
   ],
   "orders": [
+    {
+      "id": "NEX-904582",
+      "orderId": "NEX-904582",
+      "trackingNumber": "TRK-NEX-MRYKLFZ0",
+      "createdAt": "2026-07-24T06:39:35.964Z",
+      "orderDate": "July 24, 2026",
+      "expectedDelivery": "Mon, Jul 27",
+      "items": [
+        {
+          "id": "mob-03",
+          "title": "Google Pixel 8 Pro (128GB, Bay Blue)",
+          "category": "Mobiles",
+          "price": 799,
+          "quantity": 1,
+          "selectedColor": "Bay Blue",
+          "selectedSize": "128GB",
+          "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "subtotal": 799,
+      "discountAmount": 0,
+      "shippingFee": 0,
+      "tax": 39.95,
+      "totalAmount": 838.95,
+      "customer": {
+        "name": "Revanth",
+        "email": "polamreddyrevanth.82@gmail.com",
+        "phone": "+1 (555) 0199"
+      },
+      "shippingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94107",
+        "country": "United States"
+      },
+      "paymentMethod": "UPI",
+      "paymentStatus": "Paid",
+      "status": "Cancelled",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-07-24T06:39:35.965Z",
+          "note": "Order placed successfully"
+        },
+        {
+          "status": "Cancelled",
+          "timestamp": "2026-07-24T06:39:54.397Z",
+          "note": "Cancelled by customer"
+        }
+      ]
+    },
+    {
+      "id": "NEX-283003",
+      "orderId": "NEX-283003",
+      "trackingNumber": "TRK-NEX-MRYKJGPR",
+      "createdAt": "2026-07-24T06:38:03.615Z",
+      "orderDate": "July 24, 2026",
+      "expectedDelivery": "Mon, Jul 27",
+      "items": [
+        {
+          "id": "lap-01",
+          "title": "Apple MacBook Pro 16\" M3 Max (36GB RAM, 1TB SSD, Space Black)",
+          "category": "Laptops",
+          "price": 3499,
+          "quantity": 1,
+          "selectedColor": "Space Black",
+          "selectedSize": "18-core GPU",
+          "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "subtotal": 3499,
+      "discountAmount": 0,
+      "shippingFee": 0,
+      "tax": 174.95,
+      "totalAmount": 3673.95,
+      "customer": {
+        "name": "Revanth",
+        "email": "polamreddyrevanth.82@gmail.com",
+        "phone": "+1 (555) 0199"
+      },
+      "shippingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94107",
+        "country": "United States"
+      },
+      "paymentMethod": "Cash on Delivery",
+      "paymentStatus": "Pending",
+      "status": "Pending",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-07-24T06:38:03.616Z",
+          "note": "Order placed successfully"
+        }
+      ]
+    },
+    {
+      "id": "NEX-359071",
+      "orderId": "NEX-359071",
+      "trackingNumber": "TRK-NEX-MRYKG90H",
+      "createdAt": "2026-07-24T06:35:33.665Z",
+      "orderDate": "July 24, 2026",
+      "expectedDelivery": "Mon, Jul 27",
+      "items": [
+        {
+          "id": "mob-02",
+          "title": "Samsung Galaxy S24 Ultra 5G (512GB, Titanium Gray)",
+          "category": "Mobiles",
+          "price": 1299,
+          "quantity": 1,
+          "selectedColor": "Titanium Gray",
+          "selectedSize": "256GB",
+          "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "id": "mob-03",
+          "title": "Google Pixel 8 Pro (128GB, Bay Blue)",
+          "category": "Mobiles",
+          "price": 799,
+          "quantity": 1,
+          "selectedColor": "Bay Blue",
+          "selectedSize": "128GB",
+          "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "subtotal": 2098,
+      "discountAmount": 0,
+      "shippingFee": 0,
+      "tax": 104.9,
+      "totalAmount": 2202.9,
+      "customer": {
+        "name": "Revanth",
+        "email": "polamreddyrevanth.82@gmail.com",
+        "phone": "+1 (555) 0199"
+      },
+      "shippingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94107",
+        "country": "United States"
+      },
+      "paymentMethod": "Cash on Delivery",
+      "paymentStatus": "Pending",
+      "status": "Pending",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-07-24T06:35:33.666Z",
+          "note": "Order placed successfully"
+        }
+      ]
+    },
     {
       "id": "NEX-918365",
       "orderId": "NEX-918365",
