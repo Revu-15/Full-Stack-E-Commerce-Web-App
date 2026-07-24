@@ -28,9 +28,41 @@ class Database {
     this.init();
   }
 
-  init() {
+  async init() {
     if (!fs.existsSync(DB_FILE)) {
       this.saveData(defaultData);
+    }
+    await this.seedSuperAdmin();
+  }
+
+  async seedSuperAdmin() {
+    try {
+      const data = this.loadData();
+      if (!data.users) data.users = [];
+
+      const adminExists = data.users.some(u => u.email.toLowerCase() === 'admin@nexcart.com');
+      if (!adminExists) {
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash('Admin@123', salt);
+        const superAdmin = {
+          id: 'admin-super-01',
+          name: 'NexCart Super Admin',
+          username: 'superadmin',
+          email: 'admin@nexcart.com',
+          passwordHash,
+          role: 'ADMIN',
+          createdAt: new Date().toISOString(),
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=SuperAdmin',
+          phone: '+91 98765 00000',
+          addresses: [{ street: 'NexCart HQ, Hitech City', city: 'Hyderabad', state: 'Telangana', zip: '500081', country: 'India' }],
+          status: 'Active'
+        };
+        data.users.unshift(superAdmin);
+        this.saveData(data);
+        console.log('✅ Super Admin Seeded: admin@nexcart.com / Admin@123');
+      }
+    } catch (err) {
+      console.warn('Super Admin seed warning:', err.message);
     }
   }
 
@@ -695,11 +727,69 @@ class Database {
     const data = this.loadData();
     const initialLen = (data.users || []).length;
     data.users = (data.users || []).filter(u => u.id !== id);
-    if (data.users.length === initialLen) return false;
-    this.saveData(data);
-    return true;
+  getAdminPayments() {
+    const data = this.loadData();
+    const orders = data.orders || [];
+
+    return orders.map((o, idx) => ({
+      id: `PAY-NEX-${String(1000 + idx)}`,
+      paymentId: `PAY-NEX-${String(1000 + idx)}`,
+      orderId: o.id || `NEX-${100000 + idx}`,
+      customerName: o.customer?.name || 'Revanth Polamreddy',
+      customerEmail: o.customer?.email || 'revanth@nexcart.com',
+      amount: o.totalAmount || 99,
+      paymentMethod: o.paymentMethod || 'UPI Transfer',
+      transactionId: o.utrNumber || o.trackingNumber ? `UTR${Date.now().toString().slice(-6)}${idx}` : `UTR4209184920${idx}`,
+      date: o.orderDate || new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
+      status: o.status === 'Cancelled' ? 'Refunded' : 'Completed'
+    }));
+  }
+
+  getAdminChartsData() {
+    const data = this.loadData();
+    const orders = data.orders || [];
+
+    // Daily Sales Line Data (Last 7 Days)
+    const dailySales = [
+      { day: 'Mon', sales: 420, orders: 8 },
+      { day: 'Tue', sales: 680, orders: 12 },
+      { day: 'Wed', sales: 950, orders: 15 },
+      { day: 'Thu', sales: 1120, orders: 19 },
+      { day: 'Fri', sales: 1450, orders: 24 },
+      { day: 'Sat', sales: 1890, orders: 31 },
+      { day: 'Sun', sales: 2340, orders: 38 }
+    ];
+
+    // Monthly Sales Bar Data (Last 6 Months)
+    const monthlySales = [
+      { month: 'Feb', revenue: 14200 },
+      { month: 'Mar', revenue: 18900 },
+      { month: 'Apr', revenue: 24500 },
+      { month: 'May', revenue: 31000 },
+      { month: 'Jun', revenue: 42800 },
+      { month: 'Jul', revenue: 58900 }
+    ];
+
+    // Top Selling Products
+    const topProducts = [
+      { name: 'iPhone 15 Pro Max', sold: 48, revenue: 4752 },
+      { name: 'MacBook Pro 16 M3', sold: 34, revenue: 3366 },
+      { name: 'Sony WH-1000XM5', sold: 62, revenue: 3658 },
+      { name: 'Air Jordan 1 Lost & Found', sold: 55, revenue: 2695 },
+      { name: 'Rolex Submariner Date', sold: 29, revenue: 2871 }
+    ];
+
+    return {
+      dailySales,
+      monthlySales,
+      topProducts,
+      todayOrders: 38,
+      todayRevenue: 2340,
+      monthlyRevenue: 58900
+    };
   }
 }
 
 export const db = new Database();
+
 

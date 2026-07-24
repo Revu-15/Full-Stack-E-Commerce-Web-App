@@ -128,7 +128,44 @@ function MainContent() {
 export default function App() {
   return (
     <ShopProvider>
-      <MainContent />
+      <AppWithRouter />
     </ShopProvider>
   );
 }
+
+function AppWithRouter() {
+  const { setIsAdminOpen, user } = useShop();
+
+  React.useEffect(() => {
+    const handleRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+
+      if (path.includes('/admin') || hash.includes('/admin')) {
+        // RBAC Guarding
+        const adminToken = localStorage.getItem('nexcart_admin_token');
+        const isUserAdmin = user && (user.role === 'admin' || user.role === 'ADMIN' || user.email === 'admin@nexcart.com');
+
+        if (adminToken || isUserAdmin || path.includes('/admin/login') || hash.includes('/admin/login')) {
+          setIsAdminOpen(true);
+        } else {
+          // Redirect normal customer back to customer home
+          window.location.hash = '';
+          window.history.pushState({}, '', '/');
+          setIsAdminOpen(false);
+        }
+      }
+    };
+
+    handleRoute();
+    window.addEventListener('hashchange', handleRoute);
+    window.addEventListener('popstate', handleRoute);
+    return () => {
+      window.removeEventListener('hashchange', handleRoute);
+      window.removeEventListener('popstate', handleRoute);
+    };
+  }, [user, setIsAdminOpen]);
+
+  return <MainContent />;
+}
+

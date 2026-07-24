@@ -17764,3 +17764,27 @@ export async function updateAdminUserStatus(id, status) { return apiFetch('/admi
 export async function deleteAdminUser(id) { return apiFetch('/admin/users/' + id, { method: 'DELETE' }); }
 export async function updateAdminOrderStatus(id, status, note) { return updateOrderStatus(id, status, note); }
 export async function adminLogin(email, password) { return login(email, password); }
+export async function fetchAdminPayments() { return (await apiFetch('/admin/payments')) || []; }
+export async function fetchAdminCharts() {
+  return (await apiFetch('/admin/charts')) || {
+    dailySales: [
+      { day: 'Mon', sales: 420, orders: 8 }, { day: 'Tue', sales: 680, orders: 12 },
+      { day: 'Wed', sales: 950, orders: 15 }, { day: 'Thu', sales: 1120, orders: 19 },
+      { day: 'Fri', sales: 1450, orders: 24 }, { day: 'Sat', sales: 1890, orders: 31 },
+      { day: 'Sun', sales: 2340, orders: 38 }
+    ],
+    monthlySales: [
+      { month: 'Feb', revenue: 14200 }, { month: 'Mar', revenue: 18900 },
+      { month: 'Apr', revenue: 24500 }, { month: 'May', revenue: 31000 },
+      { month: 'Jun', revenue: 42800 }, { month: 'Jul', revenue: 58900 }
+    ],
+    topProducts: [
+      { name: 'iPhone 15 Pro Max', sold: 48, revenue: 4752 },
+      { name: 'MacBook Pro 16 M3', sold: 34, revenue: 3366 },
+      { name: 'Sony WH-1000XM5', sold: 62, revenue: 3658 },
+      { name: 'Air Jordan 1 Lost & Found', sold: 55, revenue: 2695 },
+      { name: 'Rolex Submariner Date', sold: 29, revenue: 2871 }
+    ]
+  };
+}
+

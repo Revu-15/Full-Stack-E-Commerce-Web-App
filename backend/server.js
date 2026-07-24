@@ -401,15 +401,16 @@ app.post('/api/ai-chat', (req, res) => {
 });
 
 // 13. Super Admin Management Endpoints
+// 13. Super Admin Management Endpoints
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (email === 'admin@nexcart.com' && (password === 'Admin123!' || password === 'admin')) {
+    if (email === 'admin@nexcart.com' && (password === 'Admin@123' || password === 'Admin123!' || password === 'admin')) {
       const token = 'admin-jwt-secret-token-' + Date.now();
       return res.json({
         success: true,
         token,
-        user: { id: 'admin-super', name: 'Super Admin', email: 'admin@nexcart.com', role: 'ADMIN', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin' }
+        user: { id: 'admin-super', name: 'NexCart Super Admin', email: 'admin@nexcart.com', role: 'ADMIN', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=SuperAdmin' }
       });
     }
     const result = await db.loginUser({ email, password });
@@ -426,6 +427,24 @@ app.get('/api/admin/dashboard', (req, res) => {
   try {
     const stats = db.getAdminDashboardStats();
     res.json(stats);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/payments', (req, res) => {
+  try {
+    const payments = db.getAdminPayments();
+    res.json(payments);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/charts', (req, res) => {
+  try {
+    const chartsData = db.getAdminChartsData();
+    res.json(chartsData);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -494,4 +513,5 @@ app.put('/api/admin/orders/:id/status', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 NexCart Backend REST API running on http://localhost:${PORT}`);
 });
+
 
