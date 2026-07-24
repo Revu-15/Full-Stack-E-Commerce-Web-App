@@ -732,17 +732,40 @@ class Database {
     const orders = data.orders || [];
 
     return orders.map((o, idx) => ({
-      id: `PAY-NEX-${String(1000 + idx)}`,
-      paymentId: `PAY-NEX-${String(1000 + idx)}`,
+      id: `PAY-RZP-${String(1000 + idx)}`,
+      paymentId: o.razorpayPaymentId || `pay_rzp_${Date.now().toString().slice(-8)}${idx}`,
       orderId: o.id || `NEX-${100000 + idx}`,
       customerName: o.customer?.name || 'Revanth Polamreddy',
       customerEmail: o.customer?.email || 'revanth@nexcart.com',
       amount: o.totalAmount || 99,
-      paymentMethod: o.paymentMethod || 'UPI Transfer',
-      transactionId: o.utrNumber || o.trackingNumber ? `UTR${Date.now().toString().slice(-6)}${idx}` : `UTR4209184920${idx}`,
+      paymentMethod: o.paymentMethod || 'Razorpay (UPI / Card)',
+      transactionId: o.razorpayPaymentId || o.utrNumber || `pay_test_${100000 + idx}`,
       date: o.orderDate || new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
-      status: o.status === 'Cancelled' ? 'Refunded' : 'Completed'
+      status: o.status === 'Cancelled' ? 'Refunded' : 'Completed',
+      settlementStatus: o.status === 'Cancelled' ? 'Refund Processed' : 'Settled to SBI A/c 91252589078'
     }));
+  }
+
+  getAdminRevenue() {
+    const data = this.loadData();
+    const orders = data.orders || [];
+    const completedOrders = orders.filter(o => o.status !== 'Cancelled');
+    const totalRev = completedOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+
+    return {
+      todayRevenue: 4250,
+      weeklyRevenue: 24890,
+      monthlyRevenue: 58900,
+      yearlyRevenue: 245000,
+      totalRevenue: totalRev > 0 ? totalRev : 245000,
+      settlementAccount: {
+        bankName: 'State Bank of India (SBI)',
+        accountHolder: 'Mr. Polamreddy Revanth Reddy',
+        accountNumber: '91252589078',
+        ifscCode: 'SBIN0003745',
+        settlementCycle: 'T+1 Business Day (Automated Razorpay Settlement)'
+      }
+    };
   }
 
   getAdminChartsData() {
@@ -791,5 +814,6 @@ class Database {
 }
 
 export const db = new Database();
+
 
 

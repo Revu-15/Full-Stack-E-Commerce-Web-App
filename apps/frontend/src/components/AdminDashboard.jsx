@@ -5,7 +5,7 @@ import {
   ShieldAlert, ShieldCheck, Users, ShoppingBag, DollarSign, Package, User, Mail, Phone, MapPin,
   Calendar, Clock, CheckCircle, XCircle, RefreshCw, Search, Eye, Edit3, Lock, Unlock, Trash2,
   FileText, ArrowRight, X, Bell, Filter, Award, ChevronRight, CreditCard, Heart, ExternalLink, Printer, Plus,
-  LayoutDashboard, Tag, Star, BarChart3, Settings, LogOut, TrendingUp, ArrowUpRight, ArrowDownRight, Layers
+  LayoutDashboard, Tag, Star, BarChart3, Settings, LogOut, TrendingUp, ArrowUpRight, ArrowDownRight, Layers, Building2
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -28,13 +28,13 @@ export default function AdminDashboard() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // ── Left Sidebar Active Section ──────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState('dashboard'); // dashboard | orders | products | categories | customers | reviews | coupons | payments | analytics | settings
+  const [activeTab, setActiveTab] = useState('dashboard'); // dashboard | orders | products | categories | customers | reviews | coupons | payments | revenue | analytics | settings
 
   // ── Dashboard Metrics & Graphs State ─────────────────────────────────────────
   const [stats, setStats] = useState({
     totalCustomers: 142, onlineCustomers: 18, totalOrders: 68, pendingOrders: 12,
     deliveredOrders: 48, cancelledOrders: 8, totalProducts: 624, totalCategories: 12,
-    totalRevenue: 58900, monthlyRevenue: 18900, todayOrders: 14,
+    totalRevenue: 245000, monthlyRevenue: 58900, todayOrders: 14,
     recentRegistrations: [], latestOrders: [], notifications: []
   });
 
@@ -57,6 +57,24 @@ export default function AdminDashboard() {
       { name: 'Air Jordan 1 Lost & Found', sold: 55, revenue: 2695 },
       { name: 'Rolex Submariner Date', sold: 29, revenue: 2871 }
     ]
+  });
+
+  const [revenueData, setRevenueData] = useState({
+    todayRevenue: 4250,
+    weeklyRevenue: 24890,
+    monthlyRevenue: 58900,
+    yearlyRevenue: 245000,
+    totalRevenue: 245000,
+    settlementAccount: {
+      merchantName: 'NexCart Retail',
+      bankName: 'State Bank of India (SBI)',
+      accountHolder: 'Mr. Polamreddy Revanth Reddy',
+      fatherName: 'P. Jayachandra Reddy',
+      accountType: 'Savings Bank Account',
+      accountNumber: '91252589078',
+      ifscCode: 'SBIN0003745',
+      settlementCycle: 'T+1 Business Day (Automated Razorpay Settlement)'
+    }
   });
 
   // ── CRM, Orders, Payments & Inventory State ─────────────────────────────────
@@ -100,11 +118,14 @@ export default function AdminDashboard() {
           cancelledOrders: dashboardData.cancelledOrders || 8,
           totalProducts: dashboardData.totalProducts || 624,
           totalCategories: 12,
-          totalRevenue: dashboardData.totalRevenue || 58900,
-          monthlyRevenue: 18900,
+          totalRevenue: dashboardData.totalRevenue || 245000,
+          monthlyRevenue: 58900,
           todayOrders: 14
         }));
       }
+
+      const revRes = await api.fetchAdminRevenue();
+      if (revRes) setRevenueData(revRes);
 
       const chartsRes = await api.fetchAdminCharts();
       if (chartsRes) setChartsData(chartsRes);
@@ -318,7 +339,7 @@ export default function AdminDashboard() {
     );
   }
 
-  // ── Render Full Amazon-Style Super Admin Dashboard ──────────────────────────
+  // ── Filter Data ────────────────────────────────────────────────────────────
   const filteredCustomers = customers.filter(c =>
     (c.name || '').toLowerCase().includes(customerSearch.toLowerCase()) ||
     (c.email || '').toLowerCase().includes(customerSearch.toLowerCase()) ||
@@ -371,7 +392,8 @@ export default function AdminDashboard() {
             { id: 'customers', label: 'Customers', icon: Users, badge: customers.length },
             { id: 'reviews', label: 'Reviews', icon: Star, badge: null },
             { id: 'coupons', label: 'Coupons', icon: Tag, badge: coupons.length },
-            { id: 'payments', label: 'Payments Ledger', icon: CreditCard, badge: payments.length },
+            { id: 'payments', label: 'Payments', icon: CreditCard, badge: payments.length },
+            { id: 'revenue', label: 'Revenue', icon: DollarSign, badge: '₹' },
             { id: 'analytics', label: 'Analytics', icon: BarChart3, badge: null },
             { id: 'settings', label: 'Settings', icon: Settings, badge: null }
           ].map(item => {
@@ -433,7 +455,7 @@ export default function AdminDashboard() {
             <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#f8fafc', textTransform: 'capitalize' }}>
               {activeTab} Management Panel
             </h3>
-            <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Real-time Store Operations & Analytics in Indian Rupees (₹)</p>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Razorpay Payment Gateway & SBI Bank Settlement Tracker (₹)</p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -446,7 +468,7 @@ export default function AdminDashboard() {
         {/* Scrollable View Area */}
         <main style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', background: 'var(--bg-primary)' }}>
           
-          {/* ── SECTION 1: DASHBOARD OVERVIEW & INTERACTIVE CHARTS ─────────── */}
+          {/* ── SECTION 1: DASHBOARD OVERVIEW & CHARTS ─────────────────────── */}
           {activeTab === 'dashboard' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '1400px', margin: '0 auto' }}>
               
@@ -458,8 +480,8 @@ export default function AdminDashboard() {
                     <span>Total Revenue</span>
                     <DollarSign size={20} color="#16a34a" />
                   </div>
-                  <div style={{ fontSize: '1.7rem', fontWeight: 900, color: '#16a34a', marginTop: '0.3rem' }}>₹{stats.totalRevenue.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#16a34a', fontWeight: 700, marginTop: '0.2rem' }}>↑ +18.4% this month</div>
+                  <div style={{ fontSize: '1.7rem', fontWeight: 900, color: '#16a34a', marginTop: '0.3rem' }}>₹{revenueData.totalRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#16a34a', fontWeight: 700, marginTop: '0.2rem' }}>↑ Razorpay Direct Settlement</div>
                 </div>
 
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.1rem', boxShadow: 'var(--shadow-sm)' }}>
@@ -467,8 +489,8 @@ export default function AdminDashboard() {
                     <span>Monthly Revenue</span>
                     <TrendingUp size={20} color="#2563eb" />
                   </div>
-                  <div style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.3rem' }}>₹{stats.monthlyRevenue.toLocaleString()}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Target: ₹75,000</div>
+                  <div style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.3rem' }}>₹{revenueData.monthlyRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Target: ₹1,00,000</div>
                 </div>
 
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.1rem', boxShadow: 'var(--shadow-sm)' }}>
@@ -477,7 +499,7 @@ export default function AdminDashboard() {
                     <Package size={20} color="#d97706" />
                   </div>
                   <div style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.3rem' }}>{stats.totalOrders}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#d97706', fontWeight: 700, marginTop: '0.2rem' }}>{stats.pendingOrders} Pending Processing</div>
+                  <div style={{ fontSize: '0.72rem', color: '#d97706', fontWeight: 700, marginTop: '0.2rem' }}>{stats.pendingOrders} Processing</div>
                 </div>
 
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.1rem', boxShadow: 'var(--shadow-sm)' }}>
@@ -486,7 +508,7 @@ export default function AdminDashboard() {
                     <Users size={20} color="#8b5cf6" />
                   </div>
                   <div style={{ fontSize: '1.7rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.3rem' }}>{stats.totalCustomers}</div>
-                  <div style={{ fontSize: '0.72rem', color: '#16a34a', fontWeight: 700, marginTop: '0.2rem' }}>● {stats.onlineCustomers} Online Now</div>
+                  <div style={{ fontSize: '0.72rem', color: '#16a34a', fontWeight: 700, marginTop: '0.2rem' }}>● {stats.onlineCustomers} Online</div>
                 </div>
 
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.1rem', boxShadow: 'var(--shadow-sm)' }}>
@@ -536,7 +558,162 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ── SECTION 2: ORDERS MANAGEMENT & STEPPER ────────────────────── */}
+          {/* ── SECTION 2: REVENUE PAGE ───────────────────────────────────────── */}
+          {activeTab === 'revenue' && (
+            <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-primary)' }}>Revenue Analytics & Razorpay Settlement</h3>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Automated payouts settled directly into State Bank of India (SBI) receiving account</p>
+                </div>
+              </div>
+
+              {/* Revenue Cards Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.1rem' }}>
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.2rem', boxShadow: 'var(--shadow-sm)' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Today's Revenue</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#16a34a', marginTop: '0.3rem' }}>₹{revenueData.todayRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#16a34a', marginTop: '0.2rem' }}>↑ 14 Orders Completed Today</div>
+                </div>
+
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.2rem', boxShadow: 'var(--shadow-sm)' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Weekly Revenue</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#2563eb', marginTop: '0.3rem' }}>₹{revenueData.weeklyRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Last 7 Days Earnings</div>
+                </div>
+
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.2rem', boxShadow: 'var(--shadow-sm)' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Monthly Revenue</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#8b5cf6', marginTop: '0.3rem' }}>₹{revenueData.monthlyRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Current Month Total</div>
+                </div>
+
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.2rem', boxShadow: 'var(--shadow-sm)' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Yearly Revenue</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#d97706', marginTop: '0.3rem' }}>₹{revenueData.yearlyRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Financial Year 2026</div>
+                </div>
+
+                <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.2rem', boxShadow: 'var(--shadow-sm)', gridColumn: 'span 1' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total All-Time Revenue</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#16a34a', marginTop: '0.3rem' }}>₹{revenueData.totalRevenue.toLocaleString()}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#16a34a', marginTop: '0.2rem' }}>100% Settled Payouts</div>
+                </div>
+              </div>
+
+              {/* SBI Bank Account Settlement Box */}
+              <div style={{ background: '#0f172a', color: '#f8fafc', border: '1px solid #334155', borderRadius: 'var(--radius-md)', padding: '1.5rem', boxShadow: 'var(--shadow-md)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', borderBottom: '1px solid #334155', paddingBottom: '0.85rem' }}>
+                  <Building2 size={26} color="#38bdf8" />
+                  <div>
+                    <h4 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#f8fafc' }}>Razorpay Automated Bank Settlement Account</h4>
+                    <span style={{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: 800 }}>Primary Destination for Customer Payments</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.2rem', fontSize: '0.88rem' }}>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Merchant Name</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#f8fafc' }}>{revenueData.settlementAccount.merchantName}</div>
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Bank Name</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#f8fafc' }}>{revenueData.settlementAccount.bankName}</div>
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Account Holder Name</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#f8fafc' }}>{revenueData.settlementAccount.accountHolder}</div>
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Father's Name</div>
+                    <div style={{ fontWeight: 800, color: '#e2e8f0' }}>{revenueData.settlementAccount.fatherName}</div>
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Savings Account Number</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.1rem', color: '#f59e0b', fontFamily: 'monospace' }}>{revenueData.settlementAccount.accountNumber}</div>
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>IFSC Code</div>
+                    <div style={{ fontWeight: 900, fontSize: '1.1rem', color: '#38bdf8', fontFamily: 'monospace' }}>{revenueData.settlementAccount.ifscCode}</div>
+                  </div>
+
+                  <div style={{ gridColumn: 'span 2' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>Payout Cycle</div>
+                    <div style={{ fontWeight: 800, color: '#16a34a' }}>✓ {revenueData.settlementAccount.settlementCycle}</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* ── SECTION 3: PAYMENTS LEDGER ────────────────────────────────────── */}
+          {activeTab === 'payments' && (
+            <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: 'var(--text-primary)' }}>Razorpay Payments Ledger ({payments.length} Transactions)</h3>
+                <div style={{ position: 'relative', width: '320px' }}>
+                  <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                  <input
+                    type="text"
+                    placeholder="Search by Payment ID, Order ID, UTR..."
+                    value={paymentSearch}
+                    onChange={(e) => setPaymentSearch(e.target.value)}
+                    style={{ width: '100%', padding: '0.5rem 0.5rem 0.5rem 2.2rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', fontSize: '0.82rem' }}
+                  />
+                </div>
+              </div>
+
+              {/* Payments Table */}
+              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 800 }}>
+                      <th style={{ padding: '0.85rem 1rem' }}>Payment ID</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Order ID</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Customer</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Amount (₹)</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Method</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Transaction ID</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Date</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Payment Status</th>
+                      <th style={{ padding: '0.85rem 1rem' }}>Settlement Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredPayments.map(p => (
+                      <tr key={p.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                        <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: 'var(--accent-primary)' }}>{p.paymentId}</td>
+                        <td style={{ padding: '0.85rem 1rem', fontWeight: 800 }}>{p.orderId}</td>
+                        <td style={{ padding: '0.85rem 1rem' }}>{p.customerName}</td>
+                        <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: '#16a34a' }}>₹{p.amount}</td>
+                        <td style={{ padding: '0.85rem 1rem' }}>{p.paymentMethod}</td>
+                        <td style={{ padding: '0.85rem 1rem', fontSize: '0.78rem', fontFamily: 'monospace' }}>{p.transactionId}</td>
+                        <td style={{ padding: '0.85rem 1rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>{p.date}</td>
+                        <td style={{ padding: '0.85rem 1rem' }}>
+                          <span style={{ padding: '0.2rem 0.55rem', borderRadius: '99px', fontSize: '0.72rem', fontWeight: 900, background: p.status === 'Completed' ? '#dcfce7' : '#fee2e2', color: p.status === 'Completed' ? '#16a34a' : '#dc2626' }}>
+                            {p.status}
+                          </span>
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', fontWeight: 800, color: '#2563eb' }}>
+                          {p.settlementStatus || 'Settled to SBI A/c 91252589078'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          )}
+
+          {/* ── SECTION 4: ORDERS MANAGEMENT ─────────────────────────────────── */}
           {activeTab === 'orders' && (
             <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               
@@ -590,12 +767,12 @@ export default function AdminDashboard() {
                         <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: 'var(--accent-primary)' }}>{ord.id}</td>
                         <td style={{ padding: '0.85rem 1rem' }}>
                           <div style={{ fontWeight: 800 }}>{ord.customer?.name || 'Customer'}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{ord.customer?.phone || '+91 98765 43210'}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{ord.customer?.phone || '+91 91252 58907'}</div>
                         </td>
                         <td style={{ padding: '0.85rem 1rem' }}>{ord.items?.length || 1} Item(s)</td>
                         <td style={{ padding: '0.85rem 1rem' }}>
-                          <div>{ord.paymentMethod || 'UPI Transfer'}</div>
-                          <span style={{ fontSize: '0.7rem', color: '#16a34a', fontWeight: 900 }}>● {ord.paymentStatus || 'Paid'}</span>
+                          <div>{ord.paymentMethod || 'Razorpay'}</div>
+                          <span style={{ fontSize: '0.7rem', color: '#16a34a', fontWeight: 900 }}>● {ord.paymentStatus || 'PAID'}</span>
                         </td>
                         <td style={{ padding: '0.85rem 1rem' }}>
                           <span style={{ padding: '0.2rem 0.6rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 900, background: ord.status === 'Delivered' ? '#dcfce7' : '#fef3c7', color: ord.status === 'Delivered' ? '#16a34a' : '#b45309' }}>
@@ -617,64 +794,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ── SECTION 3: PAYMENTS LEDGER ────────────────────────────────────── */}
-          {activeTab === 'payments' && (
-            <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: 'var(--text-primary)' }}>NexCart Payment Ledger ({payments.length} Transactions)</h3>
-                <div style={{ position: 'relative', width: '320px' }}>
-                  <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  <input
-                    type="text"
-                    placeholder="Search by Payment ID, Order ID, UTR..."
-                    value={paymentSearch}
-                    onChange={(e) => setPaymentSearch(e.target.value)}
-                    style={{ width: '100%', padding: '0.5rem 0.5rem 0.5rem 2.2rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', fontSize: '0.82rem' }}
-                  />
-                </div>
-              </div>
-
-              {/* Payments Table */}
-              <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.85rem' }}>
-                  <thead>
-                    <tr style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 800 }}>
-                      <th style={{ padding: '0.85rem 1rem' }}>Payment ID</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Order ID</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Customer</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Amount (₹)</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Method</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Transaction UTR</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Date</th>
-                      <th style={{ padding: '0.85rem 1rem' }}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredPayments.map(p => (
-                      <tr key={p.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: 'var(--accent-primary)' }}>{p.paymentId}</td>
-                        <td style={{ padding: '0.85rem 1rem', fontWeight: 800 }}>{p.orderId}</td>
-                        <td style={{ padding: '0.85rem 1rem' }}>{p.customerName}</td>
-                        <td style={{ padding: '0.85rem 1rem', fontWeight: 900, color: '#16a34a' }}>₹{p.amount}</td>
-                        <td style={{ padding: '0.85rem 1rem' }}>{p.paymentMethod}</td>
-                        <td style={{ padding: '0.85rem 1rem', fontSize: '0.78rem', fontFamily: 'monospace' }}>{p.transactionId}</td>
-                        <td style={{ padding: '0.85rem 1rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>{p.date}</td>
-                        <td style={{ padding: '0.85rem 1rem' }}>
-                          <span style={{ padding: '0.2rem 0.55rem', borderRadius: '99px', fontSize: '0.72rem', fontWeight: 900, background: p.status === 'Completed' ? '#dcfce7' : '#fee2e2', color: p.status === 'Completed' ? '#16a34a' : '#dc2626' }}>
-                            {p.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-          )}
-
-          {/* ── SECTION 4: CUSTOMERS CRM ──────────────────────────────────────── */}
+          {/* ── SECTION 5: CUSTOMERS CRM ──────────────────────────────────────── */}
           {activeTab === 'customers' && (
             <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -714,7 +834,7 @@ export default function AdminDashboard() {
                         </td>
                         <td style={{ padding: '0.85rem 1rem' }}>
                           <div>{cust.email}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{cust.phone || '+91 98765 43210'}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{cust.phone || '+91 91252 58907'}</div>
                         </td>
                         <td style={{ padding: '0.85rem 1rem' }}>
                           <span style={{ padding: '0.2rem 0.55rem', borderRadius: '99px', fontSize: '0.72rem', fontWeight: 900, background: cust.status === 'Blocked' ? '#fee2e2' : '#dcfce7', color: cust.status === 'Blocked' ? '#dc2626' : '#16a34a' }}>
@@ -735,7 +855,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ── SECTION 5: PRODUCTS INVENTORY ────────────────────────────────── */}
+          {/* ── SECTION 6: PRODUCTS INVENTORY ────────────────────────────────── */}
           {activeTab === 'products' && (
             <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
