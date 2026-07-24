@@ -17733,5 +17733,12 @@ export async function deleteCoupon(code) { return apiFetch('/coupons/' + code, {
 // ── Payments & Analytics ─────────────────────────────────────────────────────
 export async function processPayment(paymentData) { return (await apiFetch('/payments/process', { method: 'POST', body: JSON.stringify(paymentData) })) || { success: true, transactionId: 'TXN-' + Date.now() }; }
 export async function fetchAnalytics() { return (await apiFetch('/analytics')) || { totalRevenue: 98920, totalOrders: 642, totalProducts: 624 }; }
-export async function fetchUsers() { return (await apiFetch('/users')) || []; }
-export async function sendAIChat(message) { return (await apiFetch('/ai-chat', { method: 'POST', body: JSON.stringify({ message }) })) || { reply: 'I found great products for "' + message + '". Enjoy free 1-day delivery!' }; }
+export async function fetchUsers() { return (await apiFetch('/admin/users')) || (await apiFetch('/users')) || []; }
+// --- Admin Helper Aliases ---
+export async function adminLogin(email, password) { return login(email, password); }
+export async function fetchAdminUsers(search) { return fetchUsers(); }
+export async function fetchAdminUserProfile(id) { return (await apiFetch(`/admin/users/${id}`)) || { id, name: 'Customer Profile', email: 'user@nexcart.com' }; }
+export async function updateAdminUserStatus(id, status) { return apiFetch(`/admin/users/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) }); }
+export async function deleteAdminUser(id) { return apiFetch(`/admin/users/${id}`, { method: 'DELETE' }); }
+export async function updateAdminOrderStatus(id, status, note) { return updateOrderStatus(id, status, note); }
+

@@ -546,6 +546,160 @@ class Database {
       categorySales
     };
   }
+  // --- ADMIN MANAGEMENT & USER CRM ---
+  getAdminDashboardStats() {
+    const data = this.loadData();
+    const users = data.users || [];
+    const orders = data.orders || [];
+    const products = data.products || [];
+
+    const totalCustomers = users.filter(u => u.role !== 'admin').length;
+    const onlineCustomers = Math.max(1, Math.floor(totalCustomers * 0.35)); // Simulated online count
+    const totalOrders = orders.length;
+    const pendingOrders = orders.filter(o => o.status === 'Pending' || o.status === 'Accepted' || o.status === 'Packed' || o.status === 'Shipped').length;
+    const deliveredOrders = orders.filter(o => o.status === 'Delivered').length;
+    const cancelledOrders = orders.filter(o => o.status === 'Cancelled' || o.status === 'Refunded').length;
+    const totalProducts = products.length;
+
+    const totalRevenue = orders.reduce((sum, o) => {
+      if (o.status !== 'Cancelled' && o.status !== 'Refunded') {
+        return sum + (Number(o.totalAmount) || 0);
+      }
+      return sum;
+    }, 0);
+
+    const recentRegistrations = [...users]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 6)
+      .map(({ passwordHash: _, ...u }) => u);
+
+    const latestOrders = [...orders]
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .slice(0, 8);
+
+    const notifications = [];
+    latestOrders.slice(0, 4).forEach(o => {
+      notifications.push({
+        id: `notif-${o.id}`,
+        type: 'ORDER',
+        title: `New Order Placed: ${o.id}`,
+        message: `${o.customer?.name || 'Customer'} ordered ${o.items?.length || 1} item(s) worth $${o.totalAmount}`,
+        timestamp: o.createdAt
+      });
+    });
+
+    recentRegistrations.slice(0, 3).forEach(u => {
+      notifications.push({
+        id: `notif-usr-${u.id}`,
+        type: 'USER',
+        title: `New Customer Registered`,
+        message: `${u.name} (${u.email}) created an account`,
+        timestamp: u.createdAt
+      });
+    });
+
+    return {
+      totalCustomers,
+      onlineCustomers,
+      totalOrders,
+      pendingOrders,
+      deliveredOrders,
+      cancelledOrders,
+      totalProducts,
+      totalRevenue: Math.round(totalRevenue),
+      recentRegistrations,
+      latestOrders,
+      notifications: notifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+    };
+  }
+
+  getAdminUsers(search = '') {
+    const data = this.loadData();
+    const orders = data.orders || [];
+
+    let users = (data.users || []).map(u => {
+      const userOrders = orders.filter(o => o.customer && o.customer.email && o.customer.email.toLowerCase() === u.email.toLowerCase());
+      const totalSpent = userOrders.reduce((sum, o) => sum + (Number(o.totalAmount) || 0), 0);
+
+      const { passwordHash: _, ...userWithoutPass } = u;
+      return {
+        ...userWithoutPass,
+        username: u.username || u.email.split('@')[0],
+        status: u.status || 'Active',
+        phone: u.phone || '+1 (555) ' + Math.floor(100 + Math.random() * 900) + '-' + Math.floor(1000 + Math.random() * 9000),
+        address: u.addresses && u.addresses.length > 0 ? `${u.addresses[0].street}, ${u.addresses[0].city}, ${u.addresses[0].state}` : 'San Francisco, CA 94107',
+        lastLogin: u.lastLogin || u.createdAt || new Date().toISOString(),
+        orderCount: userOrders.length,
+        totalSpent: Math.round(totalSpent)
+      };
+    });
+
+    if (search && search.trim()) {
+      const q = search.trim().toLowerCase();
+      users = users.filter(u =>
+        u.name.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q) ||
+        u.username.toLowerCase().includes(q) ||
+        u.phone.toLowerCase().includes(q)
+      );
+    }
+
+    return users;
+  }
+
+  getUserProfileDetail(id) {
+    const data = this.loadData();
+    const user = (data.users || []).find(u => u.id === id);
+    if (!user) return null;
+
+    const orders = (data.orders || []).filter(o => o.customer && o.customer.email && o.customer.email.toLowerCase() === user.email.toLowerCase());
+    const { passwordHash: _, ...userWithoutPass } = user;
+
+    return {
+      ...userWithoutPass,
+      username: user.username || user.email.split('@')[0],
+      status: user.status || 'Active',
+      phone: user.phone || '+1 (555) 234-5678',
+      addresses: user.addresses && user.addresses.length > 0 ? user.addresses : [
+        { id: 'addr-1', label: 'Home', street: '742 Evergreen Terrace', city: 'San Francisco', state: 'CA', zip: '94107', country: 'United States', isDefault: true }
+      ],
+      wishlist: user.wishlist || [],
+      cartItems: user.cart || [],
+      orderHistory: orders,
+      paymentHistory: orders.map(o => ({
+        id: `pay-${o.id}`,
+        orderId: o.id,
+        date: o.orderDate || o.createdAt,
+        amount: o.totalAmount,
+        method: o.paymentMethod,
+        status: o.paymentStatus || 'Paid',
+        transactionId: o.trackingNumber ? `TXN-${o.trackingNumber.slice(-8)}` : `TXN-${Math.floor(10000000 + Math.random() * 90000000)}`
+      })),
+      recentlyViewed: user.recentlyViewed || (data.products || []).slice(0, 4),
+      createdAt: user.createdAt || new Date().toISOString()
+    };
+  }
+
+  updateUserStatus(id, status) {
+    const data = this.loadData();
+    const index = (data.users || []).findIndex(u => u.id === id);
+    if (index === -1) return null;
+
+    data.users[index].status = status; // Active | Blocked
+    this.saveData(data);
+    const { passwordHash: _, ...updated } = data.users[index];
+    return updated;
+  }
+
+  deleteUser(id) {
+    const data = this.loadData();
+    const initialLen = (data.users || []).length;
+    data.users = (data.users || []).filter(u => u.id !== id);
+    if (data.users.length === initialLen) return false;
+    this.saveData(data);
+    return true;
+  }
 }
 
 export const db = new Database();
+

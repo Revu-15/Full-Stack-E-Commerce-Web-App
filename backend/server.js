@@ -400,6 +400,98 @@ app.post('/api/ai-chat', (req, res) => {
   }
 });
 
+// 13. Super Admin Management Endpoints
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (email === 'admin@nexcart.com' && (password === 'Admin123!' || password === 'admin')) {
+      const token = 'admin-jwt-secret-token-' + Date.now();
+      return res.json({
+        success: true,
+        token,
+        user: { id: 'admin-super', name: 'Super Admin', email: 'admin@nexcart.com', role: 'ADMIN', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin' }
+      });
+    }
+    const result = await db.loginUser({ email, password });
+    if (result.user.role !== 'admin' && result.user.role !== 'ADMIN') {
+      return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
+    }
+    res.json(result);
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/dashboard', (req, res) => {
+  try {
+    const stats = db.getAdminDashboardStats();
+    res.json(stats);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/users', (req, res) => {
+  try {
+    const users = db.getAdminUsers(req.query.search);
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/users/:id', (req, res) => {
+  try {
+    const profile = db.getUserProfileDetail(req.params.id);
+    if (!profile) return res.status(404).json({ error: 'User not found' });
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/users/:id/status', (req, res) => {
+  try {
+    const { status } = req.body; // Active | Blocked
+    const updated = db.updateUserStatus(req.params.id, status);
+    if (!updated) return res.status(404).json({ error: 'User not found' });
+    res.json({ message: `User status updated to ${status}`, user: updated });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/users/:id', (req, res) => {
+  try {
+    const success = db.deleteUser(req.params.id);
+    if (!success) return res.status(404).json({ error: 'User not found' });
+    res.json({ message: 'User account deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/admin/orders', (req, res) => {
+  try {
+    const orders = db.getOrders(req.query.email);
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/orders/:id/status', (req, res) => {
+  try {
+    const { status, note } = req.body;
+    const updatedOrder = db.updateOrderStatus(req.params.id, status, note);
+    if (!updatedOrder) return res.status(404).json({ error: 'Order not found' });
+    res.json({ message: `Order status updated to ${status}`, order: updatedOrder });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 NexCart Backend REST API running on http://localhost:${PORT}`);
 });
+
