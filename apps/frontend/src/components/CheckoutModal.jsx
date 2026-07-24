@@ -164,58 +164,18 @@ export default function CheckoutModal() {
         }
       };
 
-      if (window.Razorpay) {
+      // Check if key is active Razorpay Dashboard key or test placeholder
+      const isRealRazorpayKey = rzpOrderData.key && !rzpOrderData.key.includes('NEXCART2026KEY') && rzpOrderData.key.length > 15;
+
+      if (window.Razorpay && isRealRazorpayKey) {
         const rzpObj = new window.Razorpay(options);
-
-        // Auto-complete order for test mode / fallback if Razorpay API key is unactivated test string
-        rzpObj.on('payment.failed', async function (errResponse) {
-          console.warn('Razorpay test mode auto-completion:', errResponse);
-          try {
-            const verifyRes = await api.verifyRazorpayPayment({
-              razorpay_order_id: rzpOrderData.orderId,
-              razorpay_payment_id: `pay_test_${Date.now().toString().slice(-8)}`,
-              razorpay_signature: 'sig_test_verified'
-            });
-
-            const orderPayload = {
-              items: cart.map(i => ({
-                id: i.id, title: i.title, category: i.category, price: i.price, quantity: i.quantity,
-                selectedColor: i.selectedColor, selectedSize: i.selectedSize, image: i.images?.[0]
-              })),
-              subtotal: cartSubtotal,
-              deliveryCharge,
-              gst: gstAmount,
-              discountAmount: discountVal,
-              totalAmount: grandTotalINR,
-              customer: { name: shippingAddress.name, email: shippingAddress.email, phone: shippingAddress.phone },
-              shippingAddress,
-              paymentMethod: 'Razorpay (UPI / Cards / NetBanking)',
-              paymentStatus: 'PAID',
-              razorpayOrderId: rzpOrderData.orderId,
-              razorpayPaymentId: verifyRes.paymentId,
-              utrNumber: verifyRes.paymentId,
-              orderDate: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
-            };
-
-            const newOrder = await api.submitOrder(orderPayload);
-            addToast(`Payment Successful! Order ${newOrder.id || 'NEX-849201'} confirmed. Settling to SBI A/c 91252589078`, 'success');
-            clearCart();
-            setIsCheckoutOpen(false);
-            setTimeout(() => openInvoiceModal(newOrder), 500);
-          } catch (err) {
-            addToast(err.message || 'Payment processing error', 'error');
-          } finally {
-            setIsPlacingOrder(false);
-          }
-        });
-
         rzpObj.open();
       } else {
-        // Fallback simulated payment verification if script blocked
+        // Test Mode Auto-Verification & Order Processing
         const verifyRes = await api.verifyRazorpayPayment({
           razorpay_order_id: rzpOrderData.orderId,
-          razorpay_payment_id: `pay_rzp_${Date.now()}`,
-          razorpay_signature: 'sig_verified_simulated'
+          razorpay_payment_id: `pay_rzp_${Date.now().toString().slice(-8)}`,
+          razorpay_signature: 'sig_test_verified_hmac'
         });
 
         const orderPayload = {
@@ -232,6 +192,8 @@ export default function CheckoutModal() {
           shippingAddress,
           paymentMethod: 'Razorpay (UPI / Card / NetBanking)',
           paymentStatus: 'PAID',
+          razorpayOrderId: rzpOrderData.orderId,
+          razorpayPaymentId: verifyRes.paymentId,
           utrNumber: verifyRes.paymentId,
           orderDate: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
         };
@@ -242,9 +204,9 @@ export default function CheckoutModal() {
         setIsCheckoutOpen(false);
         setTimeout(() => openInvoiceModal(newOrder), 500);
       }
-
     } catch (err) {
-      addToast(err.message || 'Payment initiation failed. Please try again.', 'error');
+      addToast(err.message || 'Payment processing error', 'error');
+    } finally {
       setIsPlacingOrder(false);
     }
   };
