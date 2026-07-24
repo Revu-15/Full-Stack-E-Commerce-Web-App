@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, Search, User, ShieldCheck, Sparkles, Menu, X, Package, Clock, Tag } from 'lucide-react';
-import { MOCK_CATEGORIES, MOCK_PRODUCTS } from '@/services/api';
+import React, { useState } from 'react';
+import { Sparkles, MapPin, Search, Heart, ShoppingBag, User, ChevronDown, Moon, Sun } from 'lucide-react';
 import { Product } from '@/types';
 
 interface NavbarProps {
@@ -10,368 +9,181 @@ interface NavbarProps {
   wishlistCount: number;
   searchQuery: string;
   onSearchChange: (q: string) => void;
-  onSelectCategory: (slug: string) => void;
   selectedCategory: string;
+  onSelectCategory: (cat: string) => void;
   onOpenCart: () => void;
   onOpenAuth: (mode?: 'LOGIN' | 'REGISTER') => void;
   onOpenDashboard: () => void;
   onOpenAdmin: () => void;
-  onSelectProduct?: (product: Product) => void;
-  user: { name: string; email: string; role: 'CUSTOMER' | 'ADMIN' } | null;
+  onSelectProduct: (p: Product) => void;
+  user: any;
 }
+
+const CATEGORIES = [
+  { id: 'all', name: 'All Categories' },
+  { id: 'mobiles', name: 'Mobiles' },
+  { id: 'laptops', name: 'Laptops' },
+  { id: 'electronics', name: 'Electronics' },
+  { id: 'fashion', name: 'Fashion' },
+  { id: 'shoes', name: 'Shoes' },
+  { id: 'watches', name: 'Watches' },
+  { id: 'grocery', name: 'Grocery' },
+  { id: 'home-kitchen', name: 'Home & Kitchen' },
+  { id: 'beauty', name: 'Beauty' },
+  { id: 'books', name: 'Books' },
+  { id: 'toys', name: 'Toys' },
+  { id: 'sports', name: 'Sports' }
+];
 
 export const Navbar: React.FC<NavbarProps> = ({
   cartCount,
   wishlistCount,
   searchQuery,
   onSearchChange,
-  onSelectCategory,
   selectedCategory,
+  onSelectCategory,
   onOpenCart,
   onOpenAuth,
   onOpenDashboard,
   onOpenAdmin,
-  onSelectProduct,
-  user,
+  user
 }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(searchQuery);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Load recent searches on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('nexcart_recent_searches');
-      if (saved) setRecentSearches(JSON.parse(saved));
-    } catch (e) {}
-  }, []);
-
-  // Sync external searchQuery state with internal input value
-  useEffect(() => {
-    setInputValue(searchQuery);
-  }, [searchQuery]);
-
-  // 300ms Debounce effect
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      onSearchChange(inputValue);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [inputValue, onSearchChange]);
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const saveRecentSearch = (query: string) => {
-    const trimmed = query.trim();
-    if (!trimmed) return;
-    try {
-      const updated = [trimmed, ...recentSearches.filter(q => q.toLowerCase() !== trimmed.toLowerCase())].slice(0, 5);
-      setRecentSearches(updated);
-      localStorage.setItem('nexcart_recent_searches', JSON.stringify(updated));
-    } catch (e) {}
-  };
-
-  const handleExecuteSearch = (term: string) => {
-    setInputValue(term);
-    onSearchChange(term);
-    saveRecentSearch(term);
-    setIsDropdownOpen(false);
-    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleExecuteSearch(inputValue);
-    }
-  };
-
-  const handleClearSearch = () => {
-    setInputValue('');
-    onSearchChange('');
-    setIsDropdownOpen(false);
-    try {
-      localStorage.removeItem('nexcart_last_search');
-    } catch (e) {}
-  };
-
-  // Filter Autocomplete Suggestions
-  const q = inputValue.trim().toLowerCase();
-  const suggestedProducts = q
-    ? MOCK_PRODUCTS.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.category.name.toLowerCase().includes(q) ||
-        (p.brand?.name && p.brand.name.toLowerCase().includes(q)) ||
-        (p.keywords && p.keywords.some(k => k.toLowerCase().includes(q)))
-      ).slice(0, 5)
-    : [];
-
-  const suggestedCategories = q
-    ? MOCK_CATEGORIES.filter(c => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q))
-    : [];
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [zip, setZip] = useState('94107');
 
   return (
-    <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/10 shadow-2xl transition-all">
-      {/* Top Announcement Bar */}
-      <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 text-xs text-black font-extrabold py-1.5 px-4 text-center flex items-center justify-center gap-2 border-b border-amber-500/20">
-        <Sparkles className="w-3.5 h-3.5 text-black animate-pulse" />
-        <span><strong>NexPrime Sale Live!</strong> Get <strong>FREE 1-Day Delivery</strong> & Extra 30% OFF with code <strong>NEX30</strong></span>
-        <ShieldCheck className="w-3.5 h-3.5 text-black ml-2" />
-        <span className="hidden md:inline">100% Amazon-Grade Protection</span>
-      </div>
-
-      {/* Main Header Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-        {/* Brand Logo */}
-        <div className="flex items-center gap-3">
-          <button 
-            className="md:hidden p-2 text-gray-300 hover:text-white"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm text-slate-800">
+      {/* Top Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+        
+        {/* Brand Logo & Location */}
+        <div className="flex items-center gap-5">
+          <button
+            onClick={() => { onSelectCategory('all'); onSearchChange(''); }}
+            className="flex items-center gap-2 text-left"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-black text-xl tracking-tight bg-gradient-to-r from-slate-900 to-blue-600 bg-clip-text text-transparent">
+                NexCart
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 tracking-wider -mt-1">
+                PRIME SHOPPING
+              </span>
+            </div>
           </button>
 
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              <ShoppingBag className="w-5 h-5 text-black font-extrabold" />
+          {/* Location Deliver To */}
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs">
+            <MapPin className="w-4 h-4 text-blue-600" />
+            <div className="text-left leading-tight">
+              <div className="text-[10px] text-slate-400">Deliver to</div>
+              <div className="font-bold text-slate-800">San Francisco {zip}</div>
             </div>
-            <div>
-              <span className="text-2xl font-extrabold tracking-tight text-amber-400">NexCart</span>
-              <span className="block text-[10px] uppercase tracking-widest text-amber-400 font-bold -mt-1">Everything You Need</span>
-            </div>
-          </a>
+          </div>
         </div>
 
-        {/* Global Search Bar with Amazon/Flipkart Autocomplete */}
-        <div ref={dropdownRef} className="hidden sm:flex flex-1 max-w-xl relative">
-          <div className="relative w-full">
-            <Search 
-              onClick={() => handleExecuteSearch(inputValue)}
-              className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 cursor-pointer hover:text-amber-400 transition-colors" 
-            />
+        {/* Search Bar */}
+        <div className="flex-1 max-w-2xl relative">
+          <div className="flex rounded-xl overflow-hidden border border-slate-200 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+            <select
+              value={selectedCategory}
+              onChange={(e) => onSelectCategory(e.target.value)}
+              className="bg-slate-100 text-xs font-semibold px-3 border-r border-slate-200 outline-none cursor-pointer text-slate-700"
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+
             <input
               type="text"
-              placeholder="Search Mobiles, Laptops, Water Bottles, Shoes, Fashion..."
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-                setIsDropdownOpen(true);
-              }}
-              onFocus={() => setIsDropdownOpen(true)}
-              onKeyDown={handleKeyDown}
-              className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-16 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/50 transition-all"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="Search NexCart by Product, Brand, Category, Keywords..."
+              className="flex-1 px-3.5 py-2 text-sm bg-white outline-none text-slate-900"
             />
-            {inputValue && (
-              <button 
-                onClick={handleClearSearch}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs bg-white/10 hover:bg-white/20 rounded-full px-2 py-0.5 transition-colors"
-              >
-                Clear
-              </button>
-            )}
+
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 flex items-center justify-center transition-colors">
+              <Search className="w-4 h-4" />
+            </button>
           </div>
-
-          {/* Interactive Suggestions Dropdown */}
-          {isDropdownOpen && (q || recentSearches.length > 0) && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-[#12141a] border border-amber-500/20 rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-white/5 backdrop-blur-xl">
-              {/* Product Suggestions */}
-              {suggestedProducts.length > 0 && (
-                <div className="p-3">
-                  <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-2 px-2 flex items-center gap-1">
-                    <Tag className="w-3 h-3" /> Matching Products
-                  </span>
-                  <div className="space-y-1">
-                    {suggestedProducts.map((p) => (
-                      <button
-                        key={p.id}
-                        onClick={() => {
-                          if (onSelectProduct) onSelectProduct(p);
-                          handleExecuteSearch(p.name);
-                        }}
-                        className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-amber-500/10 text-left transition-colors group"
-                      >
-                        <div className="flex items-center gap-3">
-                          <img src={p.images[0]} alt={p.name} className="w-9 h-9 object-cover rounded-lg border border-white/10" />
-                          <div>
-                            <span className="text-xs font-semibold text-gray-200 group-hover:text-amber-300 block">{p.name}</span>
-                            <span className="text-[10px] text-gray-400">{p.category.name}</span>
-                          </div>
-                        </div>
-                        <span className="text-xs font-bold text-amber-400">₹{(p.discountPrice || p.price).toLocaleString('en-IN')}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Category Suggestions */}
-              {suggestedCategories.length > 0 && (
-                <div className="p-3">
-                  <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-2 px-2">Matching Departments</span>
-                  <div className="flex flex-wrap gap-1.5 px-2">
-                    {suggestedCategories.map((c) => (
-                      <button
-                        key={c.id}
-                        onClick={() => {
-                          onSelectCategory(c.slug);
-                          handleExecuteSearch('');
-                        }}
-                        className="text-xs bg-white/5 hover:bg-amber-500 hover:text-black border border-white/10 rounded-full px-3 py-1 text-gray-300 font-semibold transition-all"
-                      >
-                        In {c.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Recent Searches */}
-              {!q && recentSearches.length > 0 && (
-                <div className="p-3">
-                  <div className="flex items-center justify-between px-2 mb-2">
-                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-amber-400" /> Recent Searches
-                    </span>
-                    <button
-                      onClick={() => {
-                        setRecentSearches([]);
-                        localStorage.removeItem('nexcart_recent_searches');
-                      }}
-                      className="text-[10px] text-gray-500 hover:text-amber-400 underline"
-                    >
-                      Clear History
-                    </button>
-                  </div>
-                  <div className="space-y-1">
-                    {recentSearches.map((term, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleExecuteSearch(term)}
-                        className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/5 text-xs text-gray-300 hover:text-amber-300 text-left transition-colors"
-                      >
-                        <Search className="w-3.5 h-3.5 text-gray-500" />
-                        <span>{term}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Right Controls */}
+        <div className="flex items-center gap-4">
+          
           {/* Wishlist */}
-          <button 
-            onClick={onOpenDashboard}
-            className="relative p-2.5 rounded-full hover:bg-white/5 text-gray-300 hover:text-amber-400 transition-colors"
-            title="Wishlist"
-          >
+          <button onClick={onOpenCart} className="relative flex flex-col items-center text-slate-700 hover:text-blue-600">
             <Heart className="w-5 h-5" />
+            <span className="text-[10px] font-bold mt-0.5">Wishlist</span>
             {wishlistCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-bounce">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center">
                 {wishlistCount}
               </span>
             )}
           </button>
 
-          {/* Orders Link */}
-          <button
-            onClick={onOpenDashboard}
-            className="hidden lg:flex items-center gap-1 text-xs font-semibold text-gray-300 hover:text-amber-400 p-2 rounded-lg hover:bg-white/5 transition-colors"
-            title="Your Orders"
-          >
-            <Package className="w-4.5 h-4.5 text-amber-400" />
-            <span>Orders</span>
-          </button>
-
-          {/* Cart Icon */}
+          {/* Cart */}
           <button
             onClick={onOpenCart}
-            className="relative p-2.5 rounded-full hover:bg-white/5 text-gray-300 hover:text-amber-400 transition-colors"
-            title="Shopping Cart"
+            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-3.5 py-1.5 rounded-full border border-slate-200 transition-colors"
           >
-            <ShoppingBag className="w-5 h-5" />
-            {cartCount > 0 && (
-              <span className="absolute top-1 right-1 w-5 h-5 bg-gradient-to-r from-amber-500 to-orange-500 text-black text-xs font-bold rounded-full flex items-center justify-center shadow-md shadow-amber-500/40">
-                {cartCount}
-              </span>
-            )}
-          </button>
-
-          {/* Auth Controls: Login / Sign Up */}
-          {user ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={onOpenDashboard}
-                className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full py-1.5 px-3.5 text-xs text-amber-200 transition-colors"
-              >
-                <User className="w-4 h-4 text-amber-400" />
-                <span className="max-w-[100px] truncate font-medium">{user.name}</span>
-              </button>
-              {user.role === 'ADMIN' && (
-                <button
-                  onClick={onOpenAdmin}
-                  className="hidden md:inline-flex bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/40 rounded-full py-1.5 px-3 text-xs font-semibold"
-                >
-                  Admin
-                </button>
+            <div className="relative">
+              <ShoppingBag className="w-5 h-5 text-blue-600" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-2 w-4 h-4 bg-blue-600 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
               )}
             </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => onOpenAuth('LOGIN')}
-                className="text-xs font-bold text-gray-300 hover:text-white px-3 py-2 rounded-full border border-white/10 hover:border-amber-500/40 transition-all"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => onOpenAuth('REGISTER')}
-                className="nex-btn-gradient text-xs font-extrabold py-2 px-4 rounded-full shadow-lg shadow-amber-500/20"
-              >
-                Sign Up
-              </button>
+            <div className="text-left leading-tight hidden sm:block">
+              <div className="text-[10px] text-slate-400">Cart</div>
+              <div className="text-xs font-black text-slate-800">$0.00</div>
             </div>
-          )}
+          </button>
+
+          {/* User Account */}
+          <button
+            onClick={() => onOpenAuth('LOGIN')}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs"
+          >
+            <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
+              {user ? user.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5" />}
+            </div>
+            <div className="text-left leading-tight hidden sm:block">
+              <div className="text-[10px] text-slate-400">{user ? 'Hello,' : 'Sign In'}</div>
+              <div className="font-bold text-slate-800">{user ? user.name.split(' ')[0] : 'Account'}</div>
+            </div>
+          </button>
+
         </div>
+
       </div>
 
-      {/* 12 Categories Quick Nav Bar */}
-      <div className="overflow-x-auto bg-black/40 border-t border-white/5 py-2 px-4 no-scrollbar">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 min-w-max">
-          <button
-            onClick={() => onSelectCategory('all')}
-            className={`text-xs font-bold px-3 py-1 rounded-full transition-all ${
-              selectedCategory === 'all' ? 'bg-amber-500 text-black font-extrabold' : 'text-gray-300 hover:text-white hover:bg-white/5'
-            }`}
-          >
-            All Items
-          </button>
-          {MOCK_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => onSelectCategory(cat.slug)}
-              className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${
-                selectedCategory === cat.slug ? 'bg-amber-500 text-black font-extrabold' : 'text-gray-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+      {/* Category Ribbon Bar */}
+      <nav className="bg-slate-100 border-t border-slate-200 overflow-x-auto scrollbar-none">
+        <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 whitespace-nowrap text-xs">
+          {CATEGORIES.map((c) => {
+            const isActive = selectedCategory === c.id;
+            return (
+              <button
+                key={c.id}
+                onClick={() => onSelectCategory(c.id)}
+                className={`py-2.5 px-3.5 font-semibold transition-colors border-b-2 ${
+                  isActive
+                    ? 'border-blue-600 text-blue-600 bg-white font-extrabold'
+                    : 'border-transparent text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {c.name}
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </nav>
     </header>
   );
 };

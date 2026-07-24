@@ -1,111 +1,64 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, ArrowRight, ShieldCheck, Truck, RefreshCw, Zap } from 'lucide-react';
+import { ArrowRight, Zap, Tag } from 'lucide-react';
 
 interface HeroBannerProps {
-  onShopNow: () => void;
+  onShopNow?: () => void;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({ onShopNow }) => {
   return (
-    <section className="relative overflow-hidden py-16 lg:py-24 border-b border-white/10">
-      {/* Dynamic Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Copy */}
-        <div className="space-y-6 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>NexCart — Amazon-Scale Everything Store</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            Order <span className="text-amber-400 underline decoration-amber-500/40 underline-offset-8">Anything</span>, Delivered Fast to Your Doorstep.
-          </h1>
-
-          <p className="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-            Shop millions of products with NexPrime 1-Day Free Shipping, instant checkout, verified reviews, and 24/7 buyer protection.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-            <button
-              onClick={onShopNow}
-              className="w-full sm:w-auto gradient-btn text-white font-semibold py-3.5 px-8 rounded-full flex items-center justify-center gap-3 text-sm shadow-xl shadow-purple-600/30 group"
-            >
-              <span>Explore Catalog</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <a
-              href="#featured"
-              className="w-full sm:w-auto glass-panel hover:bg-white/10 text-gray-200 font-semibold py-3.5 px-8 rounded-full text-center text-sm border border-white/10 transition-colors"
-            >
-              View Featured
-            </a>
-          </div>
-
-          {/* Feature Badges */}
-          <div className="pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
-                <Truck className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-200">Express Delivery</h4>
-                <p className="text-[10px] text-gray-400">Free over $150</p>
-              </div>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-8">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-indigo-900 via-blue-900 to-indigo-950 text-white min-h-[380px] flex items-center shadow-xl">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 lg:p-12 w-full z-10">
+          
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs font-extrabold uppercase tracking-wider text-amber-300">
+              <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <span>TODAY'S MEGA DEAL</span>
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-200">Authentic Warranty</h4>
-                <p className="text-[10px] text-gray-400">100% Certified</p>
-              </div>
-            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight tracking-tight">
+              Flagship Mobiles & Laptops
+            </h1>
 
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-pink-500/10 text-pink-400">
-                <RefreshCw className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-200">Easy Returns</h4>
-                <p className="text-[10px] text-gray-400">30-Day Money Back</p>
-              </div>
-            </div>
+            <p className="text-gray-200 text-sm sm:text-base max-w-lg leading-relaxed opacity-90">
+              Get up to 30% instant cashback on iPhone 15 Pro, Samsung S24 Ultra & MacBook M3.
+            </p>
 
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
-                <Zap className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-200">Instant Support</h4>
-                <p className="text-[10px] text-gray-400">24/7 Live Assistance</p>
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <button
+                onClick={onShopNow}
+                className="bg-white text-slate-900 font-extrabold py-3 px-7 rounded-full text-sm flex items-center gap-2 shadow-lg hover:bg-gray-100 transition-all"
+              >
+                <span>Explore Mobiles</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <div className="flex items-center gap-2 bg-black/30 px-4 py-2 rounded-xl border border-dashed border-white/30 text-xs font-semibold">
+                <Tag className="w-4 h-4 text-emerald-400" />
+                <span>Use Promo: <strong>NEXCART20</strong></span>
               </div>
             </div>
           </div>
+
+          <div className="flex justify-center items-center">
+            <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 transform -rotate-2 hover:rotate-0 transition-all duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80"
+                alt="iPhone 15 Pro"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 right-4 bg-red-600 text-white font-black text-xs px-3 py-1.5 rounded-lg shadow-lg">
+                UP TO 30% OFF
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Right Hero Image Card */}
-        <div className="relative flex justify-center">
-          <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden glass-card p-3 shadow-2xl border border-white/15">
-            <img
-              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=80"
-              alt="Apex ANC Studio Headphones"
-              className="w-full h-full object-cover rounded-2xl hover:scale-105 transition-transform duration-700"
-            />
-            {/* Floating Offer Badge */}
-            <div className="absolute top-6 right-6 glass-panel px-4 py-2 rounded-2xl border border-purple-500/30 text-right shadow-lg">
-              <span className="block text-xs font-semibold text-purple-300">Featured Highlight</span>
-              <span className="text-lg font-extrabold text-white">₹24,999 <span className="text-xs text-gray-400 line-through">₹29,999</span></span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
