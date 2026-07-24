@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ShoppingBag, Heart, Search, User, ShieldCheck, Sparkles, Menu, X, Package } from 'lucide-react';
-import { MOCK_CATEGORIES } from '@/services/api';
+import React, { useState, useEffect, useRef } from 'react';
+import { ShoppingBag, Heart, Search, User, ShieldCheck, Sparkles, Menu, X, Package, Clock, Tag } from 'lucide-react';
+import { MOCK_CATEGORIES, MOCK_PRODUCTS } from '@/services/api';
+import { Product } from '@/types';
 
 interface NavbarProps {
   cartCount: number;
@@ -15,6 +16,7 @@ interface NavbarProps {
   onOpenAuth: (mode?: 'LOGIN' | 'REGISTER') => void;
   onOpenDashboard: () => void;
   onOpenAdmin: () => void;
+  onSelectProduct?: (product: Product) => void;
   user: { name: string; email: string; role: 'CUSTOMER' | 'ADMIN' } | null;
 }
 
@@ -29,9 +31,94 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onOpenDashboard,
   onOpenAdmin,
+  onSelectProduct,
   user,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(searchQuery);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Load recent searches on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('nexcart_recent_searches');
+      if (saved) setRecentSearches(JSON.parse(saved));
+    } catch (e) {}
+  }, []);
+
+  // Sync external searchQuery state with internal input value
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
+  // 300ms Debounce effect
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onSearchChange(inputValue);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [inputValue, onSearchChange]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const saveRecentSearch = (query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    try {
+      const updated = [trimmed, ...recentSearches.filter(q => q.toLowerCase() !== trimmed.toLowerCase())].slice(0, 5);
+      setRecentSearches(updated);
+      localStorage.setItem('nexcart_recent_searches', JSON.stringify(updated));
+    } catch (e) {}
+  };
+
+  const handleExecuteSearch = (term: string) => {
+    setInputValue(term);
+    onSearchChange(term);
+    saveRecentSearch(term);
+    setIsDropdownOpen(false);
+    document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleExecuteSearch(inputValue);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setInputValue('');
+    onSearchChange('');
+    setIsDropdownOpen(false);
+    try {
+      localStorage.removeItem('nexcart_last_search');
+    } catch (e) {}
+  };
+
+  // Filter Autocomplete Suggestions
+  const q = inputValue.trim().toLowerCase();
+  const suggestedProducts = q
+    ? MOCK_PRODUCTS.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.category.name.toLowerCase().includes(q) ||
+        (p.brand?.name && p.brand.name.toLowerCase().includes(q)) ||
+        (p.keywords && p.keywords.some(k => k.toLowerCase().includes(q)))
+      ).slice(0, 5)
+    : [];
+
+  const suggestedCategories = q
+    ? MOCK_CATEGORIES.filter(c => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q))
+    : [];
 
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/10 shadow-2xl transition-all">
@@ -65,28 +152,121 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
         </div>
 
-        {/* Search Bar */}
-        <div className="hidden sm:flex flex-1 max-w-lg relative">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search Mobiles, Laptops, Fashion, Grocery..."
-            value={searchQuery}
-            onChange={(e) => {
-              onSearchChange(e.target.value);
-              if (e.target.value.trim().length > 0) {
-                document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-4 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/50 transition-all"
-          />
-          {searchQuery && (
-            <button 
-              onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs bg-white/10 rounded-full px-2 py-0.5"
-            >
-              Clear
-            </button>
+        {/* Global Search Bar with Amazon/Flipkart Autocomplete */}
+        <div ref={dropdownRef} className="hidden sm:flex flex-1 max-w-xl relative">
+          <div className="relative w-full">
+            <Search 
+              onClick={() => handleExecuteSearch(inputValue)}
+              className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 cursor-pointer hover:text-amber-400 transition-colors" 
+            />
+            <input
+              type="text"
+              placeholder="Search Mobiles, Laptops, Water Bottles, Shoes, Fashion..."
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                setIsDropdownOpen(true);
+              }}
+              onFocus={() => setIsDropdownOpen(true)}
+              onKeyDown={handleKeyDown}
+              className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-16 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/50 transition-all"
+            />
+            {inputValue && (
+              <button 
+                onClick={handleClearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs bg-white/10 hover:bg-white/20 rounded-full px-2 py-0.5 transition-colors"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          {/* Interactive Suggestions Dropdown */}
+          {isDropdownOpen && (q || recentSearches.length > 0) && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[#12141a] border border-amber-500/20 rounded-2xl shadow-2xl overflow-hidden z-50 divide-y divide-white/5 backdrop-blur-xl">
+              {/* Product Suggestions */}
+              {suggestedProducts.length > 0 && (
+                <div className="p-3">
+                  <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-2 px-2 flex items-center gap-1">
+                    <Tag className="w-3 h-3" /> Matching Products
+                  </span>
+                  <div className="space-y-1">
+                    {suggestedProducts.map((p) => (
+                      <button
+                        key={p.id}
+                        onClick={() => {
+                          if (onSelectProduct) onSelectProduct(p);
+                          handleExecuteSearch(p.name);
+                        }}
+                        className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-amber-500/10 text-left transition-colors group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <img src={p.images[0]} alt={p.name} className="w-9 h-9 object-cover rounded-lg border border-white/10" />
+                          <div>
+                            <span className="text-xs font-semibold text-gray-200 group-hover:text-amber-300 block">{p.name}</span>
+                            <span className="text-[10px] text-gray-400">{p.category.name}</span>
+                          </div>
+                        </div>
+                        <span className="text-xs font-bold text-amber-400">₹{(p.discountPrice || p.price).toLocaleString('en-IN')}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Category Suggestions */}
+              {suggestedCategories.length > 0 && (
+                <div className="p-3">
+                  <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-2 px-2">Matching Departments</span>
+                  <div className="flex flex-wrap gap-1.5 px-2">
+                    {suggestedCategories.map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => {
+                          onSelectCategory(c.slug);
+                          handleExecuteSearch('');
+                        }}
+                        className="text-xs bg-white/5 hover:bg-amber-500 hover:text-black border border-white/10 rounded-full px-3 py-1 text-gray-300 font-semibold transition-all"
+                      >
+                        In {c.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Recent Searches */}
+              {!q && recentSearches.length > 0 && (
+                <div className="p-3">
+                  <div className="flex items-center justify-between px-2 mb-2">
+                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-amber-400" /> Recent Searches
+                    </span>
+                    <button
+                      onClick={() => {
+                        setRecentSearches([]);
+                        localStorage.removeItem('nexcart_recent_searches');
+                      }}
+                      className="text-[10px] text-gray-500 hover:text-amber-400 underline"
+                    >
+                      Clear History
+                    </button>
+                  </div>
+                  <div className="space-y-1">
+                    {recentSearches.map((term, i) => (
+                      <button
+                        key={i}
+                        onClick={() => handleExecuteSearch(term)}
+                        className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/5 text-xs text-gray-300 hover:text-amber-300 text-left transition-colors"
+                      >
+                        <Search className="w-3.5 h-3.5 text-gray-500" />
+                        <span>{term}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
 

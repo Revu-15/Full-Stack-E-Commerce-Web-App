@@ -8,7 +8,7 @@ export const MOCK_CATEGORIES: Category[] = [
   { id: 'cat-shoes', name: 'Shoes', slug: 'shoes', description: 'Performance running kicks, sneakers & boots', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80' },
   { id: 'cat-watches', name: 'Watches', slug: 'watches', description: 'Automatic timepieces & retina smartwatches', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=80' },
   { id: 'cat-grocery', name: 'Grocery', slug: 'grocery', description: 'Organic produce, gourmet coffee & pantry items', image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80' },
-  { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen', description: 'Smart appliances, cookware & minimalist decor', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&q=80' },
+  { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen', description: 'Smart appliances, cookware, bottles & minimalist decor', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&q=80' },
   { id: 'cat-beauty', name: 'Beauty', slug: 'beauty', description: 'Luxury skincare, fragrances & cosmetics', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80' },
   { id: 'cat-books', name: 'Books', slug: 'books', description: 'Bestselling novels, tech guides & biographies', image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&q=80' },
   { id: 'cat-toys', name: 'Toys', slug: 'toys', description: 'STEM kits, RC drones, action figures & games', image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&q=80' },
@@ -32,6 +32,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-mobiles', name: 'Mobiles', slug: 'mobiles' },
     brand: { id: 'b-apple', name: 'Apple', slug: 'apple' },
+    keywords: ['iphone', 'apple', 'mobile', 'phone', '5g', 'smartphone', 'ios', 'camera', 'titanium'],
   },
   {
     id: 'mob-2',
@@ -48,6 +49,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-mobiles', name: 'Mobiles', slug: 'mobiles' },
     brand: { id: 'b-samsung', name: 'Samsung', slug: 'samsung' },
+    keywords: ['samsung', 'galaxy', 's24', 'ultra', 'mobile', 'phone', 'android', 'spen', '5g'],
   },
   {
     id: 'mob-3',
@@ -64,6 +66,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-mobiles', name: 'Mobiles', slug: 'mobiles' },
     brand: { id: 'b-oneplus', name: 'OnePlus', slug: 'oneplus' },
+    keywords: ['oneplus', 'mobile', 'phone', '5g', 'android', 'hasselblad', 'fastcharge'],
   },
   {
     id: 'mob-4',
@@ -80,6 +83,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-mobiles', name: 'Mobiles', slug: 'mobiles' },
     brand: { id: 'b-google', name: 'Google', slug: 'google' },
+    keywords: ['pixel', 'google', 'mobile', 'phone', 'android', 'tensor', 'camera'],
   },
 
   // ── 2. LAPTOPS ────────────────────────────────────────────────────────────
@@ -98,6 +102,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-laptops', name: 'Laptops', slug: 'laptops' },
     brand: { id: 'b-apple', name: 'Apple', slug: 'apple' },
+    keywords: ['macbook', 'apple', 'laptop', 'computer', 'm3', 'pro', 'macos'],
   },
   {
     id: 'lap-2',
@@ -114,6 +119,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-laptops', name: 'Laptops', slug: 'laptops' },
     brand: { id: 'b-dell', name: 'Dell', slug: 'dell' },
+    keywords: ['dell', 'xps', 'laptop', 'computer', 'windows', 'oled', 'intel'],
   },
   {
     id: 'lap-3',
@@ -130,12 +136,13 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-laptops', name: 'Laptops', slug: 'laptops' },
     brand: { id: 'b-asus', name: 'Asus', slug: 'asus' },
+    keywords: ['asus', 'rog', 'zephyrus', 'gaming', 'laptop', 'rtx4070'],
   },
 
   // ── 3. ELECTRONICS ─────────────────────────────────────────────────────────
   {
     id: 'elec-1',
-    name: 'Sony WH-1000XM5 Wireless Noise Cancelling',
+    name: 'Sony WH-1000XM5 Wireless Noise Cancelling Headphones',
     slug: 'sony-wh-1000xm5-wireless-headphones',
     description: 'Industry leading noise cancelling, 30hr battery life, crystal clear hands-free calling.',
     price: 34990,
@@ -148,6 +155,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-electronics', name: 'Electronics', slug: 'electronics' },
     brand: { id: 'b-sony', name: 'Sony', slug: 'sony' },
+    keywords: ['sony', 'headphones', 'audio', 'bluetooth', 'wireless', 'noise cancelling', 'earphones'],
   },
   {
     id: 'elec-2',
@@ -164,6 +172,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-electronics', name: 'Electronics', slug: 'electronics' },
     brand: { id: 'b-samsung', name: 'Samsung', slug: 'samsung' },
+    keywords: ['samsung', 'tv', 'television', 'qled', '4k', 'smart tv', 'display'],
   },
   {
     id: 'elec-3',
@@ -180,6 +189,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-electronics', name: 'Electronics', slug: 'electronics' },
     brand: { id: 'b-bose', name: 'Bose', slug: 'bose' },
+    keywords: ['bose', 'quietcomfort', 'headphones', 'audio', 'wireless'],
   },
 
   // ── 4. FASHION ─────────────────────────────────────────────────────────────
@@ -198,6 +208,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-fashion', name: 'Fashion', slug: 'fashion' },
     brand: { id: 'b-levis', name: "Levi's", slug: 'levis' },
+    keywords: ['levis', 'denim', 'jacket', 'fashion', 'clothes', 'apparel', 'menswear'],
   },
   {
     id: 'fash-2',
@@ -214,6 +225,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-fashion', name: 'Fashion', slug: 'fashion' },
     brand: { id: 'b-zara', name: 'Zara', slug: 'zara' },
+    keywords: ['zara', 'blazer', 'suit', 'formal', 'wool', 'fashion'],
   },
   {
     id: 'fash-3',
@@ -230,6 +242,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-fashion', name: 'Fashion', slug: 'fashion' },
     brand: { id: 'b-nike', name: 'Nike', slug: 'nike' },
+    keywords: ['nike', 'hoodie', 'sweatshirt', 'fleece', 'streetwear', 'fashion'],
   },
 
   // ── 5. SHOES ───────────────────────────────────────────────────────────────
@@ -248,6 +261,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-shoes', name: 'Shoes', slug: 'shoes' },
     brand: { id: 'b-nike', name: 'Nike', slug: 'nike' },
+    keywords: ['nike', 'jordan', 'shoes', 'sneakers', 'kicks', 'footwear', 'air jordan'],
   },
   {
     id: 'shoe-2',
@@ -264,6 +278,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-shoes', name: 'Shoes', slug: 'shoes' },
     brand: { id: 'b-adidas', name: 'Adidas', slug: 'adidas' },
+    keywords: ['adidas', 'ultraboost', 'running', 'shoes', 'sneakers', 'footwear'],
   },
   {
     id: 'shoe-3',
@@ -280,6 +295,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: false,
     category: { id: 'cat-shoes', name: 'Shoes', slug: 'shoes' },
     brand: { id: 'b-puma', name: 'Puma', slug: 'puma' },
+    keywords: ['puma', 'shoes', 'sneakers', 'running', 'footwear'],
   },
 
   // ── 6. WATCHES ─────────────────────────────────────────────────────────────
@@ -298,6 +314,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-watches', name: 'Watches', slug: 'watches' },
     brand: { id: 'b-seiko', name: 'Seiko', slug: 'seiko' },
+    keywords: ['seiko', 'watch', 'watches', 'automatic', 'wrist watch', 'luxury'],
   },
   {
     id: 'wat-2',
@@ -314,22 +331,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-watches', name: 'Watches', slug: 'watches' },
     brand: { id: 'b-apple', name: 'Apple', slug: 'apple' },
-  },
-  {
-    id: 'wat-3',
-    name: 'Fossil Gen 6 Touchscreen Smartwatch',
-    slug: 'fossil-gen-6-touchscreen-smartwatch',
-    description: 'Snapdragon Wear 4100+, Wear OS, SpO2 sensor, fast charging to 80% in 30 mins.',
-    price: 24995,
-    discountPrice: 19995,
-    sku: 'SKU-WAT-03',
-    stock: 22,
-    images: ['https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80'],
-    rating: 4.6,
-    reviewCount: 130,
-    isFeatured: false,
-    category: { id: 'cat-watches', name: 'Watches', slug: 'watches' },
-    brand: { id: 'b-fossil', name: 'Fossil', slug: 'fossil' },
+    keywords: ['apple watch', 'watch', 'smartwatch', 'ultra', 'fitness watch', 'apple'],
   },
 
   // ── 7. GROCERY ─────────────────────────────────────────────────────────────
@@ -348,56 +350,77 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-grocery', name: 'Grocery', slug: 'grocery' },
     brand: { id: 'b-tata', name: 'Tata', slug: 'tata' },
-  },
-  {
-    id: 'groc-2',
-    name: 'Nescafe Gold Blend Freeze Dried Coffee 200g',
-    slug: 'nescafe-gold-blend-coffee-200g',
-    description: 'Crafted with Arabica coffee beans for a smooth, rich gourmet cup of coffee.',
-    price: 1099,
-    discountPrice: 899,
-    sku: 'SKU-GROC-02',
-    stock: 80,
-    images: ['https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80'],
-    rating: 4.7,
-    reviewCount: 450,
-    isFeatured: true,
-    category: { id: 'cat-grocery', name: 'Grocery', slug: 'grocery' },
-    brand: { id: 'b-nescafe', name: 'Nescafe', slug: 'nescafe' },
+    keywords: ['tata', 'tea', 'chai', 'grocery', 'beverage', 'assam tea'],
   },
 
-  // ── 8. HOME & KITCHEN ──────────────────────────────────────────────────────
+  // ── 8. HOME & KITCHEN (Includes BOTTLES & FLASKS) ──────────────────────────
   {
     id: 'hk-1',
+    name: 'Milton Thermosteel Stainless Steel Water Bottle 1000ml',
+    slug: 'milton-thermosteel-water-bottle-1000ml',
+    description: 'Insulated 24-hour hot & cold vacuum flask water bottle, rust-free food-grade steel.',
+    price: 1299,
+    discountPrice: 999,
+    sku: 'SKU-HK-01',
+    stock: 75,
+    images: ['https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=800&q=80'],
+    rating: 4.9,
+    reviewCount: 840,
+    isFeatured: true,
+    category: { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen' },
+    brand: { id: 'b-milton', name: 'Milton', slug: 'milton' },
+    keywords: ['bottle', 'bottles', 'water bottle', 'flask', 'vacuum flask', 'thermos', 'hydration', 'milton', 'steel bottle', 'gym bottle', 'home-kitchen'],
+  },
+  {
+    id: 'hk-2',
+    name: 'Cello Stainless Steel Hydration Vacuum Flask 750ml',
+    slug: 'cello-stainless-steel-hydration-flask-750ml',
+    description: 'Double-walled thermal insulation water bottle for gym, office, sports, and travel.',
+    price: 999,
+    discountPrice: 799,
+    sku: 'SKU-HK-02',
+    stock: 60,
+    images: ['https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80'],
+    rating: 4.8,
+    reviewCount: 520,
+    isFeatured: true,
+    category: { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen' },
+    brand: { id: 'b-cello', name: 'Cello', slug: 'cello' },
+    keywords: ['bottle', 'bottles', 'water bottle', 'flask', 'thermos', 'cello', 'hydration', 'copper bottle'],
+  },
+  {
+    id: 'hk-3',
     name: 'Instant Pot Duo 7-in-1 Electric Pressure Cooker',
     slug: 'instant-pot-duo-7-in-1-electric-cooker',
     description: 'Replaces 7 kitchen appliances: pressure cooker, slow cooker, rice cooker, steamer.',
     price: 11990,
     discountPrice: 9990,
-    sku: 'SKU-HK-01',
+    sku: 'SKU-HK-03',
     stock: 25,
     images: ['https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80'],
     rating: 4.9,
     reviewCount: 380,
-    isFeatured: true,
+    isFeatured: false,
     category: { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen' },
     brand: { id: 'b-instantpot', name: 'Instant Pot', slug: 'instantpot' },
+    keywords: ['cooker', 'instant pot', 'kitchen', 'appliances', 'pressure cooker'],
   },
   {
-    id: 'hk-2',
+    id: 'hk-4',
     name: 'Philips Digital Air Fryer XXL 1.4kg Capacity',
     slug: 'philips-digital-air-fryer-xxl',
     description: 'Rapid CombiAir technology, 90% less fat frying, NutriU app connected recipes.',
     price: 17990,
     discountPrice: 14990,
-    sku: 'SKU-HK-02',
+    sku: 'SKU-HK-04',
     stock: 18,
     images: ['https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=800&q=80'],
     rating: 4.8,
     reviewCount: 290,
-    isFeatured: true,
+    isFeatured: false,
     category: { id: 'cat-home-kitchen', name: 'Home & Kitchen', slug: 'home-kitchen' },
     brand: { id: 'b-philips', name: 'Philips', slug: 'philips' },
+    keywords: ['air fryer', 'philips', 'fryer', 'kitchen', 'appliances'],
   },
 
   // ── 9. BEAUTY ──────────────────────────────────────────────────────────────
@@ -416,22 +439,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-beauty', name: 'Beauty', slug: 'beauty' },
     brand: { id: 'b-esteelauder', name: 'Estée Lauder', slug: 'esteelauder' },
-  },
-  {
-    id: 'beau-2',
-    name: 'MAC Matte Lipstick Ruby Woo Iconic Red',
-    slug: 'mac-matte-lipstick-ruby-woo',
-    description: 'The world famous iconic matte blue-red lipstick with ultra-intense payoff.',
-    price: 2200,
-    discountPrice: 1950,
-    sku: 'SKU-BEAU-02',
-    stock: 60,
-    images: ['https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80'],
-    rating: 4.8,
-    reviewCount: 590,
-    isFeatured: true,
-    category: { id: 'cat-beauty', name: 'Beauty', slug: 'beauty' },
-    brand: { id: 'b-mac', name: 'MAC', slug: 'mac' },
+    keywords: ['serum', 'skincare', 'beauty', 'estee lauder', 'cosmetics'],
   },
 
   // ── 10. BOOKS ──────────────────────────────────────────────────────────────
@@ -450,22 +458,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-books', name: 'Books', slug: 'books' },
     brand: { id: 'b-penguin', name: 'Penguin', slug: 'penguin' },
-  },
-  {
-    id: 'book-2',
-    name: 'The Psychology of Money by Morgan Housel',
-    slug: 'the-psychology-of-money-morgan-housel',
-    description: 'Timeless lessons on wealth, greed, and happiness doing well with money.',
-    price: 499,
-    discountPrice: 399,
-    sku: 'SKU-BOOK-02',
-    stock: 90,
-    images: ['https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80'],
-    rating: 4.8,
-    reviewCount: 980,
-    isFeatured: true,
-    category: { id: 'cat-books', name: 'Books', slug: 'books' },
-    brand: { id: 'b-harriman', name: 'Harriman House', slug: 'harriman' },
+    keywords: ['book', 'books', 'atomic habits', 'james clear', 'reading', 'bestseller'],
   },
 
   // ── 11. TOYS ───────────────────────────────────────────────────────────────
@@ -484,22 +477,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-toys', name: 'Toys', slug: 'toys' },
     brand: { id: 'b-lego', name: 'LEGO', slug: 'lego' },
-  },
-  {
-    id: 'toy-2',
-    name: 'Hot Wheels 10-Car Pack Die-Cast Vehicles',
-    slug: 'hot-wheels-10-car-pack-die-cast',
-    description: '1:64 scale die-cast sports vehicles featuring iconic realistic racing designs.',
-    price: 1499,
-    discountPrice: 1299,
-    sku: 'SKU-TOY-02',
-    stock: 50,
-    images: ['https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=800&q=80'],
-    rating: 4.8,
-    reviewCount: 450,
-    isFeatured: true,
-    category: { id: 'cat-toys', name: 'Toys', slug: 'toys' },
-    brand: { id: 'b-mattel', name: 'Mattel', slug: 'mattel' },
+    keywords: ['toy', 'toys', 'lego', 'star wars', 'building kit', 'kids'],
   },
 
   // ── 12. SPORTS ─────────────────────────────────────────────────────────────
@@ -518,22 +496,7 @@ export const MOCK_PRODUCTS: Product[] = [
     isFeatured: true,
     category: { id: 'cat-sports', name: 'Sports', slug: 'sports' },
     brand: { id: 'b-cosco', name: 'Cosco', slug: 'cosco' },
-  },
-  {
-    id: 'spt-2',
-    name: 'Decathlon Domyos Non-Slip Yoga Mat 8mm',
-    slug: 'decathlon-domyos-non-slip-yoga-mat-8mm',
-    description: 'High-density TPE cushioning for maximum joint comfort during yoga & workouts.',
-    price: 1899,
-    discountPrice: 1499,
-    sku: 'SKU-SPT-02',
-    stock: 60,
-    images: ['https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&q=80'],
-    rating: 4.7,
-    reviewCount: 380,
-    isFeatured: true,
-    category: { id: 'cat-sports', name: 'Sports', slug: 'sports' },
-    brand: { id: 'b-decathlon', name: 'Decathlon', slug: 'decathlon' },
+    keywords: ['sports', 'dumbbells', 'weights', 'gym', 'fitness', 'workout'],
   },
 ];
 
@@ -545,14 +508,15 @@ export async function fetchProducts(query?: string, categorySlug?: string): Prom
   }
 
   if (query && query.trim() !== '') {
-    const q = query.toLowerCase().trim();
+    const q = query.toLowerCase().trim().replace(/\s+/g, ' ');
     filtered = filtered.filter(
       p =>
         p.name.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
         p.category.name.toLowerCase().includes(q) ||
         p.category.slug.toLowerCase().includes(q) ||
-        p.brand?.name.toLowerCase().includes(q)
+        (p.brand?.name && p.brand.name.toLowerCase().includes(q)) ||
+        (p.keywords && p.keywords.some(k => k.toLowerCase().includes(q)))
     );
   }
 

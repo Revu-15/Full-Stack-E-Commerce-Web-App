@@ -11,6 +11,7 @@ interface ProductCardProps {
   onAddToCart: (p: Product) => void;
   onBuyNow: (p: Product) => void;
   onQuickView: (p: Product) => void;
+  searchHighlight?: string;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -20,12 +21,31 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   onBuyNow,
   onQuickView,
+  searchHighlight,
 }) => {
   const discountPercent = product.discountPrice
     ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
     : 0;
 
   const currentPrice = product.discountPrice || product.price;
+
+  // Helper to highlight matching text
+  const renderHighlightedTitle = () => {
+    if (!searchHighlight || !searchHighlight.trim()) return product.name;
+    const term = searchHighlight.trim();
+    const parts = product.name.split(new RegExp(`(${term})`, 'gi'));
+    return (
+      <>
+        {parts.map((part, i) =>
+          part.toLowerCase() === term.toLowerCase() ? (
+            <mark key={i} className="bg-amber-400 text-black px-0.5 rounded font-extrabold">{part}</mark>
+          ) : (
+            part
+          )
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="group relative glass-card rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
@@ -83,12 +103,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         </div>
 
-        {/* Title */}
+        {/* Title with Highlighting */}
         <h3 
           onClick={() => onQuickView(product)}
           className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1 cursor-pointer mb-1.5"
         >
-          {product.name}
+          {renderHighlightedTitle()}
         </h3>
 
         {/* Rating Stars & Review Count */}

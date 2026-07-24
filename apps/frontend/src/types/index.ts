@@ -21,6 +21,7 @@ export interface Product {
     name: string;
     slug: string;
   } | null;
+  keywords?: string[];
   createdAt?: string;
 }
 
