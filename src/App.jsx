@@ -134,26 +134,19 @@ export default function App() {
 }
 
 function AppWithRouter() {
-  const { setIsAdminOpen, user } = useShop();
+  const { setIsAdminOpen } = useShop();
 
   React.useEffect(() => {
     const handleRoute = () => {
-      const path = window.location.pathname.toLowerCase();
-      const hash = window.location.hash.toLowerCase();
+      try {
+        const path = (window.location.pathname || '').toLowerCase();
+        const hash = (window.location.hash || '').toLowerCase();
 
-      if (path.includes('/admin') || hash.includes('/admin')) {
-        // RBAC Guarding
-        const adminToken = localStorage.getItem('nexcart_admin_token');
-        const isUserAdmin = user && (user.role === 'admin' || user.role === 'ADMIN' || user.email === 'admin@nexcart.com');
-
-        if (adminToken || isUserAdmin || path.includes('/admin/login') || hash.includes('/admin/login')) {
+        if (path.includes('/admin') || hash.includes('/admin')) {
           setIsAdminOpen(true);
-        } else {
-          // Redirect normal customer back to customer home
-          window.location.hash = '';
-          window.history.pushState({}, '', '/');
-          setIsAdminOpen(false);
         }
+      } catch (err) {
+        console.warn('Route handling warning:', err);
       }
     };
 
@@ -164,7 +157,7 @@ function AppWithRouter() {
       window.removeEventListener('hashchange', handleRoute);
       window.removeEventListener('popstate', handleRoute);
     };
-  }, [user, setIsAdminOpen]);
+  }, [setIsAdminOpen]);
 
   return <MainContent />;
 }
