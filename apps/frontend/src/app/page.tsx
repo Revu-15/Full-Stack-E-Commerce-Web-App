@@ -15,14 +15,13 @@ import { Footer } from '@/components/Footer';
 
 import { Product, CartItem } from '@/types';
 import { MOCK_CATEGORIES, MOCK_PRODUCTS, fetchProducts } from '@/services/api';
-import { SlidersHorizontal, Sparkles, Zap, Flame, Award, Clock, Star, TrendingUp } from 'lucide-react';
+import { Search, Sparkles, Zap, Flame, Award, Clock, Star, TrendingUp } from 'lucide-react';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState<number>(200000);
-  const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
 
   // Interactive States
   const [cart, setCart] = useState<CartItem[]>([
@@ -31,7 +30,7 @@ export default function Home() {
   const [wishlist, setWishlist] = useState<Product[]>([MOCK_PRODUCTS[1]]);
   const [user, setUser] = useState<{ name: string; email: string; role: 'CUSTOMER' | 'ADMIN' } | null>(null);
   const [orders, setOrders] = useState([
-    { id: 'ORD-849201', date: 'Jul 23, 2026', status: 'SHIPPED', total: 299.99, itemsCount: 1 }
+    { id: 'ORD-849201', date: 'Jul 23, 2026', status: 'SHIPPED', total: 2999, itemsCount: 1 }
   ]);
 
   // Modal Controls
@@ -49,24 +48,27 @@ export default function Home() {
     });
   }, [searchQuery, selectedCategory]);
 
-  // Filter & Section Categorization for Step 4
+  // Filter Logic
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const price = p.discountPrice || p.price;
       const matchesPrice = price <= priceRange;
-      const matchesSearch = searchQuery === '' || 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        p.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch = q === '' ||
+        p.name.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        p.category.name.toLowerCase().includes(q) ||
+        p.brand?.name.toLowerCase().includes(q);
       const matchesCat = selectedCategory === 'all' || p.category.slug === selectedCategory;
       return matchesPrice && matchesSearch && matchesCat;
     });
   }, [products, searchQuery, selectedCategory, priceRange]);
 
-  // Step 4 Sections
-  const todaysDeals = useMemo(() => filteredProducts.filter((p) => p.discountPrice != null).slice(0, 8), [filteredProducts]);
-  const bestSellers = useMemo(() => [...filteredProducts].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 8), [filteredProducts]);
-  const trendingProducts = useMemo(() => [...filteredProducts].sort((a, b) => b.rating - a.rating).slice(0, 8), [filteredProducts]);
-  const newArrivals = useMemo(() => filteredProducts.slice(10, 18), [filteredProducts]);
+  // Step 4 Sections (Always populated from MOCK_PRODUCTS if searchQuery is empty)
+  const baseList = searchQuery ? filteredProducts : MOCK_PRODUCTS;
+  const todaysDeals = useMemo(() => baseList.filter((p) => p.discountPrice != null).slice(0, 8), [baseList]);
+  const bestSellers = useMemo(() => [...baseList].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 8), [baseList]);
+  const trendingProducts = useMemo(() => [...baseList].sort((a, b) => b.rating - a.rating).slice(0, 8), [baseList]);
 
   // Actions
   const handleAddToCart = (product: Product, size?: string, color?: string) => {
@@ -152,6 +154,49 @@ export default function Home() {
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
+
+        {/* SEARCH RESULTS SECTION (If User is Searching) */}
+        {searchQuery && (
+          <section className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-amber-500/10 border-y border-amber-500/20 my-6 rounded-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <Search className="w-5 h-5 text-amber-400" />
+                <h2 className="text-xl font-extrabold text-white">
+                  Search Results for <span className="text-amber-400">"{searchQuery}"</span>
+                </h2>
+                <span className="text-xs bg-amber-500 text-black px-2.5 py-0.5 rounded-full font-bold">
+                  {filteredProducts.length} {filteredProducts.length === 1 ? 'item' : 'items'} found
+                </span>
+              </div>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-xs text-amber-300 hover:text-white underline font-semibold"
+              >
+                Clear Search
+              </button>
+            </div>
+
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <p className="text-sm">No exact items found for "{searchQuery}". Try searching for <strong>Mobiles, Laptops, Shoes, Watches, Beauty, Books, Toys</strong>, or explore our top deals below!</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isWishlisted={wishlist.some((p) => p.id === product.id)}
+                    onToggleWishlist={handleToggleWishlist}
+                    onAddToCart={(p) => handleAddToCart(p)}
+                    onBuyNow={(p) => handleBuyNow(p)}
+                    onQuickView={(p) => setQuickViewProduct(p)}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Step 4 Section 1: Today's Deals */}
         <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
