@@ -43,24 +43,31 @@ export default function Home() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    fetchProducts(searchQuery, selectedCategory).then((data) => {
+    fetchProducts().then((data) => {
       setProducts(data);
     });
-  }, [searchQuery, selectedCategory]);
+  }, []);
 
-  // Filter Logic
+  // Dynamic Filter Logic (React Best Practice)
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      const price = p.discountPrice || p.price;
+    return products.filter((product) => {
+      const price = product.discountPrice || product.price;
       const matchesPrice = price <= priceRange;
+
+      // Category matching: exact slug or string
+      const catSlug = typeof product.category === 'string' ? product.category : product.category?.slug;
+      const matchesCategory = selectedCategory === 'all' || catSlug === selectedCategory;
+
+      // Search matching (search within selected category)
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch = q === '' ||
-        p.name.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.category.name.toLowerCase().includes(q) ||
-        p.brand?.name.toLowerCase().includes(q);
-      const matchesCat = selectedCategory === 'all' || p.category.slug === selectedCategory;
-      return matchesPrice && matchesSearch && matchesCat;
+        product.name.toLowerCase().includes(q) ||
+        product.description.toLowerCase().includes(q) ||
+        (product.category?.name && product.category.name.toLowerCase().includes(q)) ||
+        (catSlug && catSlug.toLowerCase().includes(q)) ||
+        (product.brand?.name && product.brand.name.toLowerCase().includes(q));
+
+      return matchesPrice && matchesCategory && matchesSearch;
     });
   }, [products, searchQuery, selectedCategory, priceRange]);
 
