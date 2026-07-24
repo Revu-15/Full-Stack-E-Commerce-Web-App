@@ -321,29 +321,35 @@ export default function Navbar() {
                     >
                       <Package size={16} /> My Orders & Tracking
                     </button>
-                    {isAdmin && (
-                      <button
-                        onClick={() => { setIsAdminOpen(true); setIsUserMenuOpen(false); }}
-                        style={{ width: '100%', textAlign: 'left', padding: '0.5rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#3b82f6', fontWeight: 700 }}
-                      >
-                        <Settings size={16} /> Admin Dashboard
-                      </button>
-                    )}
+
+                    <button
+                      onClick={() => { setIsAdminOpen(true); setIsUserMenuOpen(false); }}
+                      style={{ width: '100%', textAlign: 'left', padding: '0.5rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ef4444', fontWeight: 800 }}
+                    >
+                      <ShieldCheck size={16} /> Super Admin Dashboard
+                    </button>
+
                     <button
                       onClick={() => { logoutUser(); setIsUserMenuOpen(false); }}
-                      style={{ width: '100%', textAlign: 'left', padding: '0.5rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#ef4444', borderTop: '1px solid var(--border-color)', marginTop: '0.3rem' }}
+                      style={{ width: '100%', textAlign: 'left', padding: '0.5rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-color)', marginTop: '0.3rem' }}
                     >
                       <LogOut size={16} /> Sign Out
                     </button>
                   </>
                 ) : (
-                  <div style={{ padding: '0.5rem' }}>
-                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>Sign in to manage orders, wishlist, and recommendations.</p>
+                  <div style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.2rem' }}>Sign in to manage orders, wishlist, and recommendations.</p>
                     <button
                       onClick={() => { setIsAuthOpen(true); setIsUserMenuOpen(false); }}
                       style={{ width: '100%', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#fff', padding: '0.55rem', borderRadius: 'var(--radius-sm)', fontWeight: 700, fontSize: '0.85rem' }}
                     >
                       Sign In / Register
+                    </button>
+                    <button
+                      onClick={() => { setIsAdminOpen(true); setIsUserMenuOpen(false); }}
+                      style={{ width: '100%', background: 'rgba(239, 68, 68, 0.12)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '0.5rem', borderRadius: 'var(--radius-sm)', fontWeight: 800, fontSize: '0.82rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
+                    >
+                      <ShieldCheck size={15} /> Super Admin Portal
                     </button>
                   </div>
                 )}
