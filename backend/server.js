@@ -14,7 +14,64 @@ app.use((req, res, next) => {
   next();
 });
 
-// --- API ENDPOINTS ---
+// --- ROOT & HEALTH API ENDPOINTS ---
+
+// 0. Root Welcome & API Status Page
+app.get('/', (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>NexCart REST API Server</title>
+      <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 3rem 1.5rem; }
+        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 16px; padding: 2.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid #334155; }
+        h1 { font-size: 2rem; color: #38bdf8; margin-top: 0; display: flex; align-items: center; gap: 0.5rem; }
+        .badge { background: #16a34a; color: #fff; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 800; text-transform: uppercase; }
+        p { color: #94a3b8; line-height: 1.6; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+        .card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; text-decoration: none; color: #f8fafc; transition: all 0.2s; }
+        .card:hover { border-color: #38bdf8; transform: translateY(-2px); }
+        .card h3 { margin: 0 0 0.4rem 0; font-size: 1rem; color: #38bdf8; }
+        .card p { margin: 0; font-size: 0.8rem; color: #64748b; }
+        .btn { display: inline-block; background: #2563eb; color: #fff; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700; margin-top: 1.5rem; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>NexCart REST API <span class="badge">ONLINE</span></h1>
+        <p>Welcome to the official <strong>NexCart Full-Stack E-Commerce Backend Server</strong>. The server is actively running on Port 5000 and serving 109+ products across 12 categories, user authentication, orders tracking, invoices, and analytics.</p>
+        
+        <h2>Quick API Endpoints</h2>
+        <div class="grid">
+          <a href="/api/health" class="card">
+            <h3>GET /api/health</h3>
+            <p>Check server health & time</p>
+          </a>
+          <a href="/api/products?limit=10" class="card">
+            <h3>GET /api/products</h3>
+            <p>List sample catalog items</p>
+          </a>
+          <a href="/api/categories" class="card">
+            <h3>GET /api/categories</h3>
+            <p>12 Product categories</p>
+          </a>
+          <a href="/api/coupons" class="card">
+            <h3>GET /api/coupons</h3>
+            <p>Active promo discount codes</p>
+          </a>
+        </div>
+
+        <div style="margin-top: 2rem; border-top: 1px solid #334155; padding-top: 1.5rem;">
+          <p style="margin:0;">To interact with the full web UI interface, launch the frontend at:</p>
+          <a href="http://localhost:3000" class="btn">Open NexCart Web App (localhost:3000) &rarr;</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
 
 // 1. Health check
 app.get('/api/health', (req, res) => {
