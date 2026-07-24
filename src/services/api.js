@@ -18,177 +18,6047 @@ export function clearTokens() {
   localStorage.removeItem('nexcart_access_token');
 }
 
-// ── Static Fallback Catalog (109 Products across 12 Categories) ──────────────
+// ── Complete Static Fallback Catalog (109 Products across 12 Categories) ──────────────
 const FALLBACK_PRODUCTS = [
-  // MOBILES
   {
-    id: 'mob-01', title: 'Apple iPhone 15 Pro Max (256GB, Titanium Black)', brand: 'Apple', category: 'Mobiles',
-    price: 1199, originalPrice: 1299, discount: 8, rating: 4.9, reviewCount: 3420, stock: 24,
-    images: ['https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80'],
-    description: 'Forged in titanium with A17 Pro chip and 48MP camera system.', seller: { name: 'Apple Store', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isFeatured: true, isBestSeller: true, isDealOfDay: true
+    "id": "mob-01",
+    "title": "Apple iPhone 15 Pro Max (256GB, Titanium Black)",
+    "brand": "Apple",
+    "category": "Mobiles",
+    "price": 1199,
+    "originalPrice": 1299,
+    "discount": 8,
+    "rating": 4.9,
+    "reviewCount": 3420,
+    "stock": 23,
+    "images": [
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Forged in titanium and featuring the groundbreaking A17 Pro chip, a customizable Action button, and the most powerful iPhone camera system ever.",
+    "features": [
+      "A17 Pro chip with 6-core GPU for next-level gaming",
+      "6.7-inch Super Retina XDR display with ProMotion 120Hz",
+      "48MP Main camera with 5x Telephoto zoom",
+      "Aerospace-grade titanium design with Ceramic Shield front"
+    ],
+    "specifications": {
+      "Display": "6.7-inch OLED Super Retina XDR",
+      "Processor": "Apple A17 Pro (3nm)",
+      "Storage": "256GB NVMe",
+      "Camera": "48MP + 12MP Ultra Wide + 12MP 5x Telephoto",
+      "Battery": "4422 mAh with MagSafe Charging",
+      "OS": "iOS 17"
+    },
+    "seller": {
+      "name": "NexCart Apple Authorized Store",
+      "rating": 4.9,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Apple Brand Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Titanium Black",
+      "Natural Titanium",
+      "Blue Titanium",
+      "White Titanium"
+    ],
+    "sizes": [
+      "128GB",
+      "256GB",
+      "512GB",
+      "1TB"
+    ],
+    "offers": [
+      "10% Instant Discount on HDFC Cards",
+      "No Cost EMI starts at $100/mo",
+      "Exchange bonus up to $200"
+    ],
+    "coupons": [
+      "IPHONE100",
+      "NEXCART10"
+    ],
+    "tags": [
+      "bestseller",
+      "deal",
+      "trending",
+      "5g"
+    ],
+    "isFeatured": true,
+    "isTrending": true,
+    "isBestSeller": true,
+    "isDealOfDay": true
   },
   {
-    id: 'mob-02', title: 'Samsung Galaxy S24 Ultra 5G (512GB, Titanium Gray)', brand: 'Samsung', category: 'Mobiles',
-    price: 1299, originalPrice: 1419, discount: 8, rating: 4.8, reviewCount: 2150, stock: 18,
-    images: ['https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80'],
-    description: 'Circle to Search, Live Translate, 200MP camera, built-in S Pen.', seller: { name: 'Samsung Store', rating: 4.8 }, deliveryDays: 2, freeDelivery: true, isFeatured: true, isTrending: true
+    "id": "mob-02",
+    "title": "Samsung Galaxy S24 Ultra 5G (512GB, Titanium Gray)",
+    "brand": "Samsung",
+    "category": "Mobiles",
+    "price": 1299,
+    "originalPrice": 1419,
+    "discount": 8,
+    "rating": 4.8,
+    "reviewCount": 2150,
+    "stock": 17,
+    "images": [
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Welcome to the era of mobile AI. With Galaxy S24 Ultra in your hands, you can unleash whole new levels of creativity, productivity and possibility.",
+    "features": [
+      "Live Translate & Circle to Search with Galaxy AI",
+      "200MP Quad Telephoto Camera System",
+      "Built-in S Pen for drawing, note taking, and precision control",
+      "Snapdragon 8 Gen 3 for Galaxy Processor"
+    ],
+    "specifications": {
+      "Display": "6.8-inch Quad HD+ Dynamic AMOLED 2X",
+      "Processor": "Snapdragon 8 Gen 3",
+      "RAM & Storage": "12GB RAM, 512GB UFS 4.0",
+      "Camera": "200MP + 50MP + 12MP + 10MP",
+      "Battery": "5000 mAh, 45W Fast Charge"
+    },
+    "seller": {
+      "name": "Samsung Official Flagship",
+      "rating": 4.8,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Samsung Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Titanium Gray",
+      "Titanium Black",
+      "Titanium Violet",
+      "Titanium Yellow"
+    ],
+    "sizes": [
+      "256GB",
+      "512GB",
+      "1TB"
+    ],
+    "offers": [
+      "Instant Cashback of $120 on ICICI Bank Cards",
+      "No Cost EMI starts at $108/mo"
+    ],
+    "coupons": [
+      "SAMSUNG50",
+      "NEXCART10"
+    ],
+    "tags": [
+      "trending",
+      "5g",
+      "ai"
+    ],
+    "isFeatured": true,
+    "isTrending": true
   },
   {
-    id: 'mob-03', title: 'Google Pixel 8 Pro (128GB, Bay Blue)', brand: 'Google', category: 'Mobiles',
-    price: 799, originalPrice: 999, discount: 20, rating: 4.7, reviewCount: 1540, stock: 15,
-    images: ['https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80'],
-    description: 'Google Tensor G3, Best Take, Magic Audio Eraser.', seller: { name: 'Google Store', rating: 4.7 }, deliveryDays: 2, freeDelivery: true, isDealOfDay: true
+    "id": "mob-03",
+    "title": "Google Pixel 8 Pro (128GB, Bay Blue)",
+    "brand": "Google",
+    "category": "Mobiles",
+    "price": 799,
+    "originalPrice": 999,
+    "discount": 20,
+    "rating": 4.7,
+    "reviewCount": 1540,
+    "stock": 13,
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The all-pro phone engineered by Google. Powered by Google Tensor G3 and custom Google AI for astonishing photos and videos.",
+    "features": [
+      "Tensor G3 processor engineered for AI",
+      "Best Take & Magic Audio Eraser photo tools",
+      "Temperature sensor built into the back camera bar",
+      "7 years of guaranteed OS and security updates"
+    ],
+    "specifications": {
+      "Display": "6.7-inch Super Actua Display 120Hz",
+      "Processor": "Google Tensor G3",
+      "Storage": "128GB UFS 3.1",
+      "Camera": "50MP Main + 48MP Ultra Wide + 48MP 5x Telephoto"
+    },
+    "seller": {
+      "name": "Google Store Online",
+      "rating": 4.7,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Bay Blue",
+      "Obsidian",
+      "Porcelain"
+    ],
+    "sizes": [
+      "128GB",
+      "256GB"
+    ],
+    "offers": [
+      "Save $200 with trade-in"
+    ],
+    "coupons": [
+      "PIXEL20"
+    ],
+    "tags": [
+      "deal",
+      "trending"
+    ],
+    "isFeatured": true,
+    "isDealOfDay": true
   },
   {
-    id: 'mob-04', title: 'OnePlus 12 5G (16GB RAM, 512GB, Silky Black)', brand: 'OnePlus', category: 'Mobiles',
-    price: 799, originalPrice: 899, discount: 11, rating: 4.6, reviewCount: 980, stock: 30,
-    images: ['https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80'],
-    description: 'Snapdragon 8 Gen 3 with 100W SUPERVOOC Fast Charging.', seller: { name: 'OnePlus Store', rating: 4.8 }, deliveryDays: 1, freeDelivery: true
+    "id": "mob-04",
+    "title": "OnePlus 12 5G (16GB RAM, 512GB, Silky Black)",
+    "brand": "OnePlus",
+    "category": "Mobiles",
+    "price": 799,
+    "originalPrice": 899,
+    "discount": 11,
+    "rating": 4.6,
+    "reviewCount": 980,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Smooth Beyond Belief. Powered by Snapdragon 8 Gen 3 with 4th Gen Hasselblad Camera System for Mobile.",
+    "features": [
+      "100W SUPERVOOC Fast Charging",
+      "4th Gen Hasselblad Camera",
+      "ProXDR 2K 120Hz Display"
+    ],
+    "specifications": {
+      "Display": "6.82-inch QHD+ 120Hz AMOLED",
+      "Processor": "Snapdragon 8 Gen 3",
+      "RAM": "16GB LPDDR5X"
+    },
+    "seller": {
+      "name": "OnePlus Official",
+      "rating": 4.8,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Silky Black",
+      "Flowy Emerald"
+    ],
+    "sizes": [
+      "256GB",
+      "512GB"
+    ],
+    "offers": [
+      "Instant discount on HDFC Cards"
+    ],
+    "coupons": [
+      "ONEPLUS10"
+    ],
+    "tags": [
+      "5g",
+      "fastcharge"
+    ]
   },
   {
-    id: 'mob-05', title: 'Xiaomi 14 Ultra (16GB, 512GB, White)', brand: 'Xiaomi', category: 'Mobiles',
-    price: 1099, originalPrice: 1299, discount: 15, rating: 4.7, reviewCount: 650, stock: 12,
-    images: ['https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&w=800&q=80'],
-    description: 'Leica Quad Camera System with stepless variable aperture.', seller: { name: 'Xiaomi Store', rating: 4.6 }, deliveryDays: 3, freeDelivery: true
+    "id": "mob-05",
+    "title": "Xiaomi 14 Ultra (16GB, 512GB, White)",
+    "brand": "Xiaomi",
+    "category": "Mobiles",
+    "price": 1099,
+    "originalPrice": 1299,
+    "discount": 15,
+    "rating": 4.7,
+    "reviewCount": 650,
+    "stock": 12,
+    "images": [
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Leica Quad Camera System with stepless variable aperture and 1-inch sensor for legendary photography.",
+    "features": [
+      "Leica Summilux Optical Lens",
+      "Snapdragon 8 Gen 3",
+      "90W HyperCharge"
+    ],
+    "specifications": {
+      "Display": "6.73-inch WQHD+ AMOLED",
+      "Camera": "50MP 1-inch + 50MP + 50MP + 50MP"
+    },
+    "seller": {
+      "name": "Xiaomi Store",
+      "rating": 4.6,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 3,
+    "freeDelivery": true,
+    "colors": [
+      "White",
+      "Black"
+    ],
+    "sizes": [
+      "512GB"
+    ],
+    "offers": [
+      "Free Photography Kit with purchase"
+    ],
+    "coupons": [
+      "XIAOMI15"
+    ],
+    "tags": [
+      "camera"
+    ]
   },
-
-  // LAPTOPS
   {
-    id: 'lap-01', title: 'Apple MacBook Pro 16" M3 Max (36GB RAM, 1TB SSD)', brand: 'Apple', category: 'Laptops',
-    price: 3499, originalPrice: 3899, discount: 10, rating: 4.9, reviewCount: 890, stock: 12,
-    images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80'],
-    description: 'Liquid Retina XDR display, 16-core CPU, 40-core GPU.', seller: { name: 'Apple Store', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isFeatured: true, isBestSeller: true
+    "id": "mob-06",
+    "title": "Nothing Phone (2a) 5G (8GB RAM, 128GB, Milk)",
+    "brand": "Nothing",
+    "category": "Mobiles",
+    "price": 349,
+    "originalPrice": 399,
+    "discount": 13,
+    "rating": 4.5,
+    "reviewCount": 1890,
+    "stock": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Iconic Glyph Interface design, Nothing OS 2.5 powered by custom Dimensity 7200 Pro chipset.",
+    "features": [
+      "Customizable Glyph Interface LED",
+      "50MP Dual rear camera with OIS",
+      "120Hz flexible AMOLED display"
+    ],
+    "specifications": {
+      "Display": "6.7-inch FHD+ 120Hz",
+      "Processor": "MediaTek Dimensity 7200 Pro",
+      "Battery": "5000 mAh"
+    },
+    "seller": {
+      "name": "Nothing Official Direct",
+      "rating": 4.7,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Milk",
+      "Black"
+    ],
+    "sizes": [
+      "128GB",
+      "256GB"
+    ],
+    "offers": [
+      "10% off with Axis Cards"
+    ],
+    "coupons": [
+      "NOTHING10"
+    ],
+    "tags": [
+      "budget",
+      "design"
+    ]
   },
   {
-    id: 'lap-02', title: 'Dell XPS 15 9530 Touchscreen (i9-13900H, RTX 4070)', brand: 'Dell', category: 'Laptops',
-    price: 2499, originalPrice: 2799, discount: 11, rating: 4.7, reviewCount: 620, stock: 8,
-    images: ['https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80'],
-    description: '3.5K OLED touchscreen display, aluminum chassis.', seller: { name: 'Dell Store', rating: 4.8 }, deliveryDays: 2, freeDelivery: true
+    "id": "mob-07",
+    "title": "Motorola Razr 40 Ultra (Ultra Violet)",
+    "brand": "Motorola",
+    "category": "Mobiles",
+    "price": 899,
+    "originalPrice": 1099,
+    "discount": 18,
+    "rating": 4.4,
+    "reviewCount": 420,
+    "stock": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The largest, most intelligent external display on a flip phone. Ultra-compact, pocketable design.",
+    "features": [
+      "3.6-inch external pOLED display",
+      "6.9-inch 165Hz main OLED display",
+      "Teardrop hinge with no gap"
+    ],
+    "specifications": {
+      "Processor": "Snapdragon 8+ Gen 1",
+      "Storage": "256GB",
+      "RAM": "8GB"
+    },
+    "seller": {
+      "name": "Moto World",
+      "rating": 4.5,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Viva Magenta",
+      "Infinite Black"
+    ],
+    "sizes": [
+      "256GB"
+    ],
+    "offers": [
+      "No Cost EMI available"
+    ],
+    "coupons": [
+      "RAZR100"
+    ],
+    "tags": [
+      "flip",
+      "foldable"
+    ]
   },
-
-  // ELECTRONICS
   {
-    id: 'ele-01', title: 'Sony WH-1000XM5 Wireless Noise Canceling Headphones', brand: 'Sony', category: 'Electronics',
-    price: 348, originalPrice: 399, discount: 13, rating: 4.8, reviewCount: 5120, stock: 40,
-    images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80'],
-    description: 'Industry-leading noise cancellation with 30-hour battery life.', seller: { name: 'Sony Direct', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isFeatured: true, isBestSeller: true, isDealOfDay: true
+    "id": "mob-08",
+    "title": "Realme GT 6 5G (12GB RAM, 256GB, Fluid Silver)",
+    "brand": "Realme",
+    "category": "Mobiles",
+    "price": 499,
+    "originalPrice": 599,
+    "discount": 17,
+    "rating": 4.5,
+    "reviewCount": 760,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Flagship Killer powered by Snapdragon 8s Gen 3 with ultra-bright 6000 nits LTPO AMOLED screen.",
+    "features": [
+      "6000 nits Ultra Bright Display",
+      "120W SUPERVOOC Fast Charging",
+      "Sony LYT-808 OIS Camera"
+    ],
+    "specifications": {
+      "Display": "6.78-inch 120Hz LTPO",
+      "Processor": "Snapdragon 8s Gen 3"
+    },
+    "seller": {
+      "name": "Realme Super Store",
+      "rating": 4.6,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Fluid Silver",
+      "Razor Green"
+    ],
+    "sizes": [
+      "256GB"
+    ],
+    "offers": [
+      "Bank discount $30"
+    ],
+    "coupons": [
+      "REALME30"
+    ],
+    "tags": [
+      "flagship-killer"
+    ]
   },
   {
-    id: 'ele-02', title: 'Apple iPad Pro 11-inch M4 Chip (256GB, Space Black)', brand: 'Apple', category: 'Electronics',
-    price: 999, originalPrice: 1099, discount: 9, rating: 4.9, reviewCount: 1140, stock: 25,
-    images: ['https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80'],
-    description: 'Ultra Retina XDR OLED display with M4 chip power.', seller: { name: 'Apple Store', rating: 4.9 }, deliveryDays: 1, freeDelivery: true
+    "id": "mob-09",
+    "title": "POCO F6 Pro 5G (12GB, 512GB, Moonstone White)",
+    "brand": "POCO",
+    "category": "Mobiles",
+    "price": 449,
+    "originalPrice": 529,
+    "discount": 15,
+    "rating": 4.6,
+    "reviewCount": 1120,
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Extreme speed gaming smartphone featuring Snapdragon 8 Gen 2 and 120W HyperCharge technology.",
+    "features": [
+      "Snapdragon 8 Gen 2",
+      "WQHD+ 120Hz Flow AMOLED",
+      "120W HyperCharge"
+    ],
+    "specifications": {
+      "RAM": "12GB",
+      "Storage": "512GB",
+      "Battery": "5000 mAh"
+    },
+    "seller": {
+      "name": "POCO Official Hub",
+      "rating": 4.7,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Moonstone White",
+      "Black"
+    ],
+    "sizes": [
+      "512GB"
+    ],
+    "offers": [
+      "No cost EMI available"
+    ],
+    "coupons": [
+      "POCO15"
+    ],
+    "tags": [
+      "gaming",
+      "budget"
+    ]
   },
-
-  // FASHION
   {
-    id: 'fas-01', title: 'Levi\'s Men\'s Original Trucker Denim Jacket', brand: 'Levi\'s', category: 'Fashion',
-    price: 79, originalPrice: 98, discount: 19, rating: 4.7, reviewCount: 1840, stock: 50,
-    images: ['https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80'],
-    description: 'Classic 100% cotton denim trucker jacket.', seller: { name: 'Levi\'s Store', rating: 4.8 }, deliveryDays: 2, freeDelivery: true, isBestSeller: true
+    "id": "mob-10",
+    "title": "Vivo X100 Pro 5G (16GB RAM, 512GB, Asteroid Black)",
+    "brand": "Vivo",
+    "category": "Mobiles",
+    "price": 1049,
+    "originalPrice": 1199,
+    "discount": 13,
+    "rating": 4.8,
+    "reviewCount": 540,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Co-engineered with ZEISS. Features 1-inch Main Camera and ZEISS APO Floating Telephoto Camera.",
+    "features": [
+      "ZEISS APO Telephoto Camera",
+      "Dimensity 9300 Chipset",
+      "Vivo V3 Imaging Chip"
+    ],
+    "specifications": {
+      "Processor": "Dimensity 9300",
+      "Camera": "50MP ZEISS 1-inch",
+      "RAM": "16GB"
+    },
+    "seller": {
+      "name": "Vivo Flagship Store",
+      "rating": 4.8,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Asteroid Black",
+      "Sunset Orange"
+    ],
+    "sizes": [
+      "512GB"
+    ],
+    "offers": [
+      "Cashback $50 on credit cards"
+    ],
+    "coupons": [
+      "VIVO50"
+    ],
+    "tags": [
+      "camera",
+      "pro"
+    ]
   },
-
-  // SHOES
   {
-    id: 'sho-01', title: 'Nike Air Jordan 1 Retro High OG (Chicago Lost & Found)', brand: 'Nike', category: 'Shoes',
-    price: 180, originalPrice: 210, discount: 14, rating: 4.9, reviewCount: 4890, stock: 15,
-    images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80', 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80'],
-    description: 'Iconic high top leather sneaker with Air-Sole unit.', seller: { name: 'Nike Jordan', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isFeatured: true, isBestSeller: true
+    "id": "lap-01",
+    "title": "Apple MacBook Pro 16\" M3 Max (36GB RAM, 1TB SSD, Space Black)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "price": 3499,
+    "originalPrice": 3899,
+    "discount": 10,
+    "rating": 4.9,
+    "reviewCount": 890,
+    "stock": 11,
+    "images": [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The 16-inch MacBook Pro blasts forward with M3 Max, an monstrously advanced chip that brings massive performance and capability for extreme workflows.",
+    "features": [
+      "M3 Max chip with 16-core CPU and 40-core GPU",
+      "36GB Unified Memory, 1TB Superfast SSD Storage",
+      "16.2-inch Liquid Retina XDR display with 1600 nits peak brightness",
+      "Up to 22 hours of battery life"
+    ],
+    "specifications": {
+      "Display": "16.2\" Liquid Retina XDR 120Hz",
+      "Processor": "Apple M3 Max (16 CPU / 40 GPU)",
+      "RAM": "36GB Unified Memory",
+      "Storage": "1TB NVMe SSD",
+      "OS": "macOS Sonoma"
+    },
+    "seller": {
+      "name": "Apple Authorized Reseller",
+      "rating": 4.9,
+      "returnPolicy": "14 Days Replacement",
+      "warranty": "1 Year AppleCare"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Space Black",
+      "Silver"
+    ],
+    "sizes": [
+      "18-core GPU",
+      "40-core GPU"
+    ],
+    "offers": [
+      "No Cost EMI starts at $291/mo",
+      "Free Apple Music for 6 Months"
+    ],
+    "coupons": [
+      "MACBOOK100"
+    ],
+    "tags": [
+      "bestseller",
+      "pro",
+      "trending"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
   },
-
-  // WATCHES
   {
-    id: 'wat-01', title: 'Apple Watch Ultra 2 (GPS + Cellular, 49mm Titanium Case)', brand: 'Apple', category: 'Watches',
-    price: 799, originalPrice: 849, discount: 6, rating: 4.9, reviewCount: 2150, stock: 20,
-    images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80'],
-    description: 'Titanium case with 3000 nits display and Double Tap gesture.', seller: { name: 'Apple Store', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isFeatured: true, isBestSeller: true
+    "id": "lap-02",
+    "title": "Dell XPS 15 9530 Touchscreen (i9-13900H, RTX 4070, 32GB RAM, 1TB SSD)",
+    "brand": "Dell",
+    "category": "Laptops",
+    "price": 2499,
+    "originalPrice": 2799,
+    "discount": 11,
+    "rating": 4.7,
+    "reviewCount": 620,
+    "stock": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Immerse yourself in content with bright, color-rich panels with high resolution, and stunning graphics.",
+    "features": [
+      "3.5K OLED Touch Display",
+      "NVIDIA GeForce RTX 4070 8GB",
+      "CNC machined aluminum chassis"
+    ],
+    "specifications": {
+      "CPU": "Intel Core i9-13900H",
+      "GPU": "RTX 4070",
+      "RAM": "32GB DDR5",
+      "Storage": "1TB SSD"
+    },
+    "seller": {
+      "name": "Dell Premier Store",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Premium Support"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Platinum Silver"
+    ],
+    "sizes": [
+      "3.5K OLED"
+    ],
+    "offers": [
+      "Free Dell Wireless Mouse"
+    ],
+    "coupons": [
+      "DELL100"
+    ],
+    "tags": [
+      "creator",
+      "touch"
+    ]
   },
-
-  // GROCERY
   {
-    id: 'gro-01', title: 'California Premium Whole Raw Almonds (3 Lbs Bag)', brand: 'Kirkland Signature', category: 'Grocery',
-    price: 18.99, originalPrice: 24.99, discount: 24, rating: 4.8, reviewCount: 8400, stock: 120,
-    images: ['https://images.unsplash.com/photo-1508061252966-dfd30969eff2?auto=format&fit=crop&w=800&q=80'],
-    description: '100% natural raw un-roasted un-salted California almonds.', seller: { name: 'NexCart Pantry', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isBestSeller: true
+    "id": "lap-03",
+    "title": "ASUS ROG Zephyrus G16 OLED Gaming Laptop (Core Ultra 9, RTX 4080, 32GB)",
+    "brand": "ASUS",
+    "category": "Laptops",
+    "price": 2699,
+    "originalPrice": 2999,
+    "discount": 10,
+    "rating": 4.8,
+    "reviewCount": 410,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Ultra-thin gaming masterpiece featuring 240Hz ROG Nebula OLED display and CNC aluminum chassis.",
+    "features": [
+      "2.5K 240Hz OLED Display with G-SYNC",
+      "NVIDIA RTX 4080 GPU",
+      "Tri-Fan Liquid Metal Cooling"
+    ],
+    "specifications": {
+      "Display": "16\" 2.5K OLED 240Hz",
+      "CPU": "Intel Core Ultra 9 185H",
+      "GPU": "RTX 4080 12GB"
+    },
+    "seller": {
+      "name": "ASUS ROG Gaming Zone",
+      "rating": 4.9,
+      "returnPolicy": "7 Days",
+      "warranty": "2 Years Global Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Eclipse Gray",
+      "Platinum White"
+    ],
+    "sizes": [
+      "RTX 4080"
+    ],
+    "offers": [
+      "Free ROG Backpack & Mouse"
+    ],
+    "coupons": [
+      "ROG150"
+    ],
+    "tags": [
+      "gaming",
+      "oled"
+    ]
   },
-
-  // HOME & KITCHEN
   {
-    id: 'hom-01', title: 'Dyson V15 Detect Cordless Vacuum Cleaner', brand: 'Dyson', category: 'Home & Kitchen',
-    price: 649, originalPrice: 749, discount: 13, rating: 4.8, reviewCount: 3120, stock: 22,
-    images: ['https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80'],
-    description: 'Laser reveals invisible dust, piezo sensor measures particle size.', seller: { name: 'Dyson Direct', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isBestSeller: true
+    "id": "lap-04",
+    "title": "Lenovo ThinkPad X1 Carbon Gen 12 (Intel Core Ultra 7, 32GB, 1TB SSD)",
+    "brand": "Lenovo",
+    "category": "Laptops",
+    "price": 1899,
+    "originalPrice": 2199,
+    "discount": 14,
+    "rating": 4.8,
+    "reviewCount": 310,
+    "stock": 16,
+    "images": [
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The benchmark for business laptops. Ultra-lightweight carbon fiber design with legendary ThinkPad keyboard.",
+    "features": [
+      "Military-spec durability tested",
+      "Haptic Touchpad & TrackPoint",
+      "Intel Evos platform with NPU for AI"
+    ],
+    "specifications": {
+      "CPU": "Intel Core Ultra 7 155H",
+      "RAM": "32GB LPDDR5X",
+      "Weight": "1.09 kg"
+    },
+    "seller": {
+      "name": "Lenovo Business Outlet",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "3 Years Onsite Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Black Carbon"
+    ],
+    "sizes": [
+      "FHD+ IPS"
+    ],
+    "offers": [
+      "Free ThinkPad Docking Station"
+    ],
+    "coupons": [
+      "THINKPAD50"
+    ],
+    "tags": [
+      "business",
+      "ultralight"
+    ]
   },
-
-  // BEAUTY
   {
-    id: 'bea-01', title: 'La Mer Crème de la Mer Ultra-Rich Facial Cream (2 oz)', brand: 'La Mer', category: 'Beauty',
-    price: 380, originalPrice: 420, discount: 10, rating: 4.9, reviewCount: 920, stock: 10,
-    images: ['https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80'],
-    description: 'Infused with cell-renewing Miracle Broth for deep moisture.', seller: { name: 'La Mer Luxury', rating: 5.0 }, deliveryDays: 1, freeDelivery: true
+    "id": "lap-05",
+    "title": "HP Spectre x360 14 2-in-1 Convertible (Intel Core Ultra 7, OLED, 16GB)",
+    "brand": "HP",
+    "category": "Laptops",
+    "price": 1499,
+    "originalPrice": 1699,
+    "discount": 12,
+    "rating": 4.6,
+    "reviewCount": 490,
+    "stock": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Versatile 360-degree flip laptop with stunning 2.8K OLED touchscreen and bundled Rechargeable MPP 2.0 Tilt Pen.",
+    "features": [
+      "2.8K 120Hz OLED Touchscreen",
+      "9MP AI Webcam with physical shutter",
+      "Quad speakers by Bang & Olufsen"
+    ],
+    "specifications": {
+      "Display": "14\" 2.8K OLED Touch",
+      "CPU": "Intel Core Ultra 7 155H",
+      "Storage": "1TB Gen4 SSD"
+    },
+    "seller": {
+      "name": "HP World Official",
+      "rating": 4.7,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Nightfall Black",
+      "Slate Blue"
+    ],
+    "sizes": [
+      "16GB RAM"
+    ],
+    "offers": [
+      "Free HP Tilt Pen included"
+    ],
+    "coupons": [
+      "SPECTRE100"
+    ],
+    "tags": [
+      "2in1",
+      "touch"
+    ]
   },
-
-  // BOOKS
   {
-    id: 'bok-01', title: 'Atomic Habits by James Clear (Hardcover Edition)', brand: 'Penguin Random House', category: 'Books',
-    price: 14.99, originalPrice: 27.00, discount: 44, rating: 4.9, reviewCount: 112000, stock: 150,
-    images: ['https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80'],
-    description: 'An Easy & Proven Way to Build Good Habits & Break Bad Ones.', seller: { name: 'NexCart Books', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isBestSeller: true
+    "id": "lap-06",
+    "title": "Acer Predator Helios 16 (Core i7-14700HX, RTX 4070, 16GB, 1TB SSD)",
+    "brand": "Acer",
+    "category": "Laptops",
+    "price": 1399,
+    "originalPrice": 1599,
+    "discount": 13,
+    "rating": 4.5,
+    "reviewCount": 520,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Unleash full power with 14th Gen Intel HX processor and custom 5th Gen AeroBlade 3D Fan liquid metal cooling.",
+    "features": [
+      "WQXGA 240Hz 500-nits Display",
+      "NVIDIA GeForce RTX 4070",
+      "Per-key RGB mechanical keyboard switches"
+    ],
+    "specifications": {
+      "CPU": "i7-14700HX",
+      "GPU": "RTX 4070 8GB",
+      "Display": "16\" 240Hz WQXGA"
+    },
+    "seller": {
+      "name": "Acer Gaming Store",
+      "rating": 4.6,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Onsite"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Abyssal Black"
+    ],
+    "sizes": [
+      "16GB RAM"
+    ],
+    "offers": [
+      "Game bundle code included"
+    ],
+    "coupons": [
+      "PREDATOR50"
+    ],
+    "tags": [
+      "gaming"
+    ]
   },
-
-  // TOYS
   {
-    id: 'toy-01', title: 'LEGO Star Wars Millennium Falcon 75257 (1351 Pieces)', brand: 'LEGO', category: 'Toys',
-    price: 135.99, originalPrice: 169.99, discount: 20, rating: 4.9, reviewCount: 7800, stock: 30,
-    images: ['https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=800&q=80'],
-    description: 'Build the legendary Star Wars starship with 7 minifigures.', seller: { name: 'LEGO Official', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isBestSeller: true
+    "id": "lap-07",
+    "title": "Microsoft Surface Laptop 7 Edition (Snapdragon X Elite, 16GB, 512GB)",
+    "brand": "Microsoft",
+    "category": "Laptops",
+    "price": 1299,
+    "originalPrice": 1399,
+    "discount": 7,
+    "rating": 4.7,
+    "reviewCount": 230,
+    "stock": 18,
+    "images": [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The Copilot+ PC reimagined with Snapdragon X Elite for all-day battery life and lightning-fast AI features.",
+    "features": [
+      "Copilot+ AI Assistant experience",
+      "Up to 20 hours battery runtime",
+      "PixelSense Flow 120Hz Touchscreen"
+    ],
+    "specifications": {
+      "CPU": "Snapdragon X Elite (12-core)",
+      "NPU": "45 TOPS AI Engine",
+      "Display": "13.8\" Touchscreen"
+    },
+    "seller": {
+      "name": "Microsoft Authorized Direct",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Sapphire Blue",
+      "Dune",
+      "Black"
+    ],
+    "sizes": [
+      "13.8 inch"
+    ],
+    "offers": [
+      "1 Year Microsoft 365 Personal included"
+    ],
+    "coupons": [
+      "SURFACE50"
+    ],
+    "tags": [
+      "ai",
+      "copilot"
+    ]
   },
-
-  // SPORTS
   {
-    id: 'spo-01', title: 'Wilson Evolution Game Basketball (Official Size 29.5")', brand: 'Wilson', category: 'Sports',
-    price: 64.95, originalPrice: 79.99, discount: 19, rating: 4.9, reviewCount: 22400, stock: 45,
-    images: ['https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80'],
-    description: 'The #1 indoor game basketball in America with Evo Microfiber feel.', seller: { name: 'Wilson Goods', rating: 4.9 }, deliveryDays: 1, freeDelivery: true, isBestSeller: true
+    "id": "lap-08",
+    "title": "ASUS Zenbook 14 OLED (Core Ultra 7, 16GB RAM, 1TB SSD, Ponder Blue)",
+    "brand": "ASUS",
+    "category": "Laptops",
+    "price": 999,
+    "originalPrice": 1149,
+    "discount": 13,
+    "rating": 4.6,
+    "reviewCount": 380,
+    "stock": 22,
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Sleek, lightweight 1.2kg laptop featuring a 3K 120Hz ASUS Lumina OLED display and Harman Kardon audio.",
+    "features": [
+      "3K 120Hz Lumina OLED display",
+      "Intel Core Ultra 7 with Arc Graphics",
+      "75Wh high-capacity battery"
+    ],
+    "specifications": {
+      "Weight": "1.2 kg",
+      "Thickness": "14.9 mm",
+      "Display": "14\" 3K OLED 120Hz"
+    },
+    "seller": {
+      "name": "ASUS Official Flagship",
+      "rating": 4.7,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Ponder Blue",
+      "Foggy Silver"
+    ],
+    "sizes": [
+      "14 inch"
+    ],
+    "offers": [
+      "Free Asus Sleeve"
+    ],
+    "coupons": [
+      "ZENBOOK30"
+    ],
+    "tags": [
+      "thin",
+      "oled"
+    ]
+  },
+  {
+    "id": "lap-09",
+    "title": "Apple MacBook Air 13\" M3 Chip (16GB RAM, 512GB SSD, Midnight)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "price": 1299,
+    "originalPrice": 1399,
+    "discount": 7,
+    "rating": 4.9,
+    "reviewCount": 1420,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Lean. Mean. M3 machine. MacBook Air sails through work and play with an ultra-portable design.",
+    "features": [
+      "Apple M3 chip (8 CPU / 10 GPU)",
+      "18 hours battery life",
+      "Liquid Retina display with 1 billion colors",
+      "Fanless quiet operation"
+    ],
+    "specifications": {
+      "Display": "13.6\" Liquid Retina",
+      "RAM": "16GB",
+      "Storage": "512GB SSD"
+    },
+    "seller": {
+      "name": "Apple Store Online",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Apple Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Midnight",
+      "Starlight",
+      "Space Gray",
+      "Silver"
+    ],
+    "sizes": [
+      "512GB SSD"
+    ],
+    "offers": [
+      "Free Apple TV+ for 3 months"
+    ],
+    "coupons": [
+      "AIR50"
+    ],
+    "tags": [
+      "bestseller",
+      "macbook"
+    ]
+  },
+  {
+    "id": "ele-01",
+    "title": "Sony WH-1000XM5 Wireless Noise Canceling Headphones (Black)",
+    "brand": "Sony",
+    "category": "Electronics",
+    "price": 348,
+    "originalPrice": 399,
+    "discount": 13,
+    "rating": 4.8,
+    "reviewCount": 5120,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Industry-leading noise cancellation with two processors and 8 microphones for unparalleled audio quality and crystal-clear call quality.",
+    "features": [
+      "Auto NC Optimizer automatically adjusts based on environment",
+      "Up to 30-hour battery life with quick charging (3 min for 3 hours)",
+      "Ultra-comfortable lightweight leatherette design",
+      "Speak-to-Chat automatically pauses music when speaking"
+    ],
+    "specifications": {
+      "Driver Unit": "30mm",
+      "Battery Life": "30 Hours (NC ON)",
+      "Connectivity": "Bluetooth 5.2, 3.5mm Aux",
+      "Weight": "250g"
+    },
+    "seller": {
+      "name": "Sony Direct Store",
+      "rating": 4.9,
+      "returnPolicy": "7 Days Replacement",
+      "warranty": "1 Year Sony Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "Silver",
+      "Midnight Blue"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Free carrying case included",
+      "10% Cashback on HDFC Credit Card"
+    ],
+    "coupons": [
+      "SONY20"
+    ],
+    "tags": [
+      "bestseller",
+      "deal",
+      "audio"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true,
+    "isDealOfDay": true
+  },
+  {
+    "id": "ele-02",
+    "title": "Apple iPad Pro 11-inch M4 Chip (256GB, Wi-Fi, Space Black)",
+    "brand": "Apple",
+    "category": "Electronics",
+    "price": 999,
+    "originalPrice": 1099,
+    "discount": 9,
+    "rating": 4.9,
+    "reviewCount": 1140,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The impossibly thin iPad Pro features a breakthrough Ultra Retina XDR OLED display, outrageous performance of M4 chip, and superfast wireless.",
+    "features": [
+      "Tandem OLED Ultra Retina XDR Display",
+      "Apple M4 chip with 9-core CPU",
+      "Supports Apple Pencil Pro and Magic Keyboard"
+    ],
+    "specifications": {
+      "Display": "11\" Ultra Retina XDR OLED",
+      "Storage": "256GB",
+      "Thickness": "5.3 mm"
+    },
+    "seller": {
+      "name": "Apple Authorized Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Apple Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Space Black",
+      "Silver"
+    ],
+    "sizes": [
+      "256GB",
+      "512GB"
+    ],
+    "offers": [
+      "Trade in discount up to $150"
+    ],
+    "coupons": [
+      "IPAD50"
+    ],
+    "tags": [
+      "pro",
+      "tablet"
+    ]
+  },
+  {
+    "id": "ele-03",
+    "title": "Bose SoundLink Max Portable Bluetooth Speaker (Black)",
+    "brand": "Bose",
+    "category": "Electronics",
+    "price": 399,
+    "originalPrice": 449,
+    "discount": 11,
+    "rating": 4.7,
+    "reviewCount": 380,
+    "stock": 18,
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Big stereo sound engineered to turn up the vibe wherever you go. Waterproof, dustproof and built with a comfortable carrying handle.",
+    "features": [
+      "Stereo sound with deep bass",
+      "IP67 rating waterproof and dustproof",
+      "Up to 20 hours battery power per charge"
+    ],
+    "specifications": {
+      "Battery": "20 Hours",
+      "Waterproof": "IP67",
+      "Charging": "USB-C in/out"
+    },
+    "seller": {
+      "name": "Bose Official",
+      "rating": 4.8,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "Blue Dusk"
+    ],
+    "sizes": [
+      "Portable"
+    ],
+    "offers": [
+      "10% off promo code"
+    ],
+    "coupons": [
+      "BOSE10"
+    ],
+    "tags": [
+      "speaker",
+      "audio"
+    ]
+  },
+  {
+    "id": "ele-04",
+    "title": "Canon EOS R6 Mark II Mirrorless Camera Body",
+    "brand": "Canon",
+    "category": "Electronics",
+    "price": 2299,
+    "originalPrice": 2499,
+    "discount": 8,
+    "rating": 4.9,
+    "reviewCount": 290,
+    "stock": 6,
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Full-frame mirrorless camera for creators who want versatile photos and 4K 60p uncropped video recording with Dual Pixel CMOS AF II.",
+    "features": [
+      "24.2MP Full-Frame CMOS Sensor",
+      "4K 60p uncropped oversampled video",
+      "40 fps electronic shutter burst shooting"
+    ],
+    "specifications": {
+      "Sensor": "24.2MP Full-Frame",
+      "AF System": "Dual Pixel CMOS AF II",
+      "Mount": "RF Mount"
+    },
+    "seller": {
+      "name": "Canon Pro Hub",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "2 Years Canon Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Black"
+    ],
+    "sizes": [
+      "Body Only"
+    ],
+    "offers": [
+      "Free 128GB High-Speed SD Card"
+    ],
+    "coupons": [
+      "CANON100"
+    ],
+    "tags": [
+      "camera",
+      "pro"
+    ]
+  },
+  {
+    "id": "ele-05",
+    "title": "Samsung 49\" Odyssey G9 OLED Gaming Monitor (240Hz, 0.03ms)",
+    "brand": "Samsung",
+    "category": "Electronics",
+    "price": 1199,
+    "originalPrice": 1799,
+    "discount": 33,
+    "rating": 4.8,
+    "reviewCount": 670,
+    "stock": 9,
+    "images": [
+      "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "49\" Dual QHD curved 1800R gaming monitor with OLED Neo Quantum Processor Pro for stunning visual contrast.",
+    "features": [
+      "49\" Dual QHD 5120x1440 OLED panel",
+      "240Hz Refresh Rate with 0.03ms GTG response time",
+      "DisplayHDR True Black 400"
+    ],
+    "specifications": {
+      "Screen Size": "49 inch",
+      "Resolution": "5120 x 1440",
+      "Refresh Rate": "240Hz"
+    },
+    "seller": {
+      "name": "Samsung Display Store",
+      "rating": 4.8,
+      "returnPolicy": "7 Days",
+      "warranty": "3 Years Warranty"
+    },
+    "deliveryDays": 3,
+    "freeDelivery": true,
+    "colors": [
+      "Silver"
+    ],
+    "sizes": [
+      "49 inch"
+    ],
+    "offers": [
+      "Save $600 instant discount"
+    ],
+    "coupons": [
+      "ODYSSEY100"
+    ],
+    "tags": [
+      "monitor",
+      "gaming",
+      "deal"
+    ]
+  },
+  {
+    "id": "ele-06",
+    "title": "Anker Prime 27,600mAh Power Bank (250W Multi-Device Fast Charge)",
+    "brand": "Anker",
+    "category": "Electronics",
+    "price": 149,
+    "originalPrice": 179,
+    "discount": 17,
+    "rating": 4.7,
+    "reviewCount": 1420,
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1609592424089-9a21232811fa?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "High capacity 250W total output power bank capable of charging a 16-inch MacBook Pro to 50% in just 28 minutes.",
+    "features": [
+      "250W total output across 3 ports",
+      "Smart Digital Display app connectivity",
+      "TSA flight approved 99.5Wh capacity"
+    ],
+    "specifications": {
+      "Capacity": "27,600 mAh",
+      "Max Output": "250W",
+      "Ports": "2x USB-C, 1x USB-A"
+    },
+    "seller": {
+      "name": "Anker Direct",
+      "rating": 4.9,
+      "returnPolicy": "7 Days",
+      "warranty": "18 Months Anker Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black"
+    ],
+    "sizes": [
+      "256W"
+    ],
+    "offers": [
+      "Buy 2 save 5%"
+    ],
+    "coupons": [
+      "ANKER15"
+    ],
+    "tags": [
+      "powerbank",
+      "accessory"
+    ]
+  },
+  {
+    "id": "ele-07",
+    "title": "DJI Mini 4 Pro Drone Fly More Combo (DJI RC 2 Remote)",
+    "brand": "DJI",
+    "category": "Electronics",
+    "price": 1099,
+    "originalPrice": 1159,
+    "discount": 5,
+    "rating": 4.9,
+    "reviewCount": 880,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Under 249g mini drone with 4K/60fps HDR True Vertical Shooting, Omnidirectional Obstacle Sensing, and 34-min flight time.",
+    "features": [
+      "4K/60fps HDR & 4K/100fps Slow Motion",
+      "Omnidirectional Obstacle Avoidance",
+      "20km FHD Video Transmission"
+    ],
+    "specifications": {
+      "Weight": "< 249g",
+      "Video": "4K HDR",
+      "Flight Time": "34 mins (standard battery)"
+    },
+    "seller": {
+      "name": "DJI Official Store",
+      "rating": 4.9,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year DJI Care"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Gray"
+    ],
+    "sizes": [
+      "Fly More Combo"
+    ],
+    "offers": [
+      "Includes extra batteries & charging hub"
+    ],
+    "coupons": [
+      "DJIMINI50"
+    ],
+    "tags": [
+      "drone",
+      "video"
+    ]
+  },
+  {
+    "id": "ele-08",
+    "title": "Sonos Arc Smart Soundbar (Dolby Atmos, Voice Control, Black)",
+    "brand": "Sonos",
+    "category": "Electronics",
+    "price": 899,
+    "originalPrice": 899,
+    "discount": 0,
+    "rating": 4.8,
+    "reviewCount": 1650,
+    "stock": 16,
+    "images": [
+      "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Premium smart soundbar for TV, movies, music, and gaming with immersive Dolby Atmos 3D sound experience.",
+    "features": [
+      "11 high-performance internal drivers",
+      "Speech Enhancement for clear dialogue",
+      "AirPlay 2 & Voice Assistant compatible"
+    ],
+    "specifications": {
+      "Audio Format": "Dolby Atmos, TrueHD",
+      "Connectivity": "HDMI eARC, Wi-Fi",
+      "Dimensions": "1141 x 87 x 115 mm"
+    },
+    "seller": {
+      "name": "Sonos Authorized",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "White"
+    ],
+    "sizes": [
+      "Arc"
+    ],
+    "offers": [
+      "Free HDMI eARC Cable"
+    ],
+    "coupons": [
+      "SONOS20"
+    ],
+    "tags": [
+      "audio",
+      "home-theater"
+    ]
+  },
+  {
+    "id": "ele-09",
+    "title": "GoPro HERO12 Black Action Camera (Waterproof 33ft, 5.3K Video)",
+    "brand": "GoPro",
+    "category": "Electronics",
+    "price": 349,
+    "originalPrice": 399,
+    "discount": 13,
+    "rating": 4.7,
+    "reviewCount": 2310,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Incredible image quality with 5.3K video, HDR photo/video, HyperSmooth 6.0 stabilization and bluetooth audio support.",
+    "features": [
+      "5.3K60 + 4K120 Video Resolution",
+      "HyperSmooth 6.0 with AutoBoost",
+      "Waterproof to 33ft without housing"
+    ],
+    "specifications": {
+      "Video": "5.3K 60fps",
+      "Photo": "27MP",
+      "Battery": "Enduro 1720mAh"
+    },
+    "seller": {
+      "name": "GoPro Direct",
+      "rating": 4.8,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Free SD Card included"
+    ],
+    "coupons": [
+      "GOPRO20"
+    ],
+    "tags": [
+      "action",
+      "camera"
+    ]
+  },
+  {
+    "id": "fas-01",
+    "title": "Levi's Men's Original Trucker Denim Jacket (Rigid Dark Indigo)",
+    "brand": "Levi's",
+    "category": "Fashion",
+    "price": 79,
+    "originalPrice": 98,
+    "discount": 19,
+    "rating": 4.7,
+    "reviewCount": 1840,
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The original denim jacket since 1967. A symbol of self-expression for generations, crafted with 100% heavy cotton denim.",
+    "features": [
+      "Regular fit through body and chest",
+      "Point collar with front button placket",
+      "Side welt pockets & chest patch pockets with flaps"
+    ],
+    "specifications": {
+      "Material": "100% Cotton Denim",
+      "Care": "Machine wash cold",
+      "Fit": "Regular Classic"
+    },
+    "seller": {
+      "name": "Levi's Official Store",
+      "rating": 4.8,
+      "returnPolicy": "30 Days Easy Returns",
+      "warranty": "Authenticity Guaranteed"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Rigid Dark Indigo",
+      "Light Wash",
+      "Black Steel"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "offers": [
+      "Buy 2 Get 15% Off"
+    ],
+    "coupons": [
+      "LEVIS15"
+    ],
+    "tags": [
+      "bestseller",
+      "denim"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "fas-02",
+    "title": "Nike Sportswear Tech Fleece Full-Zip Hoodie (Dark Grey Heather)",
+    "brand": "Nike",
+    "category": "Fashion",
+    "price": 125,
+    "originalPrice": 145,
+    "discount": 14,
+    "rating": 4.8,
+    "reviewCount": 2900,
+    "stock": 42,
+    "images": [
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Premium lightweight fleece that is smooth both inside and out, giving you plenty of warmth without adding bulk.",
+    "features": [
+      "Zippered sleeve pocket for quick storage",
+      "4-panel hood for streamlined look",
+      "Transparent taping highlights heritage lines"
+    ],
+    "specifications": {
+      "Material": "53% Cotton / 47% Polyester",
+      "Fit": "Standard Fit"
+    },
+    "seller": {
+      "name": "Nike Retail Hub",
+      "rating": 4.9,
+      "returnPolicy": "30 Days Returns",
+      "warranty": "Genuine Nike Product"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Dark Grey",
+      "Black",
+      "Olive Green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "offers": [
+      "Free Shipping for Nike Members"
+    ],
+    "coupons": [
+      "NIKE10"
+    ],
+    "tags": [
+      "sportswear",
+      "trending"
+    ]
+  },
+  {
+    "id": "fas-03",
+    "title": "Ralph Lauren Classic Fit Soft Touch Polo Shirt (Navy Blue)",
+    "brand": "Ralph Lauren",
+    "category": "Fashion",
+    "price": 110,
+    "originalPrice": 125,
+    "discount": 12,
+    "rating": 4.8,
+    "reviewCount": 1430,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An American style standard since 1972, crafted from ultra-soft cotton mesh fabric with signature embroidered Pony.",
+    "features": [
+      "Ribbed Polo collar with two-button placket",
+      "Short sleeves with ribbed armbands",
+      "Lower back hem"
+    ],
+    "specifications": {
+      "Material": "100% Cotton Mesh",
+      "Fit": "Classic Fit"
+    },
+    "seller": {
+      "name": "Polo Ralph Lauren Direct",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Authentic Luxury"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Navy Blue",
+      "White",
+      "Black",
+      "Red"
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL"
+    ],
+    "offers": [
+      "10% off first order"
+    ],
+    "coupons": [
+      "RALPH10"
+    ],
+    "tags": [
+      "luxury",
+      "polo"
+    ]
+  },
+  {
+    "id": "fas-04",
+    "title": "Zara Double-Breasted Wool Blend Trench Coat (Camel)",
+    "brand": "Zara",
+    "category": "Fashion",
+    "price": 169,
+    "originalPrice": 199,
+    "discount": 15,
+    "rating": 4.6,
+    "reviewCount": 780,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Elegantly tailored trench coat made of wool blend fabric featuring lapel collar, long sleeves, and double-breasted button closure.",
+    "features": [
+      "Front pockets with flap detail",
+      "Matching belt with buckle",
+      "Back vent at the hem"
+    ],
+    "specifications": {
+      "Material": "70% Wool, 30% Polyamide",
+      "Length": "Long Cut"
+    },
+    "seller": {
+      "name": "Zara Fashion Hub",
+      "rating": 4.7,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Brand"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Camel",
+      "Black"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "offers": [
+      "Free Return Pickup"
+    ],
+    "coupons": [
+      "ZARA15"
+    ],
+    "tags": [
+      "coat",
+      "winter"
+    ]
+  },
+  {
+    "id": "fas-05",
+    "title": "Adidas Essentials 3-Stripes Fleece Hoodie (Black / White)",
+    "brand": "Adidas",
+    "category": "Fashion",
+    "price": 55,
+    "originalPrice": 65,
+    "discount": 15,
+    "rating": 4.7,
+    "reviewCount": 3100,
+    "stock": 65,
+    "images": [
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A cozy fleece hoodie with iconic 3-Stripes detailing down the sleeves for casual everyday comfort.",
+    "features": [
+      "Drawcord-adjustable hood",
+      "Kangaroo pocket",
+      "Ribbed cuffs and hem"
+    ],
+    "specifications": {
+      "Material": "70% Cotton / 30% Recycled Polyester Fleece"
+    },
+    "seller": {
+      "name": "Adidas Flagship Store",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Adidas"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "Grey",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "offers": [
+      "Buy 2 Get $10 Off"
+    ],
+    "coupons": [
+      "ADI10"
+    ],
+    "tags": [
+      "casual",
+      "hoodie"
+    ]
+  },
+  {
+    "id": "fas-06",
+    "title": "Tommy Hilfiger Men's Slim Fit Non-Iron Dress Shirt (White)",
+    "brand": "Tommy Hilfiger",
+    "category": "Fashion",
+    "price": 69,
+    "originalPrice": 89,
+    "discount": 22,
+    "rating": 4.6,
+    "reviewCount": 940,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Crisp non-iron cotton dress shirt designed for all-day wrinkle-free performance with a refined slim silhouette.",
+    "features": [
+      "Non-iron crisp stretch cotton fabric",
+      "Button-down spread collar",
+      "Adjustable two-button cuffs"
+    ],
+    "specifications": {
+      "Material": "100% Supreme Cotton",
+      "Fit": "Slim Fit"
+    },
+    "seller": {
+      "name": "Tommy Hilfiger Store",
+      "rating": 4.7,
+      "returnPolicy": "14 Days",
+      "warranty": "Authentic"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "White",
+      "Light Blue"
+    ],
+    "sizes": [
+      "15.5",
+      "16.0",
+      "16.5",
+      "17.0"
+    ],
+    "offers": [
+      "15% off coupon available"
+    ],
+    "coupons": [
+      "TOMMY15"
+    ],
+    "tags": [
+      "formal",
+      "shirt"
+    ]
+  },
+  {
+    "id": "fas-07",
+    "title": "Calvin Klein Women's Modern Cotton Bralette & Panty Set",
+    "brand": "Calvin Klein",
+    "category": "Fashion",
+    "price": 48,
+    "originalPrice": 60,
+    "discount": 20,
+    "rating": 4.8,
+    "reviewCount": 4200,
+    "stock": 55,
+    "images": [
+      "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Soft cotton stretch unlined racerback bralette with signature iconic Calvin Klein logo waistband.",
+    "features": [
+      "Racerback design for freedom of movement",
+      "Flexible branded elastic band",
+      "Ultra-breathable modal cotton blend"
+    ],
+    "specifications": {
+      "Material": "53% Cotton, 35% Modal, 12% Elastane"
+    },
+    "seller": {
+      "name": "Calvin Klein Official",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Genuine Product"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Grey Heather",
+      "Black",
+      "White"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "offers": [
+      "Bundle discount available"
+    ],
+    "coupons": [
+      "CK20"
+    ],
+    "tags": [
+      "undergarments",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "fas-08",
+    "title": "Columbia Men's Watertight II Waterproof Rain Jacket",
+    "brand": "Columbia",
+    "category": "Fashion",
+    "price": 75,
+    "originalPrice": 95,
+    "discount": 21,
+    "rating": 4.7,
+    "reviewCount": 3600,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Top-rated waterproof jacket built with Omni-Tech breathable seam-sealed protection against heavy downpours.",
+    "features": [
+      "Omni-Tech waterproof/breathable fully seam sealed",
+      "Packs compact into its own hand pocket",
+      "Attached adjustable storm hood"
+    ],
+    "specifications": {
+      "Material": "100% Nylon 2L Full Dull Stain",
+      "Lining": "100% Polyester mesh"
+    },
+    "seller": {
+      "name": "Columbia Sportswear",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Graphite",
+      "Collegiate Navy",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "offers": [
+      "Free Shipping over $50"
+    ],
+    "coupons": [
+      "COLUMBIA10"
+    ],
+    "tags": [
+      "outdoor",
+      "raincoat"
+    ]
+  },
+  {
+    "id": "fas-09",
+    "title": "H&M Linen-Blend Casual Resort Shirt (Sage Green)",
+    "brand": "H&M",
+    "category": "Fashion",
+    "price": 34,
+    "originalPrice": 42,
+    "discount": 19,
+    "rating": 4.5,
+    "reviewCount": 1120,
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Lightweight short-sleeve resort shirt in woven linen blend with open camp collar and relaxed fit.",
+    "features": [
+      "Resort collar with plain front",
+      "Relaxed fit for airy summer comfort",
+      "Straight-cut hem"
+    ],
+    "specifications": {
+      "Material": "55% Linen, 45% Cotton"
+    },
+    "seller": {
+      "name": "H&M Direct",
+      "rating": 4.6,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic H&M"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Sage Green",
+      "Beige",
+      "White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "offers": [
+      "10% off code for members"
+    ],
+    "coupons": [
+      "HM10"
+    ],
+    "tags": [
+      "summer",
+      "casual"
+    ]
+  },
+  {
+    "id": "sho-01",
+    "title": "Nike Air Jordan 1 Retro High OG (Chicago Lost & Found)",
+    "brand": "Nike",
+    "category": "Shoes",
+    "price": 180,
+    "originalPrice": 210,
+    "discount": 14,
+    "rating": 4.9,
+    "reviewCount": 4890,
+    "stock": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The sneaker that started it all. Featuring vintage cracked leather accents and classic Varsity Red, Black, and Sail colorway.",
+    "features": [
+      "Encapsulated Air-Sole unit in the heel for lightweight cushioning",
+      "Genuine leather upper offers durability and structure",
+      "Solid rubber outsole for traction"
+    ],
+    "specifications": {
+      "Upper": "Premium Full-Grain Leather",
+      "Sole": "Rubber Cupsole with Air",
+      "Style": "High Top Sneaker"
+    },
+    "seller": {
+      "name": "Nike Jordan Official",
+      "rating": 4.9,
+      "returnPolicy": "30 Days Returns",
+      "warranty": "Authentic Jordan Brand"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Chicago Red/Black",
+      "Royal Blue",
+      "Shadow Grey"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "offers": [
+      "Free Express Delivery",
+      "Collectible box included"
+    ],
+    "coupons": [
+      "JORDAN20"
+    ],
+    "tags": [
+      "bestseller",
+      "sneakers",
+      "trending"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "sho-02",
+    "title": "Adidas Ultraboost Light Running Shoes (Core Black / Solar Red)",
+    "brand": "Adidas",
+    "category": "Shoes",
+    "price": 150,
+    "originalPrice": 190,
+    "discount": 21,
+    "rating": 4.8,
+    "reviewCount": 3410,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Experience epic energy with the lightest Ultraboost ever made. Light BOOST cushioning material gives maximum return.",
+    "features": [
+      "30% lighter Light BOOST material",
+      "PRIMEKNIT+ textile upper snug fit",
+      "Continental Rubber outsole for extraordinary grip"
+    ],
+    "specifications": {
+      "Weight": "299g (Size 9)",
+      "Midsole Drop": "10 mm",
+      "Upper": "Adidas PRIMEKNIT"
+    },
+    "seller": {
+      "name": "Adidas Running Hub",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Adidas"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Core Black",
+      "Cloud White",
+      "Solar Red"
+    ],
+    "sizes": [
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "15% off with code ULTRABOOST"
+    ],
+    "coupons": [
+      "ULTRA15"
+    ],
+    "tags": [
+      "running",
+      "boost"
+    ]
+  },
+  {
+    "id": "sho-03",
+    "title": "Puma RS-X Efekt Reflective Sneakers (Feather Grey)",
+    "brand": "Puma",
+    "category": "Shoes",
+    "price": 95,
+    "originalPrice": 120,
+    "discount": 20,
+    "rating": 4.6,
+    "reviewCount": 1290,
+    "stock": 28,
+    "images": [
+      "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Chunky retro-futuristic silhouette featuring bold layered upper design with reflective overlays and comfortable cushioning.",
+    "features": [
+      "Mesh upper with synthetic leather overlays",
+      "PU midsole for smooth foot stride",
+      "Rubber outsole for high durability"
+    ],
+    "specifications": {
+      "Style": "Lifestyle Chunky Sneaker",
+      "Sole": "Puma Running System"
+    },
+    "seller": {
+      "name": "Puma Flagship Store",
+      "rating": 4.7,
+      "returnPolicy": "30 Days",
+      "warranty": "Genuine Puma"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Feather Grey",
+      "Puma Black"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "Buy 1 Get 10% Off"
+    ],
+    "coupons": [
+      "PUMA10"
+    ],
+    "tags": [
+      "streetwear",
+      "retro"
+    ]
+  },
+  {
+    "id": "sho-04",
+    "title": "New Balance 990v6 Made in USA (Grey / Silver)",
+    "brand": "New Balance",
+    "category": "Shoes",
+    "price": 200,
+    "originalPrice": 220,
+    "discount": 9,
+    "rating": 4.9,
+    "reviewCount": 1850,
+    "stock": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The flagship Made in USA 990v6 featuring FuelCell foam cushioning and premium pigskin suede overlays.",
+    "features": [
+      "FuelCell foam delivers propulsive feel",
+      "ENCAP midsole cushioning combines lightweight foam with durable polyurethane rim",
+      "Made in USA quality craftsmanship"
+    ],
+    "specifications": {
+      "Upper": "Pigskin Suede and Mesh",
+      "Cushioning": "FuelCell & ENCAP"
+    },
+    "seller": {
+      "name": "New Balance Premium",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Made in USA Certified"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Classic Grey",
+      "Black/Silver"
+    ],
+    "sizes": [
+      "8",
+      "8.5",
+      "9",
+      "9.5",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "Free New Balance Socks"
+    ],
+    "coupons": [
+      "NB990"
+    ],
+    "tags": [
+      "made-in-usa",
+      "premium"
+    ]
+  },
+  {
+    "id": "sho-05",
+    "title": "Timberland 6-Inch Premium Waterproof Boot (Wheat Nubuck)",
+    "brand": "Timberland",
+    "category": "Shoes",
+    "price": 198,
+    "originalPrice": 220,
+    "discount": 10,
+    "rating": 4.8,
+    "reviewCount": 5600,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The iconic Original Yellow Boot. Waterproof seam-sealed construction with 400g PrimAloft insulation.",
+    "features": [
+      "Premium Timberland leather upper",
+      "Seamless waterproof construction",
+      "Anti-fatigue removable footbed for comfort"
+    ],
+    "specifications": {
+      "Insulation": "400g PrimaLoft",
+      "Outsole": "Rubber Lug"
+    },
+    "seller": {
+      "name": "Timberland Official",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Wheat Yellow",
+      "Black Nubuck"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "offers": [
+      "Includes Leather Cleaner kit"
+    ],
+    "coupons": [
+      "TIMBS10"
+    ],
+    "tags": [
+      "boots",
+      "waterproof"
+    ]
+  },
+  {
+    "id": "sho-06",
+    "title": "Vans Old Skool Core Classics Skate Shoes (Black / White)",
+    "brand": "Vans",
+    "category": "Shoes",
+    "price": 70,
+    "originalPrice": 75,
+    "discount": 7,
+    "rating": 4.8,
+    "reviewCount": 7800,
+    "stock": 70,
+    "images": [
+      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "First unveiled as the Style 36 with the iconic side stripe. Sturdy canvas and suede uppers with waffle outsole.",
+    "features": [
+      "Reinforced toe caps to withstand repeated wear",
+      "Padded collars for support and flexibility",
+      "Signature rubber waffle outsoles"
+    ],
+    "specifications": {
+      "Upper": "Suede and Canvas",
+      "Outsole": "Rubber Waffle Tread"
+    },
+    "seller": {
+      "name": "Vans Official Store",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Vans"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black/White",
+      "All Black",
+      "Navy/White"
+    ],
+    "sizes": [
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "Buy 2 save $10"
+    ],
+    "coupons": [
+      "VANS10"
+    ],
+    "tags": [
+      "skate",
+      "casual"
+    ]
+  },
+  {
+    "id": "sho-07",
+    "title": "Converse Chuck Taylor All Star High Top (Optical White)",
+    "brand": "Converse",
+    "category": "Shoes",
+    "price": 65,
+    "originalPrice": 75,
+    "discount": 13,
+    "rating": 4.8,
+    "reviewCount": 9200,
+    "stock": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The world's most iconic high top sneaker. Timeless silhouette with classic ankle patch.",
+    "features": [
+      "Lightweight durable canvas upper",
+      "Medial eyelets enhance airflow",
+      "Classic All Star ankle patch"
+    ],
+    "specifications": {
+      "Upper": "100% Cotton Canvas",
+      "Outsole": "Vulcanized Rubber"
+    },
+    "seller": {
+      "name": "Converse Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Converse"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Optical White",
+      "Black Canvas",
+      "Red"
+    ],
+    "sizes": [
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "Free Shipping"
+    ],
+    "coupons": [
+      "CHUCK10"
+    ],
+    "tags": [
+      "classic",
+      "canvas"
+    ]
+  },
+  {
+    "id": "sho-08",
+    "title": "Clarks Men's Desert Boot 2 (Sand Suede)",
+    "brand": "Clarks",
+    "category": "Shoes",
+    "price": 130,
+    "originalPrice": 150,
+    "discount": 13,
+    "rating": 4.7,
+    "reviewCount": 1140,
+    "stock": 22,
+    "images": [
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Inspired by Nathan Clark's 1950 design. Premium sand suede upper paired with iconic crepe rubber sole.",
+    "features": [
+      "Stead's suede upper with clean lines",
+      "Breathable leather lining",
+      "Natural rubber crepe sole"
+    ],
+    "specifications": {
+      "Upper": "English Suede",
+      "Sole": "Natural Crepe"
+    },
+    "seller": {
+      "name": "Clarks Official",
+      "rating": 4.7,
+      "returnPolicy": "14 Days",
+      "warranty": "Authentic Product"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Sand Suede",
+      "Beeswax Leather"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "10% discount on first order"
+    ],
+    "coupons": [
+      "CLARKS10"
+    ],
+    "tags": [
+      "boots",
+      "formal"
+    ]
+  },
+  {
+    "id": "sho-09",
+    "title": "Asics Gel-Kayano 30 Stability Running Shoes (Deep Ocean / Lime)",
+    "brand": "Asics",
+    "category": "Shoes",
+    "price": 160,
+    "originalPrice": 180,
+    "discount": 11,
+    "rating": 4.9,
+    "reviewCount": 2100,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Advanced stability running shoes with 4D GUIDANCE SYSTEM technology for adaptive support.",
+    "features": [
+      "PureGEL technology for softer landings",
+      "FF BLAST PLUS ECO cushioning",
+      "4D GUIDANCE SYSTEM for stability"
+    ],
+    "specifications": {
+      "Type": "Overpronation / Stability",
+      "Weight": "303g"
+    },
+    "seller": {
+      "name": "Asics Running Lab",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Deep Ocean",
+      "Black/Illuminate Yellow"
+    ],
+    "sizes": [
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "offers": [
+      "Free Asics Running Cap"
+    ],
+    "coupons": [
+      "ASICS15"
+    ],
+    "tags": [
+      "running",
+      "gel"
+    ]
+  },
+  {
+    "id": "wat-01",
+    "title": "Apple Watch Ultra 2 (GPS + Cellular, 49mm Titanium Case, Indigo Alpine Loop)",
+    "brand": "Apple",
+    "category": "Watches",
+    "price": 799,
+    "originalPrice": 849,
+    "discount": 6,
+    "rating": 4.9,
+    "reviewCount": 2150,
+    "stock": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The ultimate sports and adventure watch. Powered by S9 SiP with 3000 nits display brightness and up to 72 hours in Low Power Mode.",
+    "features": [
+      "49mm corrosion-resistant titanium case with sapphire front crystal",
+      "S9 SiP with Double Tap gesture control",
+      "Precision dual-frequency GPS system",
+      "Water resistance 100m for diving up to 40m"
+    ],
+    "specifications": {
+      "Case": "49mm Aerospace Titanium",
+      "Display": "3000 nits Always-On Retina OLED",
+      "Battery": "36 to 72 Hours",
+      "OS": "watchOS 10"
+    },
+    "seller": {
+      "name": "Apple Authorized Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year AppleCare"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Indigo Alpine Loop",
+      "Olive Alpine Loop",
+      "Orange Ocean Band"
+    ],
+    "sizes": [
+      "Small",
+      "Medium",
+      "Large"
+    ],
+    "offers": [
+      "No Cost EMI starting at $66/mo",
+      "Free 3 Months Fitness+"
+    ],
+    "coupons": [
+      "ULTRA50"
+    ],
+    "tags": [
+      "bestseller",
+      "smartwatch",
+      "trending"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "wat-02",
+    "title": "Rolex Submariner Date (41mm Oystersteel, Black Cerachrom Bezel)",
+    "brand": "Rolex",
+    "category": "Watches",
+    "price": 13500,
+    "originalPrice": 14500,
+    "discount": 7,
+    "rating": 5,
+    "reviewCount": 420,
+    "stock": 2,
+    "images": [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The reference among divers' watches. Featuring Rolex Calibre 3235 automatic movement and 300m waterproof Oyster case.",
+    "features": [
+      "Black Cerachrom bezel in ceramic with platinum graduations",
+      "Black dial with large Chromalight hour markers",
+      "Oyster bracelet with Glidelock extension system"
+    ],
+    "specifications": {
+      "Movement": "Rolex Calibre 3235 Automatic",
+      "Power Reserve": "70 Hours",
+      "Water Resistance": "300 meters / 1000 feet"
+    },
+    "seller": {
+      "name": "NexCart Certified Pre-Owned Luxury",
+      "rating": 5,
+      "returnPolicy": "Authenticity Guarantee",
+      "warranty": "5 Years Rolex Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Oystersteel Black"
+    ],
+    "sizes": [
+      "41mm"
+    ],
+    "offers": [
+      "Insured Express Courier Shipping",
+      "Certificate of Authenticity"
+    ],
+    "coupons": [
+      "LUXURY500"
+    ],
+    "tags": [
+      "luxury",
+      "rolex"
+    ]
+  },
+  {
+    "id": "wat-03",
+    "title": "Samsung Galaxy Watch6 Classic (47mm Bluetooth, Black)",
+    "brand": "Samsung",
+    "category": "Watches",
+    "price": 329,
+    "originalPrice": 429,
+    "discount": 23,
+    "rating": 4.7,
+    "reviewCount": 1680,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Iconic rotating bezel smartwatch featuring sapphire crystal glass, Advanced Sleep Coaching, and ECG monitoring.",
+    "features": [
+      "Slim physical rotating bezel for intuitive navigation",
+      "BioActive Sensor for Heart Rate & BIA Body Composition",
+      "Customizable watch faces & hybrid leather strap"
+    ],
+    "specifications": {
+      "Display": "1.5\" Super AMOLED Sapphire",
+      "OS": "Wear OS Powered by Samsung"
+    },
+    "seller": {
+      "name": "Samsung Official",
+      "rating": 4.8,
+      "returnPolicy": "7 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "Silver"
+    ],
+    "sizes": [
+      "43mm",
+      "47mm"
+    ],
+    "offers": [
+      "Save $100 instant discount"
+    ],
+    "coupons": [
+      "GALAXYW50"
+    ],
+    "tags": [
+      "smartwatch",
+      "deal"
+    ]
+  },
+  {
+    "id": "wat-04",
+    "title": "Casio G-Shock GA-2100-1A1 \"CasiOak\" Octagonal Watch (All Black)",
+    "brand": "Casio",
+    "category": "Watches",
+    "price": 99,
+    "originalPrice": 110,
+    "discount": 10,
+    "rating": 4.8,
+    "reviewCount": 6100,
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Ultra-popular octagonal bezel G-Shock with Carbon Core Guard structure. Thin 11.8mm profile and 200m water resistance.",
+    "features": [
+      "Carbon Core Guard structure for extreme shock resistance",
+      "200-meter water resistance",
+      "Double LED light for dial and digital display"
+    ],
+    "specifications": {
+      "Case Thickness": "11.8 mm",
+      "Water Resistance": "200M",
+      "Battery Life": "Approx. 3 years"
+    },
+    "seller": {
+      "name": "Casio Authorized Dealer",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "2 Years Casio Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "All Black",
+      "Stealth Green",
+      "White Accent"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Free Shipping"
+    ],
+    "coupons": [
+      "GSHOCK10"
+    ],
+    "tags": [
+      "gshock",
+      "tough"
+    ]
+  },
+  {
+    "id": "wat-05",
+    "title": "Seiko Prospex Speedtimer Solar Chronograph (SSC813 \"Seitona\")",
+    "brand": "Seiko",
+    "category": "Watches",
+    "price": 525,
+    "originalPrice": 675,
+    "discount": 22,
+    "rating": 4.9,
+    "reviewCount": 940,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Iconic panda dial solar chronograph powered by any light source with 6-month power reserve.",
+    "features": [
+      "Solar powered caliber V192 (no battery change needed)",
+      "Curved sapphire crystal with anti-reflective coating",
+      "Subdials for 24-hour, 60-minute, and power reserve indicator"
+    ],
+    "specifications": {
+      "Movement": "Solar Quartz V192",
+      "Case Diameter": "39mm",
+      "Water Resistance": "100m"
+    },
+    "seller": {
+      "name": "Seiko Boutique",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "3 Years Seiko Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Panda White/Black",
+      "All Black Solar"
+    ],
+    "sizes": [
+      "39mm"
+    ],
+    "offers": [
+      "Includes Seiko Collector Box"
+    ],
+    "coupons": [
+      "SEIKO50"
+    ],
+    "tags": [
+      "chronograph",
+      "solar"
+    ]
+  },
+  {
+    "id": "wat-06",
+    "title": "Fossil Gen 6 Touchscreen Smartwatch (Smoke Stainless Steel)",
+    "brand": "Fossil",
+    "category": "Watches",
+    "price": 199,
+    "originalPrice": 299,
+    "discount": 33,
+    "rating": 4.5,
+    "reviewCount": 1420,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Powered by Snapdragon Wear 4100+ with 2x faster charging (80% in 30 mins) and SpO2 sensor.",
+    "features": [
+      "Snapdragon Wear 4100+ Processor",
+      "Continuous heart rate tracking & SpO2 blood oxygen",
+      "Wear OS by Google"
+    ],
+    "specifications": {
+      "Case Size": "44mm",
+      "RAM": "1GB",
+      "Storage": "8GB"
+    },
+    "seller": {
+      "name": "Fossil Official Outlet",
+      "rating": 4.6,
+      "returnPolicy": "14 Days",
+      "warranty": "2 Years Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Smoke Stainless",
+      "Black Leather"
+    ],
+    "sizes": [
+      "44mm"
+    ],
+    "offers": [
+      "Save $100 today"
+    ],
+    "coupons": [
+      "FOSSIL30"
+    ],
+    "tags": [
+      "smartwatch",
+      "deal"
+    ]
+  },
+  {
+    "id": "wat-07",
+    "title": "Tissot PRX Powermatic 80 Automatic (40mm Blue Sunburst Dial)",
+    "brand": "Tissot",
+    "category": "Watches",
+    "price": 675,
+    "originalPrice": 725,
+    "discount": 7,
+    "rating": 4.9,
+    "reviewCount": 1920,
+    "stock": 12,
+    "images": [
+      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "1978 design revival with integrated bracelet, waffle sunburst blue dial, and Swiss Powermatic 80 movement with 80 hours power reserve.",
+    "features": [
+      "Powermatic 80 movement with Nivachron hairspring",
+      "Waffle textured sunburst blue dial",
+      "Integrated 316L stainless steel bracelet with quick-release system"
+    ],
+    "specifications": {
+      "Movement": "Swiss Automatic Powermatic 80",
+      "Power Reserve": "80 Hours",
+      "Water Resistance": "100m / 330ft"
+    },
+    "seller": {
+      "name": "Tissot Swiss Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "2 Years International Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Sunburst Blue",
+      "Ice Blue",
+      "Black"
+    ],
+    "sizes": [
+      "40mm",
+      "35mm"
+    ],
+    "offers": [
+      "Free Watch Winder case"
+    ],
+    "coupons": [
+      "TISSOT50"
+    ],
+    "tags": [
+      "swiss",
+      "automatic"
+    ]
+  },
+  {
+    "id": "wat-08",
+    "title": "Garmin Forerunner 965 GPS Running Smartwatch (Amp Yellow / Black)",
+    "brand": "Garmin",
+    "category": "Watches",
+    "price": 599,
+    "originalPrice": 649,
+    "discount": 8,
+    "rating": 4.9,
+    "reviewCount": 810,
+    "stock": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Premium GPS running & triathlon smartwatch with brilliant AMOLED touchscreen display and lightweight titanium bezel.",
+    "features": [
+      "1.4\" AMOLED touchscreen display",
+      "Up to 23 days of battery life in smartwatch mode",
+      "Full-color built-in mapping & Training Readiness score"
+    ],
+    "specifications": {
+      "Display": "1.4\" AMOLED",
+      "Bezel": "Titanium",
+      "Battery": "Up to 23 Days"
+    },
+    "seller": {
+      "name": "Garmin Sports Hub",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Garmin Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Amp Yellow",
+      "Black",
+      "Whitestone"
+    ],
+    "sizes": [
+      "47mm"
+    ],
+    "offers": [
+      "Free Heart Rate Monitor Strap promo"
+    ],
+    "coupons": [
+      "GARMIN30"
+    ],
+    "tags": [
+      "fitness",
+      "gps"
+    ]
+  },
+  {
+    "id": "wat-09",
+    "title": "Citizen Eco-Drive Promaster Nighthawk Dual Time Watch (BJ7000-52E)",
+    "brand": "Citizen",
+    "category": "Watches",
+    "price": 295,
+    "originalPrice": 395,
+    "discount": 25,
+    "rating": 4.7,
+    "reviewCount": 2450,
+    "stock": 28,
+    "images": [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pilot's watch powered by Eco-Drive technology (runs on light, never needs a battery) with slide rule bezel and 200m water resistance.",
+    "features": [
+      "Eco-Drive Solar Technology",
+      "Dual time (GMT) function",
+      "Pilot's slide rule inner bezel ring"
+    ],
+    "specifications": {
+      "Calibre": "Eco-Drive B877",
+      "Case Diameter": "42mm",
+      "Water Resistance": "200m"
+    },
+    "seller": {
+      "name": "Citizen Official Outlet",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "5 Years Citizen Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Stainless Steel Black Dial"
+    ],
+    "sizes": [
+      "42mm"
+    ],
+    "offers": [
+      "Save $100 instant discount"
+    ],
+    "coupons": [
+      "CITIZEN25"
+    ],
+    "tags": [
+      "pilot",
+      "solar"
+    ]
+  },
+  {
+    "id": "gro-01",
+    "title": "California Premium Whole Raw Almonds (3 Lbs Bag)",
+    "brand": "Kirkland Signature",
+    "category": "Grocery",
+    "price": 18.99,
+    "originalPrice": 24.99,
+    "discount": 24,
+    "rating": 4.8,
+    "reviewCount": 8400,
+    "stock": 120,
+    "images": [
+      "https://images.unsplash.com/photo-1508061252966-dfd30969eff2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "100% natural raw un-roasted un-salted California almonds packed with protein, healthy fats, and Vitamin E.",
+    "features": [
+      "Heart-healthy plant-based protein snack",
+      "No additives, non-GMO, gluten-free",
+      "Resealable zipper bag for freshness"
+    ],
+    "specifications": {
+      "Weight": "3 lbs (1.36 kg)",
+      "Dietary": "Non-GMO, Vegan, Gluten-Free"
+    },
+    "seller": {
+      "name": "NexCart Fresh Pantry",
+      "rating": 4.9,
+      "returnPolicy": "Non-Returnable (Fresh Item)",
+      "warranty": "Quality Guarantee"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Natural Raw"
+    ],
+    "sizes": [
+      "3 Lbs"
+    ],
+    "offers": [
+      "Subscribe & Save 10% extra"
+    ],
+    "coupons": [
+      "PANTRY10"
+    ],
+    "tags": [
+      "bestseller",
+      "organic"
+    ],
+    "isBestSeller": true
+  },
+  {
+    "id": "gro-02",
+    "title": "Filippo Berio Extra Virgin Olive Oil (1 Liter Glass Bottle)",
+    "brand": "Filippo Berio",
+    "category": "Grocery",
+    "price": 14.49,
+    "originalPrice": 17.99,
+    "discount": 19,
+    "rating": 4.8,
+    "reviewCount": 3900,
+    "stock": 89,
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Cold-pressed first cold extraction extra virgin olive oil with rich, well-balanced taste for dressings and light cooking.",
+    "features": [
+      "First cold pressed for high antioxidant retention",
+      "Rich in Mediterranean healthy monounsaturated fats",
+      "Dark glass bottle protects oil from UV light degradation"
+    ],
+    "specifications": {
+      "Volume": "1 Liter (33.8 fl oz)",
+      "Origin": "Italy & Spain blend"
+    },
+    "seller": {
+      "name": "Gourmet Imports Direct",
+      "rating": 4.8,
+      "returnPolicy": "Quality Guarantee",
+      "warranty": "Freshness Certified"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Golden Amber"
+    ],
+    "sizes": [
+      "1 Liter"
+    ],
+    "offers": [
+      "Buy 2 Get 5% Off"
+    ],
+    "coupons": [
+      "OLIVE5"
+    ],
+    "tags": [
+      "gourmet",
+      "cooking"
+    ]
+  },
+  {
+    "id": "gro-03",
+    "title": "Matcha DNA Organic Japanese Green Tea Powder (10 oz Tin)",
+    "brand": "Matcha DNA",
+    "category": "Grocery",
+    "price": 22.95,
+    "originalPrice": 28,
+    "discount": 18,
+    "rating": 4.7,
+    "reviewCount": 4120,
+    "stock": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "USDA Certified Organic culinary grade Japanese matcha green tea powder packed with L-theanine and antioxidants.",
+    "features": [
+      "100% USDA Organic & CCOF Certified",
+      "Shade-grown spring harvest tea leaves",
+      "Great for lattes, smoothies, and baking"
+    ],
+    "specifications": {
+      "Weight": "10 oz (283g)",
+      "Origin": "Kagoshima, Japan"
+    },
+    "seller": {
+      "name": "Tea & Spice Co.",
+      "rating": 4.9,
+      "returnPolicy": "Freshness Guarantee",
+      "warranty": "Organic Certified"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Bright Green"
+    ],
+    "sizes": [
+      "10 oz Tin"
+    ],
+    "offers": [
+      "Free Wooden Matcha Whisk with 2 tins"
+    ],
+    "coupons": [
+      "MATCHA10"
+    ],
+    "tags": [
+      "superfood",
+      "organic"
+    ]
+  },
+  {
+    "id": "gro-04",
+    "title": "Lindt Excellence 85% Cocoa Extra Dark Chocolate Bars (Pack of 12)",
+    "brand": "Lindt",
+    "category": "Grocery",
+    "price": 36,
+    "originalPrice": 44,
+    "discount": 18,
+    "rating": 4.9,
+    "reviewCount": 5100,
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Expertly crafted full-bodied dark chocolate with harmonious balance of intense cacao notes.",
+    "features": [
+      "85% Cacao dark chocolate blend",
+      "Master Swiss Chocolatier craft",
+      "Non-GMO ingredients"
+    ],
+    "specifications": {
+      "Quantity": "12 Bars (3.5 oz each)",
+      "Dietary": "Gluten-Free, Kosher"
+    },
+    "seller": {
+      "name": "Lindt Official Store",
+      "rating": 4.9,
+      "returnPolicy": "Melting Guarantee",
+      "warranty": "Fresh Swiss Chocolate"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Dark Cacao"
+    ],
+    "sizes": [
+      "Pack of 12"
+    ],
+    "offers": [
+      "Insured Cool-Pack Temperature Shipping"
+    ],
+    "coupons": [
+      "LINDT10"
+    ],
+    "tags": [
+      "chocolate",
+      "gourmet"
+    ]
+  },
+  {
+    "id": "gro-05",
+    "title": "Lavazza Super Crema Whole Bean Coffee Blend (2.2 lb Bag)",
+    "brand": "Lavazza",
+    "category": "Grocery",
+    "price": 21.99,
+    "originalPrice": 26.99,
+    "discount": 18,
+    "rating": 4.8,
+    "reviewCount": 14200,
+    "stock": 100,
+    "images": [
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Mild espresso roast whole bean blend with velvet crema and notes of honey, almonds, and dried fruit.",
+    "features": [
+      "60% Natural Arabica and 40% Wet Washed Robusta",
+      "Medium Roast whole coffee bean",
+      "Blended and roasted in Italy"
+    ],
+    "specifications": {
+      "Weight": "2.2 lbs (1 kg)",
+      "Roast Level": "Medium Roast"
+    },
+    "seller": {
+      "name": "Italian Coffee Hub",
+      "rating": 4.9,
+      "returnPolicy": "Freshness Guarantee",
+      "warranty": "Fresh Roasted"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Whole Bean"
+    ],
+    "sizes": [
+      "2.2 lb Bag"
+    ],
+    "offers": [
+      "10% off subscription"
+    ],
+    "coupons": [
+      "COFFEE10"
+    ],
+    "tags": [
+      "coffee",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "gro-06",
+    "title": "Manuka Health MGO 400+ Raw Manuka Honey (8.8 oz Jar)",
+    "brand": "Manuka Health",
+    "category": "Grocery",
+    "price": 49.99,
+    "originalPrice": 59.99,
+    "discount": 16,
+    "rating": 4.8,
+    "reviewCount": 2300,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1587049352847-4a222e784d38?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Genuine 100% pure raw New Zealand Manuka Honey with certified MGO 400+ methylglyoxal antibacterial rating.",
+    "features": [
+      "MGO 400+ (UMF 13+) certified natural potency",
+      "100% New Zealand origin raw unpasteurized honey",
+      "Rich smooth taste for immune boost and wellness"
+    ],
+    "specifications": {
+      "Weight": "250g (8.8 oz)",
+      "MGO Rating": "400+ MGO"
+    },
+    "seller": {
+      "name": "NZ Direct Wellness",
+      "rating": 4.9,
+      "returnPolicy": "Certified Genuine",
+      "warranty": "Batch Tested NZ"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Amber Gold"
+    ],
+    "sizes": [
+      "250g"
+    ],
+    "offers": [
+      "Free Shipping"
+    ],
+    "coupons": [
+      "MANUKA10"
+    ],
+    "tags": [
+      "wellness",
+      "raw-honey"
+    ]
+  },
+  {
+    "id": "gro-07",
+    "title": "Nature's Bakery Whole Wheat Fig Bars (Varieties Pack of 24)",
+    "brand": "Nature's Bakery",
+    "category": "Grocery",
+    "price": 16.99,
+    "originalPrice": 19.99,
+    "discount": 15,
+    "rating": 4.7,
+    "reviewCount": 8900,
+    "stock": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1508061252966-dfd30969eff2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Crafted with sun-ripened fruit and wholesome stone-ground whole wheat. Perfect plant-based energy snack.",
+    "features": [
+      "Includes Raspberry, Blueberry, and Original Fig flavors",
+      "Non-GMO Project Verified & Vegan",
+      "Nut-free facility baked"
+    ],
+    "specifications": {
+      "Quantity": "24 Twin Packs",
+      "Dietary": "Dairy-Free, Nut-Free, Vegan"
+    },
+    "seller": {
+      "name": "Pantry Express",
+      "rating": 4.8,
+      "returnPolicy": "Freshness Guarantee",
+      "warranty": "Fresh Batch"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Variety Pack"
+    ],
+    "sizes": [
+      "24 Count"
+    ],
+    "offers": [
+      "Save $3 on 2 boxes"
+    ],
+    "coupons": [
+      "FIGBAR3"
+    ],
+    "tags": [
+      "snacks",
+      "vegan"
+    ]
+  },
+  {
+    "id": "gro-08",
+    "title": "Bragg Organic Raw Unfiltered Apple Cider Vinegar with Mother (32 oz)",
+    "brand": "Bragg",
+    "category": "Grocery",
+    "price": 8.99,
+    "originalPrice": 11.99,
+    "discount": 25,
+    "rating": 4.9,
+    "reviewCount": 16400,
+    "stock": 150,
+    "images": [
+      "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Made from 100% organically grown apples containing the amazing \"Mother\" of vinegar containing natural enzymes and friendly probiotics.",
+    "features": [
+      "Raw, unheated, unpasteurized 5% acidity",
+      "USDA Certified Organic & Non-GMO Project Verified",
+      "Supports wellness, digestion and acid balance"
+    ],
+    "specifications": {
+      "Volume": "32 fl oz (946 ml)",
+      "Packaging": "Glass Bottle"
+    },
+    "seller": {
+      "name": "Bragg Official Pantry",
+      "rating": 4.9,
+      "returnPolicy": "Freshness Guarantee",
+      "warranty": "USDA Organic"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Unfiltered Amber"
+    ],
+    "sizes": [
+      "32 oz Glass"
+    ],
+    "offers": [
+      "Buy 2 Get 10% Off"
+    ],
+    "coupons": [
+      "BRAGG10"
+    ],
+    "tags": [
+      "organic",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "gro-09",
+    "title": "Nutiva Organic Extra Virgin Virgin Cold-Pressed Coconut Oil (54 oz)",
+    "brand": "Nutiva",
+    "category": "Grocery",
+    "price": 24.99,
+    "originalPrice": 29.99,
+    "discount": 16,
+    "rating": 4.8,
+    "reviewCount": 6800,
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1587049352847-4a222e784d38?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Nourishing cold-pressed unrefined extra virgin coconut oil ideal for medium-heat baking, cooking, and skin moisturizing.",
+    "features": [
+      "USDA Organic, Non-GMO, Whole30 Approved",
+      "Freshly cold-pressed from fresh organic coconuts",
+      "Rich in Lauric acid and MCTs"
+    ],
+    "specifications": {
+      "Volume": "54 fl oz (1.6 Liters)",
+      "Form": "Solid below 76°F"
+    },
+    "seller": {
+      "name": "Nutiva Store",
+      "rating": 4.8,
+      "returnPolicy": "Quality Guarantee",
+      "warranty": "USDA Organic"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Pure White"
+    ],
+    "sizes": [
+      "54 oz Tub"
+    ],
+    "offers": [
+      "10% off pantry code"
+    ],
+    "coupons": [
+      "NUTIVA10"
+    ],
+    "tags": [
+      "organic",
+      "cooking"
+    ]
+  },
+  {
+    "id": "hom-01",
+    "title": "Dyson V15 Detect Cordless Vacuum Cleaner (Yellow/Nickel)",
+    "brand": "Dyson",
+    "category": "Home & Kitchen",
+    "price": 649,
+    "originalPrice": 749,
+    "discount": 13,
+    "rating": 4.8,
+    "reviewCount": 3120,
+    "stock": 22,
+    "images": [
+      "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517668808822-9e428824603b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Dyson's most powerful, intelligent cordless vacuum. Laser reveals microscopic dust on hard floors and piezo sensor counts particle size.",
+    "features": [
+      "Laser Slim Fluffy cleaner head reveals invisible dust",
+      "Piezo sensor automatically adapts suction power based on dust level",
+      "LCD screen displays scientific proof of deep clean",
+      "Up to 60 minutes of fade-free runtime"
+    ],
+    "specifications": {
+      "Suction Power": "230 AW",
+      "Bin Volume": "0.2 Gallon",
+      "Weight": "6.8 lbs",
+      "Run Time": "Up to 60 mins"
+    },
+    "seller": {
+      "name": "Dyson Official Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days Money Back",
+      "warranty": "2 Years Dyson Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Yellow/Nickel"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Free Extra Filter Tool Kit",
+      "No Cost EMI starting at $54/mo"
+    ],
+    "coupons": [
+      "DYSON50"
+    ],
+    "tags": [
+      "bestseller",
+      "cleaning"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "hom-02",
+    "title": "Nespresso VertuoPlus Coffee and Espresso Machine by De'Longhi",
+    "brand": "Nespresso",
+    "category": "Home & Kitchen",
+    "price": 149,
+    "originalPrice": 199,
+    "discount": 25,
+    "rating": 4.7,
+    "reviewCount": 6890,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1517668808822-9e428824603b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Single-serve coffee brewer featuring Centrifusion technology that spins capsules 7,000 RPM to create perfect barista crema.",
+    "features": [
+      "Brews 5 cup sizes: 5oz & 8oz Coffee, Single & Double Espresso",
+      "Centrifusion technology reads barcode on capsule for precise brewing",
+      "Removable 60 oz water reservoir rotates to fit counter layout"
+    ],
+    "specifications": {
+      "Water Tank": "60 oz",
+      "Heat Up Time": "20 seconds"
+    },
+    "seller": {
+      "name": "Nespresso Direct",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Titanium",
+      "Matte Black",
+      "Red"
+    ],
+    "sizes": [
+      "Machine Only"
+    ],
+    "offers": [
+      "Includes Welcome Box of 12 Nespresso Capsules"
+    ],
+    "coupons": [
+      "NESPRESSO20"
+    ],
+    "tags": [
+      "coffee",
+      "deal"
+    ]
+  },
+  {
+    "id": "hom-03",
+    "title": "Instant Pot Duo 7-in-1 Electric Pressure Cooker 6-Quart",
+    "brand": "Instant Pot",
+    "category": "Home & Kitchen",
+    "price": 79,
+    "originalPrice": 99,
+    "discount": 20,
+    "rating": 4.8,
+    "reviewCount": 42000,
+    "stock": 65,
+    "images": [
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Replaces 7 appliances: pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker, and warmer.",
+    "features": [
+      "One-touch 13 smart cooking programs",
+      "Stainless steel inner pot with tri-ply bottom",
+      "10+ safety features with easy-release steam switch"
+    ],
+    "specifications": {
+      "Capacity": "6 Quarts",
+      "Power": "1000 Watts",
+      "Pot": "18/8 Stainless Steel"
+    },
+    "seller": {
+      "name": "Instant Brands Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Stainless Steel/Black"
+    ],
+    "sizes": [
+      "6-Quart",
+      "8-Quart"
+    ],
+    "offers": [
+      "Free Instant Recipe App access"
+    ],
+    "coupons": [
+      "INSTANT10"
+    ],
+    "tags": [
+      "cooker",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "hom-04",
+    "title": "KitchenAid Artisan Series 5-Quart Stand Mixer (Empire Red)",
+    "brand": "KitchenAid",
+    "category": "Home & Kitchen",
+    "price": 379,
+    "originalPrice": 449,
+    "discount": 16,
+    "rating": 4.9,
+    "reviewCount": 15400,
+    "stock": 18,
+    "images": [
+      "https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The culinary icon. 10 speeds to gently knead, thoroughly mix, and whip ingredients for a wide variety of recipes.",
+    "features": [
+      "5-Quart stainless steel bowl with comfortable handle",
+      "Tilt-head design allows clear access to bowl",
+      "Includes flat beater, dough hook, and wire whip"
+    ],
+    "specifications": {
+      "Capacity": "5 Quarts",
+      "Speeds": "10 Speeds",
+      "Power": "325 Watts"
+    },
+    "seller": {
+      "name": "KitchenAid Official Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Full Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Empire Red",
+      "Contour Silver",
+      "Matte Black",
+      "Pistachio"
+    ],
+    "sizes": [
+      "5-Quart"
+    ],
+    "offers": [
+      "Free Pouring Shield included"
+    ],
+    "coupons": [
+      "KITCHENAID30"
+    ],
+    "tags": [
+      "baker",
+      "kitchen-icon"
+    ]
+  },
+  {
+    "id": "hom-05",
+    "title": "Cosori Air Fryer Max XL 5.8-Quart (13 One-Touch Presets, Black)",
+    "brand": "Cosori",
+    "category": "Home & Kitchen",
+    "price": 99,
+    "originalPrice": 119,
+    "discount": 17,
+    "rating": 4.8,
+    "reviewCount": 28500,
+    "stock": 55,
+    "images": [
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Cook with up to 85% less oil than traditional deep frying while keeping food crispy and delicious.",
+    "features": [
+      "13 one-touch cooking presets",
+      "Nonstick dishwasher-safe square basket fits 5-lb chicken",
+      "Cookbook with 100 original chef recipes"
+    ],
+    "specifications": {
+      "Capacity": "5.8 Quarts",
+      "Temperature": "170°-400°F"
+    },
+    "seller": {
+      "name": "Cosori Official",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "White",
+      "Dark Grey"
+    ],
+    "sizes": [
+      "5.8 Qt"
+    ],
+    "offers": [
+      "10% off code AIRFRY10"
+    ],
+    "coupons": [
+      "AIRFRY10"
+    ],
+    "tags": [
+      "airfryer",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "hom-06",
+    "title": "iRobot Roomba j7+ Self-Emptying Robot Vacuum (Picks up pet hair)",
+    "brand": "iRobot",
+    "category": "Home & Kitchen",
+    "price": 599,
+    "originalPrice": 799,
+    "discount": 25,
+    "rating": 4.6,
+    "reviewCount": 3900,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Avoids pet waste, socks, and cords using PrecisionVision Navigation and empties itself for up to 60 days.",
+    "features": [
+      "Clean Base Automatic Dirt Disposal empties bin for 60 days",
+      "Avoids cords and pet accidents guaranteed (P.O.O.P. promise)",
+      "Dual Multi-Surface Rubber Brushes"
+    ],
+    "specifications": {
+      "Navigation": "PrecisionVision AI Camera",
+      "Runtime": "90 mins auto-recharge"
+    },
+    "seller": {
+      "name": "iRobot Flagship",
+      "rating": 4.7,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Graphite"
+    ],
+    "sizes": [
+      "j7+ Base"
+    ],
+    "offers": [
+      "Save $200 instant discount"
+    ],
+    "coupons": [
+      "ROOMBA50"
+    ],
+    "tags": [
+      "robot",
+      "deal"
+    ]
+  },
+  {
+    "id": "hom-07",
+    "title": "Ninja Creami Ice Cream & Frozen Treat Maker (7 One-Touch Programs)",
+    "brand": "Ninja",
+    "category": "Home & Kitchen",
+    "price": 199,
+    "originalPrice": 229,
+    "discount": 13,
+    "rating": 4.8,
+    "reviewCount": 8900,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1517668808822-9e428824603b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Turn everyday ingredients into ice cream, gelato, sorbet, smoothie bowls, milkshakes, and custom mix-in treats.",
+    "features": [
+      "7 One-Touch programs (Ice Cream, Sorbet, Gelato, Milkshake, etc.)",
+      "Dual-Drive Motors shave ice into smooth creamy texture in minutes",
+      "Includes 2 Creami Pints with storage lids"
+    ],
+    "specifications": {
+      "Pints Included": "2 Pints",
+      "Power": "800 Watts"
+    },
+    "seller": {
+      "name": "Ninja Kitchen Store",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Silver/Black"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Free Extra Pint Tubs coupon"
+    ],
+    "coupons": [
+      "CREAMI20"
+    ],
+    "tags": [
+      "trending",
+      "icecream"
+    ]
+  },
+  {
+    "id": "hom-08",
+    "title": "Philips Sonicare DiamondClean 9000 Smart Electric Toothbrush",
+    "brand": "Philips",
+    "category": "Home & Kitchen",
+    "price": 179,
+    "originalPrice": 229,
+    "discount": 22,
+    "rating": 4.8,
+    "reviewCount": 4100,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Removes up to 10x more plaque than a manual toothbrush. Includes Bluetooth app connectivity and glass charging cup.",
+    "features": [
+      "4 modes & 3 intensities for personalized brushing",
+      "Pressure sensor alerts when brushing too hard",
+      "Deluxe USB charging travel case & glass charger"
+    ],
+    "specifications": {
+      "Battery": "14 Days",
+      "Brush Motion": "Sonic 62,000 movements/min"
+    },
+    "seller": {
+      "name": "Philips Personal Health",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black Edition",
+      "Rose Gold",
+      "White"
+    ],
+    "sizes": [
+      "Single Pack"
+    ],
+    "offers": [
+      "15% off Brush Heads bundle"
+    ],
+    "coupons": [
+      "SONICARE20"
+    ],
+    "tags": [
+      "health",
+      "dental"
+    ]
+  },
+  {
+    "id": "hom-09",
+    "title": "Lodge 10.25-Inch Cast Iron Skillet with Silicone Handle Holder",
+    "brand": "Lodge",
+    "category": "Home & Kitchen",
+    "price": 24,
+    "originalPrice": 34,
+    "discount": 29,
+    "rating": 4.9,
+    "reviewCount": 48000,
+    "stock": 95,
+    "images": [
+      "https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pre-seasoned with 100% natural vegetable oil. Legendary heat retention for searing, baking, broiling, and frying.",
+    "features": [
+      "Pre-seasoned ready to use out of box",
+      "Includes red silicone heat-resistant handle cover",
+      "Made in USA heirloom quality cast iron"
+    ],
+    "specifications": {
+      "Diameter": "10.25 Inches",
+      "Material": "Cast Iron",
+      "Origin": "USA"
+    },
+    "seller": {
+      "name": "Lodge Cast Iron Official",
+      "rating": 4.9,
+      "returnPolicy": "Lifetime Warranty",
+      "warranty": "Made in USA Lifetime"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black Iron"
+    ],
+    "sizes": [
+      "10.25 Inch"
+    ],
+    "offers": [
+      "Buy 2 Get 10% Off"
+    ],
+    "coupons": [
+      "LODGE5"
+    ],
+    "tags": [
+      "castiron",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bea-01",
+    "title": "La Mer Crème de la Mer Ultra-Rich Facial Cream (2 oz / 60ml)",
+    "brand": "La Mer",
+    "category": "Beauty",
+    "price": 380,
+    "originalPrice": 420,
+    "discount": 10,
+    "rating": 4.9,
+    "reviewCount": 920,
+    "stock": 10,
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The legendary ultra-rich cream infused with cell-renewing Miracle Broth™ that immerses skin in deep moisture.",
+    "features": [
+      "Miracle Broth™ accelerates natural cellular renewal",
+      "Soothes visible redness and irritation",
+      "Visibly diminishes fine lines and wrinkles"
+    ],
+    "specifications": {
+      "Volume": "2 oz (60 ml)",
+      "Skin Type": "Dry to Normal",
+      "Key Ingredient": "Miracle Broth"
+    },
+    "seller": {
+      "name": "La Mer Official Luxury",
+      "rating": 5,
+      "returnPolicy": "14 Days Unopened",
+      "warranty": "Guaranteed Authentic"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Classic Cream"
+    ],
+    "sizes": [
+      "60 ml"
+    ],
+    "offers": [
+      "Includes Deluxe Sample Trio Set"
+    ],
+    "coupons": [
+      "LAMER30"
+    ],
+    "tags": [
+      "luxury",
+      "skincare"
+    ],
+    "isFeatured": true
+  },
+  {
+    "id": "bea-02",
+    "title": "Dyson Airwrap Multi-Styler Complete Long (Nickel/Copper)",
+    "brand": "Dyson",
+    "category": "Beauty",
+    "price": 599,
+    "originalPrice": 649,
+    "discount": 8,
+    "rating": 4.8,
+    "reviewCount": 4300,
+    "stock": 16,
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Curl, shape, smooth, and hide flyaways using the Coanda effect with no extreme heat damage.",
+    "features": [
+      "Uses Coanda airflow to attract and wrap hair around barrel",
+      "Intelligent heat control measures temperature 40x per second",
+      "Includes 6 re-engineered styling attachments for long hair"
+    ],
+    "specifications": {
+      "Air Flow": "13.5 l/s",
+      "Heat Settings": "3 Heat / 3 Speed"
+    },
+    "seller": {
+      "name": "Dyson Beauty Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Nickel/Copper",
+      "Strawberry Bronze",
+      "Blue/Blush"
+    ],
+    "sizes": [
+      "Long Barrel"
+    ],
+    "offers": [
+      "Free Dyson Presentation Case"
+    ],
+    "coupons": [
+      "AIRWRAP30"
+    ],
+    "tags": [
+      "bestseller",
+      "haircare"
+    ]
+  },
+  {
+    "id": "bea-03",
+    "title": "Estée Lauder Advanced Night Repair Synchronized Multi-Recovery Serum (1.7 oz)",
+    "brand": "Estée Lauder",
+    "category": "Beauty",
+    "price": 115,
+    "originalPrice": 128,
+    "discount": 10,
+    "rating": 4.9,
+    "reviewCount": 12400,
+    "stock": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The #1 serum in the US. Deep-penetrating night serum that reduces the look of multiple signs of aging.",
+    "features": [
+      "Chronolux™ Power Signal Technology",
+      "Hyaluronic Acid locks in 72-hour moisture",
+      "Oil-free, non-acnegenic dermatologically tested"
+    ],
+    "specifications": {
+      "Volume": "1.7 fl oz (50 ml)",
+      "Skin Type": "All Skin Types"
+    },
+    "seller": {
+      "name": "Estée Lauder Flagship",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Product"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Golden Serum"
+    ],
+    "sizes": [
+      "50 ml"
+    ],
+    "offers": [
+      "Free 7-piece Gift Set with $75 purchase"
+    ],
+    "coupons": [
+      "ESTEE10"
+    ],
+    "tags": [
+      "serum",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bea-04",
+    "title": "MAC Matte Lipstick (Ruby Woo - Iconic Vivid Blue Red)",
+    "brand": "MAC Cosmetics",
+    "category": "Beauty",
+    "price": 23,
+    "originalPrice": 25,
+    "discount": 8,
+    "rating": 4.8,
+    "reviewCount": 18900,
+    "stock": 75,
+    "images": [
+      "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The world-famous vivid blue-red matte lipstick formulation with high color payoff and retro matte finish.",
+    "features": [
+      "Intense color payoff with ultra-matte finish",
+      "10-hour non-feathering longwear formula",
+      "Iconic bullet tube packaging"
+    ],
+    "specifications": {
+      "Finish": "Retro Matte",
+      "Shade": "Ruby Woo"
+    },
+    "seller": {
+      "name": "MAC Cosmetics Official",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Genuine MAC"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Ruby Woo",
+      "Velvet Teddy",
+      "Whirl",
+      "Chili"
+    ],
+    "sizes": [
+      "Standard 3g"
+    ],
+    "offers": [
+      "Buy 2 Get 1 Mini Free"
+    ],
+    "coupons": [
+      "MAC5"
+    ],
+    "tags": [
+      "lipstick",
+      "makeup"
+    ]
+  },
+  {
+    "id": "bea-05",
+    "title": "Chanel Coco Mademoiselle Eau de Parfum Spray (3.4 oz / 100ml)",
+    "brand": "Chanel",
+    "category": "Beauty",
+    "price": 165,
+    "originalPrice": 175,
+    "discount": 6,
+    "rating": 4.9,
+    "reviewCount": 7600,
+    "stock": 20,
+    "images": [
+      "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An amber fragrance with a bold, sensual character. Sparks of fresh vibrant orange recall white jasmine and rose.",
+    "features": [
+      "Top Notes: Orange, Mandarin, Bergamot",
+      "Heart Notes: Turkish Rose, Jasmine, Ylang-Ylang",
+      "Base Notes: Patchouli, Vetiver, Vanilla, White Musk"
+    ],
+    "specifications": {
+      "Concentration": "Eau de Parfum",
+      "Volume": "100 ml (3.4 fl oz)"
+    },
+    "seller": {
+      "name": "NexCart Fragrance Collection",
+      "rating": 5,
+      "returnPolicy": "Sealed Returns",
+      "warranty": "100% Authentic Chanel"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Pink Amber"
+    ],
+    "sizes": [
+      "100 ml"
+    ],
+    "offers": [
+      "Complimentary Chanel Gift Wrapping"
+    ],
+    "coupons": [
+      "CHANEL10"
+    ],
+    "tags": [
+      "perfume",
+      "luxury"
+    ]
+  },
+  {
+    "id": "bea-06",
+    "title": "Olaplex No. 3 Hair Perfector Repairing Treatment (3.3 oz)",
+    "brand": "Olaplex",
+    "category": "Beauty",
+    "price": 30,
+    "originalPrice": 35,
+    "discount": 14,
+    "rating": 4.8,
+    "reviewCount": 32000,
+    "stock": 90,
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "At-home weekly bond-building treatment that reduces breakage and visibly strengthens hair.",
+    "features": [
+      "Patented Bis-Aminopropyl Diglycol Dimaleate technology",
+      "Repairs broken disulfide bonds in damaged hair",
+      "Color-safe, PH balanced, vegan and cruelty-free"
+    ],
+    "specifications": {
+      "Volume": "3.3 fl oz (100 ml)",
+      "Hair Type": "All Damaged Hair Types"
+    },
+    "seller": {
+      "name": "Olaplex Official Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Genuine Olaplex"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White Liquid"
+    ],
+    "sizes": [
+      "100 ml"
+    ],
+    "offers": [
+      "Buy No. 4 and No. 5 save 10%"
+    ],
+    "coupons": [
+      "OLAPLEX5"
+    ],
+    "tags": [
+      "haircare",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bea-07",
+    "title": "Sol de Janeiro Brazilian Bum Bum Cream (8.1 fl oz / 240ml)",
+    "brand": "Sol de Janeiro",
+    "category": "Beauty",
+    "price": 48,
+    "originalPrice": 52,
+    "discount": 8,
+    "rating": 4.9,
+    "reviewCount": 14500,
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Award-winning body cream infused with Guaraná to visibly firm and tighten skin with legendary Cheirosa 62 scent.",
+    "features": [
+      "Guaraná extract rich in caffeine firms skin appearance",
+      "Cupuaçu Butter and Coconut Oil moisturizes deeply",
+      "Delicious Pistachio & Salted Caramel fragrance"
+    ],
+    "specifications": {
+      "Volume": "240 ml (8.1 fl oz)",
+      "Scent": "Cheirosa 62"
+    },
+    "seller": {
+      "name": "Sol de Janeiro Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Authentic Brand"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Yellow Tub"
+    ],
+    "sizes": [
+      "240 ml"
+    ],
+    "offers": [
+      "Free Body Wash sample"
+    ],
+    "coupons": [
+      "SOL5"
+    ],
+    "tags": [
+      "bodycare",
+      "viral"
+    ]
+  },
+  {
+    "id": "bea-08",
+    "title": "CeraVe Hydrating Facial Cleanser (16 fl oz / 473ml Pump)",
+    "brand": "CeraVe",
+    "category": "Beauty",
+    "price": 15.99,
+    "originalPrice": 19.99,
+    "discount": 20,
+    "rating": 4.8,
+    "reviewCount": 45000,
+    "stock": 120,
+    "images": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Dermatologist recommended non-foaming hydrating cleanser with 3 essential ceramides and hyaluronic acid.",
+    "features": [
+      "Formulated with ceramides 1, 3, 6-II to restore protective skin barrier",
+      "MVE Technology encapsulates ingredients for 24-hour hydration",
+      "Fragrance-free, non-comedogenic, non-irritating"
+    ],
+    "specifications": {
+      "Volume": "16 fl oz (473 ml)",
+      "Skin Type": "Normal to Dry"
+    },
+    "seller": {
+      "name": "CeraVe Skincare Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Dermatologist Tested"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Green Lotion"
+    ],
+    "sizes": [
+      "16 oz Pump"
+    ],
+    "offers": [
+      "Subscribe & Save 10%"
+    ],
+    "coupons": [
+      "CERAVE10"
+    ],
+    "tags": [
+      "cleanser",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bea-09",
+    "title": "Paula's Choice Skin Perfecting 2% BHA Liquid Exfoliant (4 oz)",
+    "brand": "Paula's Choice",
+    "category": "Beauty",
+    "price": 35,
+    "originalPrice": 39,
+    "discount": 10,
+    "rating": 4.8,
+    "reviewCount": 38000,
+    "stock": 65,
+    "images": [
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The #1 global best-selling leave-on liquid exfoliant with Salicylic Acid that unclogs pores and smooths wrinkles.",
+    "features": [
+      "2% Salicylic Acid (BHA) sheds built-up dead skin",
+      "Unclogs and shrinks enlarged pores",
+      "Fluid lightweight texture absorbs quickly"
+    ],
+    "specifications": {
+      "Volume": "4 fl oz (118 ml)",
+      "Key Ingredient": "2% Salicylic Acid"
+    },
+    "seller": {
+      "name": "Paula's Choice Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Formula"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Grey Bottle"
+    ],
+    "sizes": [
+      "4 oz Full Size"
+    ],
+    "offers": [
+      "Free travel size with purchase"
+    ],
+    "coupons": [
+      "PAULA10"
+    ],
+    "tags": [
+      "exfoliant",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bok-01",
+    "title": "Atomic Habits by James Clear (Hardcover Edition)",
+    "brand": "Penguin Random House",
+    "category": "Books",
+    "price": 14.99,
+    "originalPrice": 27,
+    "discount": 44,
+    "rating": 4.9,
+    "reviewCount": 112000,
+    "stock": 150,
+    "images": [
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An Easy & Proven Way to Build Good Habits & Break Bad Ones. Over 15 million copies sold worldwide.",
+    "features": [
+      "Learn how to make time for new habits even when life gets crazy",
+      "Overcome lack of motivation and willpower",
+      "Design your environment to make success easier"
+    ],
+    "specifications": {
+      "Format": "Hardcover",
+      "Pages": "320",
+      "Language": "English",
+      "ISBN": "978-0735211292"
+    },
+    "seller": {
+      "name": "NexCart Book World",
+      "rating": 4.9,
+      "returnPolicy": "30 Days Returns",
+      "warranty": "Brand New Original"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White/Yellow Cover"
+    ],
+    "sizes": [
+      "Hardcover"
+    ],
+    "offers": [
+      "Buy 2 Get 1 50% Off on Books"
+    ],
+    "coupons": [
+      "BOOK20"
+    ],
+    "tags": [
+      "bestseller",
+      "self-help"
+    ],
+    "isBestSeller": true
+  },
+  {
+    "id": "bok-02",
+    "title": "The Psychology of Money by Morgan Housel",
+    "brand": "Harriman House",
+    "category": "Books",
+    "price": 12.99,
+    "originalPrice": 19.99,
+    "discount": 35,
+    "rating": 4.8,
+    "reviewCount": 54000,
+    "stock": 90,
+    "images": [
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Timeless lessons on wealth, greed, and happiness doing well with money isn't necessarily about what you know. It's about how you behave.",
+    "features": [
+      "19 short stories exploring strange ways people think about money",
+      "Practical advice for long-term investing and wealth building"
+    ],
+    "specifications": {
+      "Format": "Paperback",
+      "Pages": "252",
+      "Language": "English"
+    },
+    "seller": {
+      "name": "Harper Book House",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Print"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White Cover"
+    ],
+    "sizes": [
+      "Paperback"
+    ],
+    "offers": [
+      "10% off cart promo"
+    ],
+    "coupons": [
+      "READ10"
+    ],
+    "tags": [
+      "finance",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bok-03",
+    "title": "Clean Code: A Handbook of Agile Software Craftsmanship by Robert C. Martin",
+    "brand": "Prentice Hall",
+    "category": "Books",
+    "price": 39.99,
+    "originalPrice": 54.99,
+    "discount": 27,
+    "rating": 4.7,
+    "reviewCount": 8900,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Even bad code can function. But if code isn't clean, it can bring a development organization to its knees.",
+    "features": [
+      "Learn good software practices and refactoring techniques",
+      "Transform bad code into clean readable code",
+      "Includes real case studies and code examples"
+    ],
+    "specifications": {
+      "Format": "Paperback",
+      "Pages": "464",
+      "Topic": "Software Development"
+    },
+    "seller": {
+      "name": "Tech Book Hub",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Official Publication"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White/Blue Cover"
+    ],
+    "sizes": [
+      "Paperback"
+    ],
+    "offers": [
+      "Free bookmark set"
+    ],
+    "coupons": [
+      "CODE10"
+    ],
+    "tags": [
+      "programming",
+      "tech"
+    ]
+  },
+  {
+    "id": "bok-04",
+    "title": "Dune Deluxe Edition Hardcover by Frank Herbert",
+    "brand": "Ace Books",
+    "category": "Books",
+    "price": 24.99,
+    "originalPrice": 40,
+    "discount": 37,
+    "rating": 4.9,
+    "reviewCount": 31000,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The science fiction masterpiece. Deluxe edition features custom stained edges, foil-stamped cover, and endpaper maps.",
+    "features": [
+      "Stained edges and gold foil stamped linen cover",
+      "Illustrated endpapers featuring official map of Arrakis",
+      "Includes intro by Brian Herbert"
+    ],
+    "specifications": {
+      "Format": "Collector Hardcover",
+      "Pages": "688"
+    },
+    "seller": {
+      "name": "Collector's Library",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Mint Condition"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Gold/Blue Cover"
+    ],
+    "sizes": [
+      "Deluxe Hardcover"
+    ],
+    "offers": [
+      "Free Arrakis Map poster"
+    ],
+    "coupons": [
+      "DUNE15"
+    ],
+    "tags": [
+      "scifi",
+      "collector"
+    ]
+  },
+  {
+    "id": "bok-05",
+    "title": "Harry Potter Hardcover Boxed Set (Books 1-7) by J.K. Rowling",
+    "brand": "Scholastic",
+    "category": "Books",
+    "price": 119.99,
+    "originalPrice": 205.93,
+    "discount": 41,
+    "rating": 4.9,
+    "reviewCount": 45000,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The complete set of all seven Harry Potter books housed in a collectible sturdy trunk-style chest.",
+    "features": [
+      "Includes Sorcerer's Stone through Deathly Hallows",
+      "Redesigned jackets by Mary GrandPré",
+      "Collectible heavy chest box container"
+    ],
+    "specifications": {
+      "Format": "Hardcover Boxed Set",
+      "Weight": "13 lbs"
+    },
+    "seller": {
+      "name": "Scholastic Official Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Box Set"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Red Trunk Chest"
+    ],
+    "sizes": [
+      "7 Book Set"
+    ],
+    "offers": [
+      "Free Hogwarts House bookmark"
+    ],
+    "coupons": [
+      "POTTER20"
+    ],
+    "tags": [
+      "fantasy",
+      "boxed-set"
+    ]
+  },
+  {
+    "id": "bok-06",
+    "title": "Sapiens: A Brief History of Humankind by Yuval Noah Harari",
+    "brand": "Harper",
+    "category": "Books",
+    "price": 15.99,
+    "originalPrice": 24.99,
+    "discount": 36,
+    "rating": 4.8,
+    "reviewCount": 78000,
+    "stock": 70,
+    "images": [
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "100,000 years ago, at least six human species inhabited the earth. Today there is just one. Us. Homo sapiens.",
+    "features": [
+      "Bold, wide-ranging provocative narrative of human evolution",
+      "International #1 Bestseller translated into 65 languages"
+    ],
+    "specifications": {
+      "Format": "Paperback",
+      "Pages": "464"
+    },
+    "seller": {
+      "name": "Penguin Direct",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Edition"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White/Red Cover"
+    ],
+    "sizes": [
+      "Paperback"
+    ],
+    "offers": [
+      "10% off 2 books"
+    ],
+    "coupons": [
+      "SAPIENS10"
+    ],
+    "tags": [
+      "history",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bok-07",
+    "title": "Designing Data-Intensive Applications by Martin Kleppmann",
+    "brand": "O'Reilly Media",
+    "category": "Books",
+    "price": 44.99,
+    "originalPrice": 59.99,
+    "discount": 25,
+    "rating": 4.9,
+    "reviewCount": 6200,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The definitive guide to architecture of data systems (databases, distributed systems, streams, and batch processing).",
+    "features": [
+      "Deep dive into internals of storage engines, indexes, and consensus",
+      "Covers consistency, replication, partitioning, and fault tolerance"
+    ],
+    "specifications": {
+      "Publisher": "O'Reilly Media",
+      "Pages": "616"
+    },
+    "seller": {
+      "name": "O'Reilly Tech Store",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "Genuine Print"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Wild Boar Cover"
+    ],
+    "sizes": [
+      "Paperback"
+    ],
+    "offers": [
+      "Free O'Reilly sticker pack"
+    ],
+    "coupons": [
+      "OREILLY15"
+    ],
+    "tags": [
+      "tech",
+      "architecture"
+    ]
+  },
+  {
+    "id": "bok-08",
+    "title": "Thinking, Fast and Slow by Daniel Kahneman",
+    "brand": "Farrar, Straus and Giroux",
+    "category": "Books",
+    "price": 13.49,
+    "originalPrice": 20,
+    "discount": 32,
+    "rating": 4.7,
+    "reviewCount": 42000,
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Nobel Prize winner Daniel Kahneman takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think.",
+    "features": [
+      "System 1 is fast, intuitive, and emotional",
+      "System 2 is slower, more deliberative, and more logical",
+      "Practical insights into decision making in business and personal life"
+    ],
+    "specifications": {
+      "Format": "Paperback",
+      "Pages": "512"
+    },
+    "seller": {
+      "name": "Academic Books Direct",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Print"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White/Matchstick Cover"
+    ],
+    "sizes": [
+      "Paperback"
+    ],
+    "offers": [
+      "Buy 2 Get $5 Off"
+    ],
+    "coupons": [
+      "THINK5"
+    ],
+    "tags": [
+      "psychology",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "bok-09",
+    "title": "Lessons in Chemistry by Bonnie Garmus (Hardcover Bestseller)",
+    "brand": "Doubleday",
+    "category": "Books",
+    "price": 17.99,
+    "originalPrice": 29,
+    "discount": 38,
+    "rating": 4.8,
+    "reviewCount": 89000,
+    "stock": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Chemist Elizabeth Zott is not your average woman. Meet a gifted scientist in 1960s California who becomes the star of America's cooking show.",
+    "features": [
+      "#1 New York Times Bestseller",
+      "Now a major Apple TV+ series",
+      "Witty, fierce, and utterly charming story"
+    ],
+    "specifications": {
+      "Format": "Hardcover",
+      "Pages": "400"
+    },
+    "seller": {
+      "name": "Fiction House Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Edition"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Yellow Cover"
+    ],
+    "sizes": [
+      "Hardcover"
+    ],
+    "offers": [
+      "Free Bookmark"
+    ],
+    "coupons": [
+      "FICTION10"
+    ],
+    "tags": [
+      "fiction",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "toy-01",
+    "title": "LEGO Star Wars Millennium Falcon 75257 (1351 Pieces)",
+    "brand": "LEGO",
+    "category": "Toys",
+    "price": 135.99,
+    "originalPrice": 169.99,
+    "discount": 20,
+    "rating": 4.9,
+    "reviewCount": 7800,
+    "stock": 30,
+    "images": [
+      "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Build and play with the starship of Star Wars: The Rise of Skywalker. Features rotating top/bottom gun turrets, 2 spring-loaded shooters, and opening canopy.",
+    "features": [
+      "Includes 7 minifigures: Finn, Chewbacca, Lando Calrissian, C-3PO, Boolio, R2-D2 and DO",
+      "Detailed interior with cargo area, navigation computer, galley, and bunk",
+      "Measures over 5\" high, 17\" long and 12\" wide"
+    ],
+    "specifications": {
+      "Piece Count": "1351 Pieces",
+      "Age Range": "9+ Years",
+      "Dimensions": "17 x 12 x 5 inches"
+    },
+    "seller": {
+      "name": "LEGO Official Flagship Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days Unopened",
+      "warranty": "Authentic LEGO"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Star Wars Grey"
+    ],
+    "sizes": [
+      "1351 Pcs Set"
+    ],
+    "offers": [
+      "Free LEGO Polybag with purchase over $100"
+    ],
+    "coupons": [
+      "LEGO20"
+    ],
+    "tags": [
+      "bestseller",
+      "lego",
+      "starwars"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "toy-02",
+    "title": "Barbie Dreamhouse 3-Story Dollhouse with Pool & Slide (75+ Accessories)",
+    "brand": "Barbie / Mattel",
+    "category": "Toys",
+    "price": 179.99,
+    "originalPrice": 224.99,
+    "discount": 20,
+    "rating": 4.8,
+    "reviewCount": 5200,
+    "stock": 18,
+    "images": [
+      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Measuring 3 feet tall and 4 feet wide, this fully furnished dream house features 10 indoor and outdoor play areas with working elevator and spiral slide.",
+    "features": [
+      "Working elevator fits 4 dolls or wheelchair",
+      "3-story spiral slide into pool",
+      "75+ furniture and accessory storytelling pieces"
+    ],
+    "specifications": {
+      "Dimensions": "43\" W x 41\" H",
+      "Age": "3+ Years"
+    },
+    "seller": {
+      "name": "Mattel Official Hub",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Original Mattel"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Barbie Pink"
+    ],
+    "sizes": [
+      "Playset"
+    ],
+    "offers": [
+      "Save $45 instant discount"
+    ],
+    "coupons": [
+      "BARBIE20"
+    ],
+    "tags": [
+      "dollhouse",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "toy-03",
+    "title": "Hot Wheels Super Ultimate Garage Playset (Stores 140+ Cars)",
+    "brand": "Hot Wheels",
+    "category": "Toys",
+    "price": 199.99,
+    "originalPrice": 249.99,
+    "discount": 20,
+    "rating": 4.8,
+    "reviewCount": 3900,
+    "stock": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Standing over 3 feet tall, the largest Hot Wheels garage EVER. Features motorized gorilla elevator and side-by-side racetrack.",
+    "features": [
+      "Parking for 140+ Hot Wheels 1:64 scale die-cast cars",
+      "Motorized continuous elevator transports up to 23 cars",
+      "Includes massive Robo T-Rex predator obstacle"
+    ],
+    "specifications": {
+      "Height": "3+ Feet Tall",
+      "Capacity": "140+ Cars"
+    },
+    "seller": {
+      "name": "Hot Wheels Official",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Orange/Blue Track"
+    ],
+    "sizes": [
+      "Garage Set"
+    ],
+    "offers": [
+      "Includes 4 Hot Wheels cars"
+    ],
+    "coupons": [
+      "HOTWHEELS20"
+    ],
+    "tags": [
+      "track",
+      "cars"
+    ]
+  },
+  {
+    "id": "toy-04",
+    "title": "Nerf Elite 2.0 Commander RD-6 Motorized Blaster (12 Darts)",
+    "brand": "Nerf / Hasbro",
+    "category": "Toys",
+    "price": 14.99,
+    "originalPrice": 19.99,
+    "discount": 25,
+    "rating": 4.7,
+    "reviewCount": 9400,
+    "stock": 85,
+    "images": [
+      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Customize the blaster for every battle or mission with 3 tactical rails, barrel attachment point, and stock attachment point.",
+    "features": [
+      "6-dart rotating drum allows rapid fire",
+      "Fires darts up to 90 feet (27 meters)",
+      "Includes 12 Official Nerf Elite foam darts"
+    ],
+    "specifications": {
+      "Range": "90 Feet",
+      "Capacity": "6 Darts"
+    },
+    "seller": {
+      "name": "Hasbro Toy Store",
+      "rating": 4.8,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Nerf"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Blue/Orange"
+    ],
+    "sizes": [
+      "Standard"
+    ],
+    "offers": [
+      "Buy 2 Get 15% Off"
+    ],
+    "coupons": [
+      "NERF5"
+    ],
+    "tags": [
+      "blaster",
+      "outdoor"
+    ]
+  },
+  {
+    "id": "toy-05",
+    "title": "Catan Board Game (3 to 4 Players Trade & Build Strategy)",
+    "brand": "Catan Studio",
+    "category": "Toys",
+    "price": 44,
+    "originalPrice": 55,
+    "discount": 20,
+    "rating": 4.9,
+    "reviewCount": 31000,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The multi-award winning strategy board game where players guide their settlers to victory through clever trading and resource development.",
+    "features": [
+      "Variable board hex tiles ensure every game is unique",
+      "Engaging tactical resource trading and road building",
+      "Playing time approx 60 mins"
+    ],
+    "specifications": {
+      "Players": "3-4 Players",
+      "Age": "10+ Years",
+      "Time": "60 Mins"
+    },
+    "seller": {
+      "name": "Board Game Geek Hub",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Complete Game Guarantee"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Multi Hex"
+    ],
+    "sizes": [
+      "Base Game"
+    ],
+    "offers": [
+      "10% off code strategy games"
+    ],
+    "coupons": [
+      "CATAN10"
+    ],
+    "tags": [
+      "boardgame",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "toy-06",
+    "title": "Tamagotchi Uni Purple Interactive Virtual Pet with Color Screen",
+    "brand": "Bandai",
+    "category": "Toys",
+    "price": 49.99,
+    "originalPrice": 59.99,
+    "discount": 16,
+    "rating": 4.7,
+    "reviewCount": 1820,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Connect to the Tamaverse world! Raise your unique character, dress them up in DIY accessories, and play mini games with Wi-Fi updates.",
+    "features": [
+      "Vibrant color screen & rechargeable battery",
+      "Wi-Fi connection to download new items and visit Tamaverse",
+      "Wearable on wrist with included band"
+    ],
+    "specifications": {
+      "Display": "Color LCD",
+      "Battery": "Rechargeable USB-C"
+    },
+    "seller": {
+      "name": "Bandai Namco Direct",
+      "rating": 4.8,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Purple",
+      "Pink"
+    ],
+    "sizes": [
+      "Wristband Unit"
+    ],
+    "offers": [
+      "Free Screen Protector"
+    ],
+    "coupons": [
+      "TAMA5"
+    ],
+    "tags": [
+      "virtual-pet",
+      "retro"
+    ]
+  },
+  {
+    "id": "toy-07",
+    "title": "Play-Doh Ultimate Color Collection (65 Cans Variety Pack)",
+    "brand": "Play-Doh",
+    "category": "Toys",
+    "price": 21.99,
+    "originalPrice": 26.99,
+    "discount": 18,
+    "rating": 4.8,
+    "reviewCount": 14200,
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Celebrates 65 years of creativity! Pack includes 65 cans of non-toxic modeling compound in wild metallic, confetti, and sparkle colors.",
+    "features": [
+      "Includes 65 1-oz cans of classic and special finish colors",
+      "Features Sparkle, Confetti, and Color Burst compounds",
+      "Non-toxic, safe creative fun for kids"
+    ],
+    "specifications": {
+      "Cans Count": "65 Cans",
+      "Total Weight": "4 lbs"
+    },
+    "seller": {
+      "name": "Hasbro Play-Doh Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Non-Toxic Certified"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "65 Color Rainbow"
+    ],
+    "sizes": [
+      "65 Pack"
+    ],
+    "offers": [
+      "Buy 2 Save 10%"
+    ],
+    "coupons": [
+      "PLAYDOH5"
+    ],
+    "tags": [
+      "arts-crafts",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "toy-08",
+    "title": "Magna-Tiles 100-Piece Clear Colors Educational Building Set",
+    "brand": "Magna-Tiles",
+    "category": "Toys",
+    "price": 119.99,
+    "originalPrice": 129.99,
+    "discount": 8,
+    "rating": 4.9,
+    "reviewCount": 16500,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The original 3D magnetic building set that fuses math, science and creativity. High quality sonic welded clear magnetic shapes.",
+    "features": [
+      "Includes 100 translucent magnetic geometric shapes",
+      "Sonic welded rivets resist cracking for maximum durability",
+      "STEM accredited open-ended building fun"
+    ],
+    "specifications": {
+      "Pieces": "100 Translucent Tiles",
+      "Age": "3+ Years"
+    },
+    "seller": {
+      "name": "Magna-Tiles Official",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Clear Colors"
+    ],
+    "sizes": [
+      "100 Pc Set"
+    ],
+    "offers": [
+      "Free Storage Tote Bag"
+    ],
+    "coupons": [
+      "MAGNA10"
+    ],
+    "tags": [
+      "stem",
+      "magnetic"
+    ]
+  },
+  {
+    "id": "toy-09",
+    "title": "Funko Pop! Star Wars: The Mandalorian with Grogu Vinyl Figure",
+    "brand": "Funko",
+    "category": "Toys",
+    "price": 12.99,
+    "originalPrice": 14.99,
+    "discount": 13,
+    "rating": 4.9,
+    "reviewCount": 8900,
+    "stock": 90,
+    "images": [
+      "https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Official bobble-head vinyl figure of Din Djarin carrying Grogu (The Child) in his pouch.",
+    "features": [
+      "Vinyl bobble-head stands approximately 4.75 inches tall",
+      "Window box display packaging",
+      "Officially licensed Lucasfilm collectible"
+    ],
+    "specifications": {
+      "Material": "Vinyl",
+      "Height": "4.75 Inches"
+    },
+    "seller": {
+      "name": "Funko Pop Central",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Mint Box Guarantee"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Metallic Beskar"
+    ],
+    "sizes": [
+      "Standard Pop"
+    ],
+    "offers": [
+      "Buy 3 Pops for $30"
+    ],
+    "coupons": [
+      "FUNKO5"
+    ],
+    "tags": [
+      "collectible",
+      "mandalorian"
+    ]
+  },
+  {
+    "id": "spo-01",
+    "title": "Wilson Evolution Game Basketball (Official Size 29.5\")",
+    "brand": "Wilson",
+    "category": "Sports",
+    "price": 64.95,
+    "originalPrice": 79.99,
+    "discount": 19,
+    "rating": 4.9,
+    "reviewCount": 22400,
+    "stock": 45,
+    "images": [
+      "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The #1 indoor game basketball in America. Signature Evo Microfiber Composite feel provides soft grip and moisture control.",
+    "features": [
+      "Cushioned core carcass provides softer feel that is easier to grip",
+      "Laid-in composite channels create consistent feel and texture",
+      "NFHS approved high school game ball"
+    ],
+    "specifications": {
+      "Size": "Official Size 29.5\"",
+      "Use": "Indoor Hardwood Only",
+      "Material": "Evo Microfiber Leather"
+    },
+    "seller": {
+      "name": "Wilson Sporting Goods",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "1 Year Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Evolution Orange"
+    ],
+    "sizes": [
+      "Size 7 (29.5\")"
+    ],
+    "offers": [
+      "Includes ball pump needle"
+    ],
+    "coupons": [
+      "WILSON10"
+    ],
+    "tags": [
+      "bestseller",
+      "basketball"
+    ],
+    "isFeatured": true,
+    "isBestSeller": true
+  },
+  {
+    "id": "spo-02",
+    "title": "Yonex Astrox 99 Pro Badminton Racket (4U / Cherry Sunburst)",
+    "brand": "Yonex",
+    "category": "Sports",
+    "price": 210,
+    "originalPrice": 249,
+    "discount": 16,
+    "rating": 4.9,
+    "reviewCount": 1420,
+    "stock": 15,
+    "images": [
+      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Head-heavy power racket featuring Volume Cut Resin matrix and Rotational Generator System designed for decisive power smashes.",
+    "features": [
+      "NAMD graphite produces extraordinary flex and snapback",
+      "Rotational Generator System distributes weight precisely",
+      "Made in Japan craftsmanship"
+    ],
+    "specifications": {
+      "Weight": "4U (83g)",
+      "Grip": "G5",
+      "Flex": "Stiff",
+      "Origin": "Japan"
+    },
+    "seller": {
+      "name": "Yonex Official Pro Shop",
+      "rating": 4.9,
+      "returnPolicy": "14 Days Unstrung",
+      "warranty": "Authentic Japan Yonex"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Cherry Sunburst",
+      "White Tiger"
+    ],
+    "sizes": [
+      "4U / G5"
+    ],
+    "offers": [
+      "Free BG80 Stringing service"
+    ],
+    "coupons": [
+      "YONEX20"
+    ],
+    "tags": [
+      "badminton",
+      "pro"
+    ]
+  },
+  {
+    "id": "spo-03",
+    "title": "Lululemon Reversible Yoga Mat 5mm (Premium Grip Rubber, Black/Slate)",
+    "brand": "Lululemon",
+    "category": "Sports",
+    "price": 88,
+    "originalPrice": 98,
+    "discount": 10,
+    "rating": 4.8,
+    "reviewCount": 5400,
+    "stock": 35,
+    "images": [
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Extra cushioning and sticky grip designed for hot yoga and intense sweating practice with natural rubber base.",
+    "features": [
+      "Polyurethane top layer absorbs moisture for slip-free grip",
+      "5mm thickness cushions hips, knees, and joints",
+      "Antimicrobial additive prevents mold and mildew buildup"
+    ],
+    "specifications": {
+      "Dimensions": "66cm x 180cm",
+      "Thickness": "5mm",
+      "Weight": "2.38 kg"
+    },
+    "seller": {
+      "name": "Lululemon Official Outlet",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Authentic Lululemon"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black/Slate",
+      "Breeze Blue",
+      "Plum"
+    ],
+    "sizes": [
+      "5mm Standard"
+    ],
+    "offers": [
+      "Free Mat Strap included"
+    ],
+    "coupons": [
+      "LULU10"
+    ],
+    "tags": [
+      "yoga",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "spo-04",
+    "title": "Bowflex SelectTech 552 Adjustable Dumbbells (Pair 5 to 52.5 lbs)",
+    "brand": "Bowflex",
+    "category": "Sports",
+    "price": 399,
+    "originalPrice": 549,
+    "discount": 27,
+    "rating": 4.8,
+    "reviewCount": 19800,
+    "stock": 12,
+    "images": [
+      "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Replaces 15 sets of weights! Rapid dial adjustment system lets you switch from 5 lbs up to 52.5 lbs in 2.5 lb increments.",
+    "features": [
+      "Adjusts from 5 to 52.5 lbs per dumbbell",
+      "Durable molding around metal plates creates smooth quiet lift",
+      "Includes 1-Year JRNY On-Demand workout app membership"
+    ],
+    "specifications": {
+      "Weight Range": "5 - 52.5 lbs per dumbbell",
+      "Increments": "15 settings"
+    },
+    "seller": {
+      "name": "Bowflex Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Bowflex Warranty"
+    },
+    "deliveryDays": 2,
+    "freeDelivery": true,
+    "colors": [
+      "Black/Red Dial"
+    ],
+    "sizes": [
+      "Pair (2 Dumbbells)"
+    ],
+    "offers": [
+      "Save $150 instant discount"
+    ],
+    "coupons": [
+      "BOWFLEX50"
+    ],
+    "tags": [
+      "fitness",
+      "homegym",
+      "deal"
+    ]
+  },
+  {
+    "id": "spo-05",
+    "title": "Garmin Edge 840 Solar GPS Cycling Computer with Touchscreen",
+    "brand": "Garmin",
+    "category": "Sports",
+    "price": 499,
+    "originalPrice": 549,
+    "discount": 9,
+    "rating": 4.9,
+    "reviewCount": 920,
+    "stock": 14,
+    "images": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Solar charging lens provides up to 60 hours in battery saver mode. Targeted adaptive coaching and multi-band GNSS accuracy.",
+    "features": [
+      "Power Glass solar charging lens extends battery life",
+      "Touchscreen and button controls for easy map zooming",
+      "Stamina insights and ClimbPro ascent planner"
+    ],
+    "specifications": {
+      "Display": "2.6\" Touchscreen",
+      "Battery": "Up to 60 Hours Solar"
+    },
+    "seller": {
+      "name": "Garmin Outdoor Hub",
+      "rating": 4.9,
+      "returnPolicy": "14 Days",
+      "warranty": "1 Year Garmin Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black Solar"
+    ],
+    "sizes": [
+      "Unit Only"
+    ],
+    "offers": [
+      "Free Bike Mount Kit"
+    ],
+    "coupons": [
+      "EDGE30"
+    ],
+    "tags": [
+      "cycling",
+      "solar"
+    ]
+  },
+  {
+    "id": "spo-06",
+    "title": "Adidas FIFA World Cup 2026 Pro Match Soccer Ball (Thermal Bonded)",
+    "brand": "Adidas",
+    "category": "Sports",
+    "price": 130,
+    "originalPrice": 170,
+    "discount": 24,
+    "rating": 4.9,
+    "reviewCount": 3100,
+    "stock": 40,
+    "images": [
+      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Official match ball featuring seamless thermally bonded panel construction and FIFA Quality Pro certification stamp.",
+    "features": [
+      "Thermally bonded seamless surface for more predictable trajectory",
+      "High-grade butyl bladder for maximum air retention",
+      "FIFA Quality Pro top rating"
+    ],
+    "specifications": {
+      "Size": "Official Size 5",
+      "Certification": "FIFA Quality Pro"
+    },
+    "seller": {
+      "name": "Adidas Soccer Direct",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "Original FIFA Ball"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "White/Gold Graphic"
+    ],
+    "sizes": [
+      "Size 5"
+    ],
+    "offers": [
+      "Includes ball display stand & pump"
+    ],
+    "coupons": [
+      "SOCCER20"
+    ],
+    "tags": [
+      "soccer",
+      "matchball"
+    ]
+  },
+  {
+    "id": "spo-07",
+    "title": "Hydro Flask 32 oz Wide Mouth Insulated Stainless Steel Bottle",
+    "brand": "Hydro Flask",
+    "category": "Sports",
+    "price": 33.95,
+    "originalPrice": 44.95,
+    "discount": 24,
+    "rating": 4.8,
+    "reviewCount": 38000,
+    "stock": 110,
+    "images": [
+      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "TempShield double-wall vacuum insulation keeps drinks ice cold for up to 24 hours or piping hot for up to 12 hours.",
+    "features": [
+      "18/8 pro-grade stainless steel ensure pure taste and no flavor transfer",
+      "Color Last powder coat is dishwasher safe and sweat-free",
+      "BPA-Free and Phthalate-Free leakproof Flex Cap"
+    ],
+    "specifications": {
+      "Capacity": "32 oz (946 ml)",
+      "Material": "18/8 Stainless Steel"
+    },
+    "seller": {
+      "name": "Hydro Flask Official Store",
+      "rating": 4.9,
+      "returnPolicy": "Lifetime Warranty",
+      "warranty": "Limited Lifetime"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black",
+      "Pacific Blue",
+      "Rain Gray",
+      "Lupine Purple"
+    ],
+    "sizes": [
+      "32 oz"
+    ],
+    "offers": [
+      "Buy 2 Get $10 Off"
+    ],
+    "coupons": [
+      "HYDRO10"
+    ],
+    "tags": [
+      "hydration",
+      "bestseller"
+    ]
+  },
+  {
+    "id": "spo-08",
+    "title": "Theragun PRO G5 Percussive Massage Gun with OLED Display",
+    "brand": "Therabody",
+    "category": "Sports",
+    "price": 499,
+    "originalPrice": 599,
+    "discount": 17,
+    "rating": 4.8,
+    "reviewCount": 2900,
+    "stock": 16,
+    "images": [
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Smarter, quieter deep muscle treatment with patented EQ-150 motor. Reaches 60% deeper into muscle than consumer massagers.",
+    "features": [
+      "Patented 16mm amplitude delivers 60% deeper muscle penetration",
+      "OLED screen with 4 built-in visual guided routines",
+      "Includes 6 attachment heads and 2 swappable batteries"
+    ],
+    "specifications": {
+      "Amplitude": "16 mm",
+      "Stall Force": "60 lbs",
+      "Battery": "150 mins per battery"
+    },
+    "seller": {
+      "name": "Therabody Flagship",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Therabody Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Black"
+    ],
+    "sizes": [
+      "PRO G5"
+    ],
+    "offers": [
+      "Free Hard Travel Case included"
+    ],
+    "coupons": [
+      "THERAGUN50"
+    ],
+    "tags": [
+      "recovery",
+      "massage"
+    ]
+  },
+  {
+    "id": "spo-09",
+    "title": "Oakley Radar EV Path Prizm Road Shield Sunglasses (Polished White)",
+    "brand": "Oakley",
+    "category": "Sports",
+    "price": 185,
+    "originalPrice": 225,
+    "discount": 18,
+    "rating": 4.8,
+    "reviewCount": 4200,
+    "stock": 25,
+    "images": [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Tall lens shield design extends upper field of view. Prizm Road lens technology enhances color and contrast to see details.",
+    "features": [
+      "Prizm Road lenses optimize light transmission for road cycling/running",
+      "Lightweight O Matter frame material with ellipse metal icon accents",
+      "Unobtainium earsocks and nosepads increase grip with sweat"
+    ],
+    "specifications": {
+      "Lens": "Prizm Road (20% VLT)",
+      "Frame": "O Matter Polished White"
+    },
+    "seller": {
+      "name": "Oakley Official Store",
+      "rating": 4.9,
+      "returnPolicy": "30 Days",
+      "warranty": "2 Years Oakley Warranty"
+    },
+    "deliveryDays": 1,
+    "freeDelivery": true,
+    "colors": [
+      "Polished White / Prizm Road",
+      "Matte Black / Prizm Trail"
+    ],
+    "sizes": [
+      "Standard Fit"
+    ],
+    "offers": [
+      "Includes Protective Vault Hard Case"
+    ],
+    "coupons": [
+      "OAKLEY20"
+    ],
+    "tags": [
+      "sunglasses",
+      "cycling"
+    ]
   }
 ];
 
 const FALLBACK_CATEGORIES = [
-  { id: 'mobiles', name: 'Mobiles', icon: 'Smartphone', description: 'Flagship smartphones & 5G' },
-  { id: 'laptops', name: 'Laptops', icon: 'Laptop', description: 'Ultrabooks & gaming rigs' },
-  { id: 'electronics', name: 'Electronics', icon: 'Headphones', description: 'Audio & cameras' },
-  { id: 'fashion', name: 'Fashion', icon: 'Shirt', description: 'Apparel & streetwear' },
-  { id: 'shoes', name: 'Shoes', icon: 'Footprints', description: 'Sneakers & boots' },
-  { id: 'watches', name: 'Watches', icon: 'Watch', description: 'Timepieces & smartwatches' },
-  { id: 'grocery', name: 'Grocery', icon: 'ShoppingBag', description: 'Pantry & organic foods' },
-  { id: 'home-kitchen', name: 'Home & Kitchen', icon: 'Home', description: 'Smart appliances & decor' },
-  { id: 'beauty', name: 'Beauty', icon: 'Sparkles', description: 'Skincare & fragrances' },
-  { id: 'books', name: 'Books', icon: 'BookOpen', description: 'Bestsellers & non-fiction' },
-  { id: 'toys', name: 'Toys', icon: 'Gamepad2', description: 'LEGO & collectibles' },
-  { id: 'sports', name: 'Sports', icon: 'Trophy', description: 'Fitness gear & equipment' }
+  {
+    "id": "mobiles",
+    "name": "Mobiles",
+    "icon": "Smartphone",
+    "description": "Flagship smartphones, 5G devices & mobile accessories"
+  },
+  {
+    "id": "laptops",
+    "name": "Laptops",
+    "icon": "Laptop",
+    "description": "High-performance laptops, ultrabooks & gaming rigs"
+  },
+  {
+    "id": "electronics",
+    "name": "Electronics",
+    "icon": "Headphones",
+    "description": "Audio, cameras, smart displays & accessories"
+  },
+  {
+    "id": "fashion",
+    "name": "Fashion",
+    "icon": "Shirt",
+    "description": "Trendy apparel, designer wear & seasonal collections"
+  },
+  {
+    "id": "shoes",
+    "name": "Shoes",
+    "icon": "Footprints",
+    "description": "Sneakers, formal shoes, running & athletic footwear"
+  },
+  {
+    "id": "watches",
+    "name": "Watches",
+    "icon": "Watch",
+    "description": "Luxury timepieces, smartwatches & fitness bands"
+  },
+  {
+    "id": "grocery",
+    "name": "Grocery",
+    "icon": "ShoppingBag",
+    "description": "Organic staples, gourmet foods & daily essentials"
+  },
+  {
+    "id": "home-kitchen",
+    "name": "Home & Kitchen",
+    "icon": "Home",
+    "description": "Smart appliances, cookware & interior decor"
+  },
+  {
+    "id": "beauty",
+    "name": "Beauty",
+    "icon": "Sparkles",
+    "description": "Skincare, cosmetics, hair care & luxury fragrances"
+  },
+  {
+    "id": "books",
+    "name": "Books",
+    "icon": "BookOpen",
+    "description": "Bestsellers, tech manuals, fiction & self-help"
+  },
+  {
+    "id": "toys",
+    "name": "Toys",
+    "icon": "Gamepad2",
+    "description": "Action figures, LEGO sets, educational toys & games"
+  },
+  {
+    "id": "sports",
+    "name": "Sports",
+    "icon": "Trophy",
+    "description": "Fitness gear, outdoor sports equipment & activewear"
+  }
 ];
 
 async function apiFetch(path, options = {}) {
   const token = getAccessToken();
   const headers = {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` }),
+    ...(token && { Authorization: 'Bearer ' + token }),
     ...options.headers,
   };
 
   try {
-    const res = await fetch(`${API_BASE}${path}`, {
+    const res = await fetch(API_BASE + path, {
       ...options,
       headers,
     });
 
     if (!res.ok) {
-      throw new Error(`HTTP ${res.status}`);
+      throw new Error('HTTP ' + res.status);
     }
 
     return await res.json();
   } catch (err) {
-    console.warn(`[NexCart API] Backend unavailable for ${path}, using static fallback catalog.`);
     return null;
   }
 }
@@ -208,7 +6078,7 @@ export async function login(email, password) {
 
 export async function logout() { clearTokens(); }
 export async function getMe() { return apiFetch('/auth/me') || null; }
-export async function updateUserProfile(id, updates) { return apiFetch(`/users/${id}`, { method: 'PUT', body: JSON.stringify(updates) }); }
+export async function updateUserProfile(id, updates) { return apiFetch('/users/' + id, { method: 'PUT', body: JSON.stringify(updates) }); }
 
 // ── Products Client-Side Filter Fallback ────────────────────────────────────
 export async function fetchProducts(filters = {}) {
@@ -219,31 +6089,34 @@ export async function fetchProducts(filters = {}) {
     }
   });
 
-  const remote = await apiFetch(`/products?${params.toString()}`);
-  if (remote && Array.isArray(remote.products)) {
+  const remote = await apiFetch('/products?' + params.toString());
+  if (remote && Array.isArray(remote.products) && remote.products.length > 0) {
     return remote;
   }
 
-  // Seamless fallback for Vercel static deployments
+  // Seamless fallback for Vercel static deployments with 109 Products
   let list = [...FALLBACK_PRODUCTS];
 
   if (filters.category && filters.category.toLowerCase() !== 'all') {
     const cat = filters.category.toLowerCase();
-    list = list.filter(p => p.category.toLowerCase() === cat || (cat === 'home & kitchen' && p.category.toLowerCase() === 'home-kitchen'));
+    list = list.filter(p => {
+      const pCat = (p.category || '').toLowerCase();
+      return pCat === cat || (cat === 'home & kitchen' && pCat === 'home-kitchen') || (cat === 'home-kitchen' && pCat === 'home & kitchen');
+    });
   }
 
   if (filters.search && filters.search.trim()) {
     const q = filters.search.trim().toLowerCase();
     list = list.filter(p => 
-      p.title.toLowerCase().includes(q) ||
-      p.brand.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q)
+      (p.title || '').toLowerCase().includes(q) ||
+      (p.brand || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q) ||
+      (p.description || '').toLowerCase().includes(q)
     );
   }
 
   if (filters.brand && filters.brand !== 'all') {
-    list = list.filter(p => p.brand.toLowerCase() === filters.brand.toLowerCase());
+    list = list.filter(p => (p.brand || '').toLowerCase() === filters.brand.toLowerCase());
   }
 
   if (filters.minPrice) {
@@ -255,10 +6128,29 @@ export async function fetchProducts(filters = {}) {
   }
 
   if (filters.rating) {
-    list = list.filter(p => p.rating >= Number(filters.rating));
+    list = list.filter(p => (p.rating || 0) >= Number(filters.rating));
   }
 
-  const brands = Array.from(new Set(FALLBACK_PRODUCTS.map(p => p.brand)));
+  if (filters.minDiscount) {
+    list = list.filter(p => (p.discount || 0) >= Number(filters.minDiscount));
+  }
+
+  if (filters.inStock) {
+    list = list.filter(p => (p.stock || 0) > 0);
+  }
+
+  // Sort
+  if (filters.sort === 'price-low') {
+    list.sort((a, b) => a.price - b.price);
+  } else if (filters.sort === 'price-high') {
+    list.sort((a, b) => b.price - a.price);
+  } else if (filters.sort === 'rating') {
+    list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  } else if (filters.sort === 'newest') {
+    list.sort((a, b) => b.id.localeCompare(a.id));
+  }
+
+  const brands = Array.from(new Set(FALLBACK_PRODUCTS.map(p => p.brand).filter(Boolean)));
 
   return {
     products: list,
@@ -268,13 +6160,13 @@ export async function fetchProducts(filters = {}) {
 }
 
 export async function fetchProductById(id) {
-  const remote = await apiFetch(`/products/${id}`);
+  const remote = await apiFetch('/products/' + id);
   return remote || FALLBACK_PRODUCTS.find(p => p.id === id) || FALLBACK_PRODUCTS[0];
 }
 
 export async function createProduct(productData) { return apiFetch('/products', { method: 'POST', body: JSON.stringify(productData) }); }
-export async function updateProduct(id, updates) { return apiFetch(`/products/${id}`, { method: 'PUT', body: JSON.stringify(updates) }); }
-export async function deleteProduct(id) { return apiFetch(`/products/${id}`, { method: 'DELETE' }); }
+export async function updateProduct(id, updates) { return apiFetch('/products/' + id, { method: 'PUT', body: JSON.stringify(updates) }); }
+export async function deleteProduct(id) { return apiFetch('/products/' + id, { method: 'DELETE' }); }
 
 // ── Categories ──────────────────────────────────────────────────────────────
 export async function fetchCategories() {
@@ -287,15 +6179,15 @@ export async function createCategory(categoryData) { return apiFetch('/categorie
 // ── Orders ──────────────────────────────────────────────────────────────────
 export async function submitOrder(orderData) {
   const remote = await apiFetch('/orders', { method: 'POST', body: JSON.stringify(orderData) });
-  return remote || { orderId: `NEX-${Math.floor(100000 + Math.random() * 900000)}`, status: 'Packed', ...orderData };
+  return remote || { orderId: 'NEX-' + Math.floor(100000 + Math.random() * 900000), status: 'Packed', ...orderData };
 }
 
-export async function fetchOrders(email = '') { return (await apiFetch(`/orders${email ? `?email=${encodeURIComponent(email)}` : ''}`)) || []; }
-export async function fetchOrderById(id) { return apiFetch(`/orders/${id}`); }
-export async function updateOrderStatus(id, status, note = '') { return apiFetch(`/orders/${id}/status`, { method: 'PUT', body: JSON.stringify({ status, note }) }); }
+export async function fetchOrders(email = '') { return (await apiFetch('/orders' + (email ? '?email=' + encodeURIComponent(email) : ''))) || []; }
+export async function fetchOrderById(id) { return apiFetch('/orders/' + id); }
+export async function updateOrderStatus(id, status, note = '') { return apiFetch('/orders/' + id + '/status', { method: 'PUT', body: JSON.stringify({ status, note }) }); }
 
 // ── Reviews & Coupons ───────────────────────────────────────────────────────
-export async function addReview(productId, reviewData) { return apiFetch(`/products/${productId}/reviews`, { method: 'POST', body: JSON.stringify(reviewData) }); }
+export async function addReview(productId, reviewData) { return apiFetch('/products/' + productId + '/reviews', { method: 'POST', body: JSON.stringify(reviewData) }); }
 export async function fetchCoupons() { return (await apiFetch('/coupons')) || []; }
 export async function validateCoupon(code, subtotal) {
   const remote = await apiFetch('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, subtotal }) });
@@ -306,10 +6198,10 @@ export async function validateCoupon(code, subtotal) {
   return { valid: false, message: 'Invalid coupon code' };
 }
 export async function createCoupon(couponData) { return apiFetch('/coupons', { method: 'POST', body: JSON.stringify(couponData) }); }
-export async function deleteCoupon(code) { return apiFetch(`/coupons/${code}`, { method: 'DELETE' }); }
+export async function deleteCoupon(code) { return apiFetch('/coupons/' + code, { method: 'DELETE' }); }
 
 // ── Payments & Analytics ─────────────────────────────────────────────────────
-export async function processPayment(paymentData) { return (await apiFetch('/payments/process', { method: 'POST', body: JSON.stringify(paymentData) })) || { success: true, transactionId: `TXN-${Date.now()}` }; }
+export async function processPayment(paymentData) { return (await apiFetch('/payments/process', { method: 'POST', body: JSON.stringify(paymentData) })) || { success: true, transactionId: 'TXN-' + Date.now() }; }
 export async function fetchAnalytics() { return (await apiFetch('/analytics')) || { totalRevenue: 48920, totalOrders: 142, totalProducts: 109 }; }
 export async function fetchUsers() { return (await apiFetch('/users')) || []; }
-export async function sendAIChat(message) { return (await apiFetch('/ai-chat', { method: 'POST', body: JSON.stringify({ message }) })) || { reply: `I found great products for "${message}". Enjoy free 1-day delivery!` }; }
+export async function sendAIChat(message) { return (await apiFetch('/ai-chat', { method: 'POST', body: JSON.stringify({ message }) })) || { reply: 'I found great products for "' + message + '". Enjoy free 1-day delivery!' }; }
