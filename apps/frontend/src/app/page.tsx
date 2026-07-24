@@ -64,8 +64,8 @@ export default function Home() {
     });
   }, [products, searchQuery, selectedCategory, priceRange]);
 
-  // Step 4 Sections (Always populated from MOCK_PRODUCTS if searchQuery is empty)
-  const baseList = searchQuery ? filteredProducts : MOCK_PRODUCTS;
+  // Step 4 Sections
+  const baseList = filteredProducts;
   const todaysDeals = useMemo(() => baseList.filter((p) => p.discountPrice != null).slice(0, 8), [baseList]);
   const bestSellers = useMemo(() => [...baseList].sort((a, b) => b.reviewCount - a.reviewCount).slice(0, 8), [baseList]);
   const trendingProducts = useMemo(() => [...baseList].sort((a, b) => b.rating - a.rating).slice(0, 8), [baseList]);
