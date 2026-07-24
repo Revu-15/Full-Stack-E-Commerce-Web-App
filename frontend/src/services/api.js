@@ -17705,13 +17705,53 @@ export async function fetchCategories() {
 
 export async function createCategory(categoryData) { return apiFetch('/categories', { method: 'POST', body: JSON.stringify(categoryData) }); }
 
-// ── Orders ──────────────────────────────────────────────────────────────────
 export async function submitOrder(orderData) {
   const remote = await apiFetch('/orders', { method: 'POST', body: JSON.stringify(orderData) });
-  return remote || { orderId: 'NEX-' + Math.floor(100000 + Math.random() * 900000), status: 'Packed', ...orderData };
+  const created = remote || {
+    id: 'NEX-' + Math.floor(100000 + Math.random() * 900000),
+    orderId: 'NEX-' + Math.floor(100000 + Math.random() * 900000),
+    status: 'Accepted',
+    createdAt: new Date().toISOString(),
+    orderDate: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
+    ...orderData
+  };
+
+  try {
+    const existingRaw = localStorage.getItem('nexcart_local_orders');
+    const existing = existingRaw ? JSON.parse(existingRaw) : [];
+    const filtered = existing.filter(o => o.id !== created.id);
+    filtered.unshift(created);
+    localStorage.setItem('nexcart_local_orders', JSON.stringify(filtered));
+  } catch (e) {
+    console.warn('LocalStorage order save warning:', e);
+  }
+
+  return created;
 }
 
-export async function fetchOrders(email = '') { return (await apiFetch('/orders' + (email ? '?email=' + encodeURIComponent(email) : ''))) || []; }
+export async function fetchOrders(email = '') {
+  const remote = await apiFetch('/orders' + (email ? '?email=' + encodeURIComponent(email) : ''));
+  if (Array.isArray(remote) && remote.length > 0) return remote;
+
+  try {
+    const raw = localStorage.getItem('nexcart_local_orders');
+    const localOrders = raw ? JSON.parse(raw) : [];
+
+    if (email && email.trim()) {
+      const targetEmail = email.trim().toLowerCase();
+      const filtered = localOrders.filter(o =>
+        (o.customer?.email || '').toLowerCase() === targetEmail ||
+        (o.shippingAddress?.email || '').toLowerCase() === targetEmail
+      );
+      return filtered.length > 0 ? filtered : localOrders;
+    }
+
+    return localOrders;
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchOrderById(id) { return apiFetch('/orders/' + id); }
 export async function updateOrderStatus(id, status, note = '') { return apiFetch('/orders/' + id + '/status', { method: 'PUT', body: JSON.stringify({ status, note }) }); }
 
