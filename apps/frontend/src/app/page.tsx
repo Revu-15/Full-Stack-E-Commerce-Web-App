@@ -21,7 +21,7 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState<number>(1000);
+  const [priceRange, setPriceRange] = useState<number>(200000);
   const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
 
   // Interactive States
@@ -253,14 +253,14 @@ export default function Home() {
                 <span className="text-xs text-gray-400">Max Price:</span>
                 <input
                   type="range"
-                  min="50"
-                  max="1000"
-                  step="50"
+                  min="1000"
+                  max="200000"
+                  step="5000"
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
                   className="w-24 accent-amber-500 cursor-pointer"
                 />
-                <span className="text-xs font-bold text-amber-300">${priceRange}</span>
+                <span className="text-xs font-bold text-amber-300">₹{priceRange.toLocaleString('en-IN')}</span>
               </div>
             </div>
           </div>
