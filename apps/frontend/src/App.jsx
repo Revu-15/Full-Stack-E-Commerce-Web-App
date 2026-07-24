@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShopProvider } from './context/ShopContext.jsx';
+import { ShopProvider, useShop } from './context/ShopContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import HeroBanner from './components/HeroBanner.jsx';
 import ProductCatalog from './components/ProductCatalog.jsx';
