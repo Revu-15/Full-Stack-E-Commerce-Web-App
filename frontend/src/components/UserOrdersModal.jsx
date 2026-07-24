@@ -1,242 +1,245 @@
 import React, { useState, useEffect } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
-import { fetchOrders, fetchOrderById } from '../services/api.js';
-import { X, Package, Clock, Truck, CheckCircle2, Search, ArrowRight, RefreshCw } from 'lucide-react';
+import * as api from '../services/api.js';
+import {
+  X, Package, Truck, CheckCircle2, Clock, FileText, AlertTriangle, ArrowRight, ShieldCheck, MapPin, User, LogOut
+} from 'lucide-react';
+
+const ORDER_STEPS = ['Pending', 'Packed', 'Shipped', 'Out For Delivery', 'Delivered'];
 
 export default function UserOrdersModal() {
-  const { isOrdersOpen, setIsOrdersOpen } = useShop();
+  const { isOrdersOpen, setIsOrdersOpen, user, openInvoiceModal, addToast, logoutUser } = useShop();
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
-    if (!isOrdersOpen) return;
-
-    async function loadOrders() {
-      try {
-        setLoading(true);
-        const data = await fetchOrders();
-        setOrders(data || []);
-        if (data && data.length > 0) {
-          setSelectedOrder(data[0]);
-        }
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-      } finally {
-        setLoading(false);
-      }
+    if (isOrdersOpen) {
+      setLoading(true);
+      api.fetchOrders(user?.email || '')
+        .then(res => {
+          if (Array.isArray(res)) {
+            setOrders(res);
+            if (res.length > 0) setSelectedOrder(res[0]);
+          }
+          setLoading(false);
+        })
+        .catch(err => {
+          console.warn('Could not fetch user orders:', err);
+          setLoading(false);
+        });
     }
-
-    loadOrders();
-  }, [isOrdersOpen]);
+  }, [isOrdersOpen, user]);
 
   if (!isOrdersOpen) return null;
 
-  const filteredOrders = orders.filter(o =>
-    o.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    o.trackingNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (o.customer && o.customer.email && o.customer.email.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const handleCancelOrder = async (orderId) => {
+    try {
+      const updated = await api.updateOrderStatus(orderId, 'Cancelled', 'Cancelled by customer');
+      setOrders(prev => prev.map(o => o.id === orderId ? updated : o));
+      if (selectedOrder?.id === orderId) setSelectedOrder(updated);
+      addToast('Order has been cancelled.', 'info');
+    } catch (err) {
+      addToast('Failed to cancel order.', 'error');
+    }
+  };
 
-  const getStatusStepIndex = (status) => {
-    const s = (status || '').toLowerCase();
-    if (s.includes('order placed') || s.includes('pending')) return 0;
-    if (s.includes('processing')) return 1;
-    if (s.includes('shipped') || s.includes('transit')) return 2;
-    if (s.includes('delivered')) return 3;
-    return 1;
+  const getStepIndex = (status) => {
+    const idx = ORDER_STEPS.indexOf(status);
+    return idx === -1 ? 0 : idx;
   };
 
   return (
-    <div className="modal-overlay" onClick={() => setIsOrdersOpen(false)}>
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 215,
+        background: 'rgba(15, 23, 42, 0.75)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        overflowY: 'auto'
+      }}
+      onClick={() => setIsOrdersOpen(false)}
+    >
       <div
-        className="glass-modal"
-        onClick={(e) => e.stopPropagation()}
         style={{
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 'var(--radius-lg)',
+          maxWidth: '1000px',
           width: '100%',
-          maxWidth: '900px',
-          height: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          padding: '2rem',
           position: 'relative',
-          overflow: 'hidden'
+          boxShadow: 'var(--shadow-lg)'
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div style={{
-          padding: '1.25rem 1.5rem',
-          borderBottom: '1px solid var(--border-color)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Package size={22} color="var(--accent-primary)" />
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>My Orders & Tracking</h3>
+            <Package size={22} style={{ color: 'var(--accent-primary)' }} />
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 900 }}>My Orders & Account History</h3>
           </div>
-          <button onClick={() => setIsOrdersOpen(false)} className="btn-icon">
+          <button onClick={() => setIsOrdersOpen(false)} style={{ color: 'var(--text-muted)' }}>
             <X size={20} />
           </button>
         </div>
 
-        {/* Content Layout: Orders List Sidebar + Order Detail View */}
-        <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '300px 1fr', overflow: 'hidden' }}>
+        {/* Content Layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '1.75rem' }}>
           
-          {/* Left Orders List */}
-          <div style={{
-            borderRight: '1px solid var(--border-color)',
-            background: 'var(--bg-secondary)',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden'
-          }}>
-            {/* Search Input */}
-            <div style={{ padding: '0.85rem' }}>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  placeholder="Order or tracking #..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '0.5rem 0.5rem 0.5rem 2rem',
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--bg-surface)',
-                    border: '1px solid var(--border-color)',
-                    fontSize: '0.82rem',
-                    color: 'var(--text-primary)'
-                  }}
-                />
-                <Search size={14} style={{ position: 'absolute', left: '0.65rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              </div>
-            </div>
+          {/* Orders List Sidebar */}
+          <div style={{ borderRight: '1px solid var(--border-color)', paddingRight: '1.25rem' }}>
+            <h4 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+              Your Orders ({orders.length})
+            </h4>
 
-            {/* List */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '0 0.85rem 0.85rem 0.85rem' }}>
-              {loading ? (
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>Loading orders...</p>
-              ) : filteredOrders.length === 0 ? (
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>No orders found</p>
-              ) : (
-                filteredOrders.map(order => {
-                  const isSelected = selectedOrder && selectedOrder.id === order.id;
-                  return (
-                    <div
-                      key={order.id}
-                      onClick={() => setSelectedOrder(order)}
-                      style={{
-                        padding: '0.85rem',
-                        borderRadius: 'var(--radius-md)',
-                        background: isSelected ? 'var(--bg-surface)' : 'transparent',
-                        border: isSelected ? '1px solid var(--accent-primary)' : '1px solid transparent',
-                        marginBottom: '0.5rem',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease'
-                      }}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{order.orderNumber}</span>
-                        <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-primary)' }}>${order.totalAmount.toFixed(2)}</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                        <span>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'Recent'}</span>
-                        <span className="badge badge-stock" style={{ fontSize: '0.65rem', padding: '0.1rem 0.4rem' }}>{order.status}</span>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          {/* Right Selected Order Details & Tracking Stepper */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
-            {selectedOrder ? (
-              <div>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  marginBottom: '1.5rem',
-                  paddingBottom: '1rem',
-                  borderBottom: '1px solid var(--border-color)'
-                }}>
-                  <div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Order #{selectedOrder.orderNumber}</h3>
-                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                      Tracking Number: <strong style={{ color: 'var(--text-primary)' }}>{selectedOrder.trackingNumber}</strong>
-                    </span>
-                  </div>
-                  <span className="badge badge-stock" style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}>
-                    Status: {selectedOrder.status}
-                  </span>
-                </div>
-
-                {/* Tracking Progress Timeline */}
-                <div style={{
-                  background: 'var(--bg-secondary)',
-                  padding: '1.25rem',
-                  borderRadius: 'var(--radius-md)',
-                  marginBottom: '1.5rem'
-                }}>
-                  <h4 style={{ fontSize: '0.9rem', fontWeight: 700, marginBottom: '1.25rem' }}>Order Fulfillment Timeline</h4>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem', textAlign: 'center', position: 'relative' }}>
-                    {['Placed', 'Processing', 'Shipped', 'Delivered'].map((stepLabel, idx) => {
-                      const activeIndex = getStatusStepIndex(selectedOrder.status);
-                      const isComplete = idx <= activeIndex;
-                      return (
-                        <div key={stepLabel} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                          <div style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            background: isComplete ? 'var(--accent-gradient)' : 'var(--bg-tertiary)',
-                            color: '#fff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontWeight: 700,
-                            boxShadow: isComplete ? 'var(--shadow-glow)' : 'none'
-                          }}>
-                            {isComplete ? <CheckCircle2 size={18} /> : idx + 1}
-                          </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: isComplete ? 700 : 500, color: isComplete ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                            {stepLabel}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Items Breakdown */}
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.75rem' }}>Items in this Order</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                  {(selectedOrder.items || []).map((item, idx) => (
-                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.65rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
-                      <img src={item.image} alt={item.title} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '4px' }} />
-                      <div style={{ flex: 1 }}>
-                        <h5 style={{ fontSize: '0.85rem', fontWeight: 700 }}>{item.title}</h5>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Qty: {item.quantity} × ${item.price.toFixed(2)}</span>
-                      </div>
-                      <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>${(item.quantity * item.price).toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Total Summary */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.85rem 1rem', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)' }}>
-                  <span style={{ fontWeight: 600 }}>Total Paid:</span>
-                  <span style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--accent-primary)' }}>${selectedOrder.totalAmount.toFixed(2)}</span>
-                </div>
+            {loading ? (
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Loading orders...</p>
+            ) : orders.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                <Package size={32} color="var(--text-muted)" style={{ margin: '0 auto 0.5rem auto' }} />
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>No orders placed yet.</p>
               </div>
             ) : (
-              <div style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-muted)' }}>
-                <Package size={40} style={{ marginBottom: '1rem', opacity: 0.5 }} />
-                <p>Select an order from the list to view tracking details.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', maxHeight: '480px', overflowY: 'auto' }}>
+                {orders.map(order => (
+                  <button
+                    key={order.id}
+                    onClick={() => setSelectedOrder(order)}
+                    style={{
+                      textAlign: 'left',
+                      padding: '0.75rem',
+                      borderRadius: 'var(--radius-md)',
+                      background: selectedOrder?.id === order.id ? 'var(--bg-secondary)' : 'var(--bg-surface)',
+                      border: selectedOrder?.id === order.id ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '0.83rem' }}>
+                      <span>{order.orderId}</span>
+                      <span>${order.totalAmount?.toFixed(2)}</span>
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
+                      {order.orderDate}
+                    </div>
+                    <span style={{
+                      display: 'inline-block',
+                      marginTop: '0.4rem',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      padding: '0.15rem 0.45rem',
+                      borderRadius: 'var(--radius-sm)',
+                      background: order.status === 'Delivered' ? '#dcfce7' : order.status === 'Cancelled' ? '#fee2e2' : '#e0e7ff',
+                      color: order.status === 'Delivered' ? '#166534' : order.status === 'Cancelled' ? '#991b1b' : '#3730a3'
+                    }}>
+                      {order.status}
+                    </span>
+                  </button>
+                ))}
               </div>
+            )}
+          </div>
+
+          {/* Selected Order Track Details */}
+          <div>
+            {selectedOrder ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                
+                {/* Order Summary Strip */}
+                <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 900 }}>Order #{selectedOrder.orderId}</h4>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Tracking #: {selectedOrder.trackingNumber}</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => openInvoiceModal(selectedOrder)}
+                      style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.45rem 0.85rem', borderRadius: 'var(--radius-sm)', fontWeight: 700, fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
+                    >
+                      <FileText size={14} /> View Invoice
+                    </button>
+
+                    {selectedOrder.status !== 'Cancelled' && selectedOrder.status !== 'Delivered' && (
+                      <button
+                        onClick={() => handleCancelOrder(selectedOrder.id)}
+                        style={{ background: '#fee2e2', color: '#ef4444', padding: '0.45rem 0.75rem', borderRadius: 'var(--radius-sm)', fontWeight: 700, fontSize: '0.78rem' }}
+                      >
+                        Cancel Order
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Real-time Order Tracker Stepper */}
+                {selectedOrder.status !== 'Cancelled' ? (
+                  <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.25rem' }}>
+                    <h5 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
+                      Live Order Tracking Progress
+                    </h5>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
+                      {ORDER_STEPS.map((stepName, idx) => {
+                        const currentIdx = getStepIndex(selectedOrder.status);
+                        const isDone = idx <= currentIdx;
+                        return (
+                          <div key={stepName} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, position: 'relative', zIndex: 2 }}>
+                            <div style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+                              background: isDone ? '#16a34a' : 'var(--bg-secondary)',
+                              color: isDone ? '#fff' : 'var(--text-muted)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontWeight: 800,
+                              fontSize: '0.8rem',
+                              border: isDone ? 'none' : '1px solid var(--border-color)'
+                            }}>
+                              {isDone ? <CheckCircle2 size={18} /> : idx + 1}
+                            </div>
+                            <span style={{ fontSize: '0.72rem', fontWeight: isDone ? 800 : 500, color: isDone ? 'var(--text-primary)' : 'var(--text-muted)', marginTop: '0.4rem', textAlign: 'center' }}>
+                              {stepName}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ background: '#fee2e2', border: '1px solid #fca5a5', padding: '1rem', borderRadius: 'var(--radius-md)', color: '#991b1b', fontSize: '0.85rem', fontWeight: 700 }}>
+                    ⚠️ This order was cancelled. Refund processed to original payment method.
+                  </div>
+                )}
+
+                {/* Items in Order */}
+                <div>
+                  <h5 style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                    Items Purchased ({selectedOrder.items?.length})
+                  </h5>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {(selectedOrder.items || []).map((item, idx) => (
+                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)', padding: '0.65rem 0.85rem', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem' }}>
+                        <div>
+                          <strong style={{ color: 'var(--text-primary)' }}>{item.title}</strong>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>Qty: {item.quantity} | Price: ${item.price.toFixed(2)}</span>
+                        </div>
+                        <span style={{ fontWeight: 900 }}>${(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            ) : (
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Select an order from the list to view tracking information.</p>
             )}
           </div>
 

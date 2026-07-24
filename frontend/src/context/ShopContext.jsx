@@ -5,19 +5,33 @@ const ShopContext = createContext();
 
 export function ShopProvider({ children }) {
   // ── Theme ─────────────────────────────────────────────────────────────────
-  const [theme, setTheme] = useState(() => localStorage.getItem('auraluxe_theme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('nexcart_theme') || 'light');
 
   // ── Auth State ────────────────────────────────────────────────────────────
-  const [user, setUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nexcart_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
-  // ── User Mode (Customer vs Admin) ─────────────────────────────────────────
-  const isAdmin = user?.role === 'ADMIN';
+  const isAdmin = user?.role === 'admin' || user?.email === 'admin@nexcart.com';
 
-  // ── Cart State (synced with backend for logged-in users) ──────────────────
+  // ── Cart & Save For Later ──────────────────────────────────────────────────
   const [cart, setCart] = useState(() => {
     try {
-      const saved = localStorage.getItem('auraluxe_cart');
+      const saved = localStorage.getItem('nexcart_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [savedForLater, setSavedForLater] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nexcart_saved_later');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -27,33 +41,61 @@ export function ShopProvider({ children }) {
   // ── Wishlist State ────────────────────────────────────────────────────────
   const [wishlist, setWishlist] = useState(() => {
     try {
-      const saved = localStorage.getItem('auraluxe_wishlist');
+      const saved = localStorage.getItem('nexcart_wishlist');
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
     }
   });
 
-  // ── Coupon ────────────────────────────────────────────────────────────────
+  // ── Recently Viewed Products ─────────────────────────────────────────────
+  const [recentlyViewed, setRecentlyViewed] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nexcart_recently_viewed');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // ── Search History ────────────────────────────────────────────────────────
+  const [searchHistory, setSearchHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nexcart_search_history');
+      return saved ? JSON.parse(saved) : ['iPhone 15 Pro', 'MacBook Pro M3', 'Nike Air Jordan', 'Sony Headphones', 'Dyson Airwrap'];
+    } catch {
+      return [];
+    }
+  });
+
+  // ── Coupon State ─────────────────────────────────────────────────────────
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
-  // ── Modal Controls ────────────────────────────────────────────────────────
+  // ── Modals & Drawers ──────────────────────────────────────────────────────
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+  const [activeInvoiceOrder, setActiveInvoiceOrder] = useState(null);
   const [activeProductModal, setActiveProductModal] = useState(null);
 
-  // ── Filters State ─────────────────────────────────────────────────────────
-  const [filters, setFilters] = useState({
-    category: 'all',
-    search: '',
-    minPrice: '',
-    maxPrice: '',
-    sort: 'featured',
-    inStock: false,
-  });
+  // ── Search & Filter State ─────────────────────────────────────────────────
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedBrand, setSelectedBrand] = useState('all');
+  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [minRating, setMinRating] = useState(0);
+  const [minDiscount, setMinDiscount] = useState(0);
+  const [inStockOnly, setInStockOnly] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('all');
+  const [selectedSize, setSelectedSize] = useState('all');
+  const [sortBy, setSortBy] = useState('featured');
+
+  // ── Categories List ───────────────────────────────────────────────────────
+  const [categoriesList, setCategoriesList] = useState([]);
 
   // ── Toast Alerts ──────────────────────────────────────────────────────────
   const [toasts, setToasts] = useState([]);
@@ -61,88 +103,131 @@ export function ShopProvider({ children }) {
   // ── Sync Theme ────────────────────────────────────────────────────────────
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('auraluxe_theme', theme);
+    localStorage.setItem('nexcart_theme', theme);
   }, [theme]);
 
-  // ── Sync local cart to localStorage (guest mode) ──────────────────────────
+  // ── Sync localStorage ──────────────────────────────────────────────────────
   useEffect(() => {
-    if (!user) {
-      localStorage.setItem('auraluxe_cart', JSON.stringify(cart));
-    }
-  }, [cart, user]);
+    localStorage.setItem('nexcart_cart', JSON.stringify(cart));
+  }, [cart]);
 
   useEffect(() => {
-    localStorage.setItem('auraluxe_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('nexcart_saved_later', JSON.stringify(savedForLater));
+  }, [savedForLater]);
+
+  useEffect(() => {
+    localStorage.setItem('nexcart_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  // ── Initialize auth on mount ──────────────────────────────────────────────
   useEffect(() => {
-    const initAuth = async () => {
-      const token = api.getAccessToken();
-      if (!token) {
-        setAuthLoading(false);
-        return;
-      }
+    localStorage.setItem('nexcart_recently_viewed', JSON.stringify(recentlyViewed));
+  }, [recentlyViewed]);
+
+  useEffect(() => {
+    localStorage.setItem('nexcart_search_history', JSON.stringify(searchHistory));
+  }, [searchHistory]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('nexcart_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('nexcart_user');
+    }
+  }, [user]);
+
+  // ── Load categories on mount ──────────────────────────────────────────────
+  useEffect(() => {
+    const loadCats = async () => {
       try {
-        const res = await api.getMe();
-        setUser(res?.data?.user ?? null);
-      } catch {
-        api.clearTokens();
-        setUser(null);
-      } finally {
-        setAuthLoading(false);
+        const cats = await api.fetchCategories();
+        if (Array.isArray(cats)) setCategoriesList(cats);
+      } catch (err) {
+        console.warn('Could not load categories:', err);
       }
     };
-    initAuth();
+    loadCats();
   }, []);
 
-  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
 
   const addToast = (message, type = 'info') => {
     const id = Date.now() + Math.random();
-    setToasts((prev) => [...prev, { id, message, type }]);
+    setToasts(prev => [...prev, { id, message, type }]);
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
+      setToasts(prev => prev.filter(t => t.id !== id));
     }, 4000);
   };
 
-  const removeToast = (id) => setToasts((prev) => prev.filter((t) => t.id !== id));
+  const removeToast = id => setToasts(prev => prev.filter(t => t.id !== id));
+
+  // ── Recently Viewed Tracker ───────────────────────────────────────────────
+  const trackRecentlyViewed = product => {
+    if (!product || !product.id) return;
+    setRecentlyViewed(prev => {
+      const filtered = prev.filter(p => p.id !== product.id);
+      return [product, ...filtered].slice(0, 10);
+    });
+  };
+
+  // ── Search History Actions ────────────────────────────────────────────────
+  const addSearchHistory = query => {
+    if (!query || !query.trim()) return;
+    const q = query.trim();
+    setSearchHistory(prev => {
+      const filtered = prev.filter(item => item.toLowerCase() !== q.toLowerCase());
+      return [q, ...filtered].slice(0, 8);
+    });
+  };
+
+  const clearSearchHistory = () => {
+    setSearchHistory([]);
+    localStorage.removeItem('nexcart_search_history');
+  };
 
   // ── Auth Actions ──────────────────────────────────────────────────────────
-
   const loginUser = async (email, password) => {
-    const res = await api.login(email, password);
-    setUser(res?.data?.user ?? null);
-    setIsAuthOpen(false);
-    addToast(`Welcome back, ${res?.data?.user?.name?.split(' ')[0] ?? 'there'}! 👋`, 'success');
-    return res;
+    try {
+      const res = await api.login(email, password);
+      setUser(res.user);
+      setIsAuthOpen(false);
+      addToast(`Welcome back to NexCart, ${res.user.name.split(' ')[0]}! 👋`, 'success');
+      return res;
+    } catch (err) {
+      addToast(err.message || 'Login failed', 'error');
+      throw err;
+    }
   };
 
-  const registerUser = async (name, email, password, confirmPassword) => {
-    const res = await api.register(name, email, password, confirmPassword);
-    addToast('Account created! Please check your email to verify.', 'success');
-    return res;
+  const registerUser = async (name, email, password) => {
+    try {
+      const res = await api.register(name, email, password);
+      setUser(res.user);
+      setIsAuthOpen(false);
+      addToast('Account created successfully! Welcome to NexCart.', 'success');
+      return res;
+    } catch (err) {
+      addToast(err.message || 'Registration failed', 'error');
+      throw err;
+    }
   };
 
-  const logoutUser = async () => {
-    await api.logout();
+  const logoutUser = () => {
+    api.logout();
     setUser(null);
     setCart([]);
     setAppliedCoupon(null);
-    addToast('You have been signed out.', 'info');
+    addToast('You have signed out of NexCart.', 'info');
   };
 
-  // ── Cart Actions ──────────────────────────────────────────────────────────
-
-  const addToCart = (product, quantity = 1, selectedColor = null, selectedSize = null) => {
-    // For guest users: keep in local state
-    setCart((prev) => {
+  // ── Cart & Save For Later Actions ─────────────────────────────────────────
+  const addToCart = (product, quantity = 1, color = null, size = null) => {
+    setCart(prev => {
+      const selectedColor = color || (product.colors && product.colors[0]) || null;
+      const selectedSize = size || (product.sizes && product.sizes[0]) || null;
       const existingIndex = prev.findIndex(
-        (item) =>
-          item.id === product.id &&
-          item.selectedColor === selectedColor &&
-          item.selectedSize === selectedSize
+        item => item.id === product.id && item.selectedColor === selectedColor && item.selectedSize === selectedSize
       );
+
       if (existingIndex > -1) {
         const updated = [...prev];
         updated[existingIndex].quantity += quantity;
@@ -150,11 +235,11 @@ export function ShopProvider({ children }) {
       }
       return [...prev, { ...product, quantity, selectedColor, selectedSize }];
     });
-    addToast(`Added "${product.title || product.name}" to your cart!`, 'success');
+    addToast(`Added "${product.title}" to cart!`, 'success');
   };
 
-  const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+  const removeFromCart = id => {
+    setCart(prev => prev.filter(item => item.id !== id));
     addToast('Item removed from cart', 'info');
   };
 
@@ -163,7 +248,25 @@ export function ShopProvider({ children }) {
       removeFromCart(id);
       return;
     }
-    setCart((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: newQty } : item)));
+    setCart(prev => prev.map(item => (item.id === id ? { ...item, quantity: newQty } : item)));
+  };
+
+  const saveForLater = item => {
+    setCart(prev => prev.filter(i => i.id !== item.id));
+    setSavedForLater(prev => {
+      if (prev.some(i => i.id === item.id)) return prev;
+      return [...prev, item];
+    });
+    addToast(`Saved "${item.title}" for later.`, 'info');
+  };
+
+  const moveToCartFromSaved = item => {
+    setSavedForLater(prev => prev.filter(i => i.id !== item.id));
+    addToCart(item, item.quantity || 1, item.selectedColor, item.selectedSize);
+  };
+
+  const removeSavedItem = id => {
+    setSavedForLater(prev => prev.filter(i => i.id !== id));
   };
 
   const clearCart = () => {
@@ -172,26 +275,35 @@ export function ShopProvider({ children }) {
   };
 
   // ── Wishlist Actions ──────────────────────────────────────────────────────
-
-  const toggleWishlist = (product) => {
-    setWishlist((prev) => {
-      const exists = prev.some((item) => item.id === product.id);
+  const toggleWishlist = product => {
+    setWishlist(prev => {
+      const exists = prev.some(item => item.id === product.id);
       if (exists) {
-        addToast(`Removed "${product.title || product.name}" from wishlist`, 'info');
-        return prev.filter((item) => item.id !== product.id);
+        addToast(`Removed "${product.title}" from Wishlist`, 'info');
+        return prev.filter(item => item.id !== product.id);
       }
-      addToast(`Added "${product.title || product.name}" to wishlist!`, 'success');
+      addToast(`Added "${product.title}" to Wishlist! ❤️`, 'success');
       return [...prev, product];
     });
   };
 
-  // ── Cart Calculations ─────────────────────────────────────────────────────
+  const moveToCartFromWishlist = product => {
+    toggleWishlist(product);
+    addToCart(product, 1);
+  };
 
-  const cartSubtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const discountAmount = appliedCoupon ? appliedCoupon.discount : 0;
-  const shippingFee = cartSubtotal > 1000 || cartSubtotal === 0 ? 0 : 99;
-  const taxAmount = Math.round((cartSubtotal - discountAmount) * 0.18 * 100) / 100;
-  const cartTotal = Math.max(0, cartSubtotal - discountAmount + shippingFee + taxAmount);
+  // ── Cart Calculations ─────────────────────────────────────────────────────
+  const cartSubtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const discountAmount = appliedCoupon ? appliedCoupon.discountAmount : 0;
+  const shippingFee = cartSubtotal > 50 || cartSubtotal === 0 ? 0 : 9.99;
+  const taxAmount = Math.round((cartSubtotal - discountAmount) * 0.05 * 100) / 100;
+  const cartTotal = Math.max(0, Number((cartSubtotal - discountAmount + shippingFee + taxAmount).toFixed(2)));
+
+  // ── Print Invoice Helper ──────────────────────────────────────────────────
+  const openInvoiceModal = order => {
+    setActiveInvoiceOrder(order);
+    setIsInvoiceOpen(true);
+  };
 
   return (
     <ShopContext.Provider
@@ -202,19 +314,23 @@ export function ShopProvider({ children }) {
 
         // Auth
         user,
+        setUser,
         isAdmin,
-        authLoading,
         loginUser,
         registerUser,
         logoutUser,
         isAuthOpen,
         setIsAuthOpen,
 
-        // Cart
+        // Cart & Save For Later
         cart,
+        savedForLater,
         addToCart,
         removeFromCart,
         updateCartQuantity,
+        saveForLater,
+        moveToCartFromSaved,
+        removeSavedItem,
         clearCart,
         cartSubtotal,
         discountAmount,
@@ -222,15 +338,25 @@ export function ShopProvider({ children }) {
         taxAmount,
         cartTotal,
 
-        // Coupon
+        // Coupons
         appliedCoupon,
         setAppliedCoupon,
 
         // Wishlist
         wishlist,
         toggleWishlist,
+        moveToCartFromWishlist,
+        isWishlistOpen,
+        setIsWishlistOpen,
 
-        // Modals
+        // Recently Viewed & Search History
+        recentlyViewed,
+        trackRecentlyViewed,
+        searchHistory,
+        addSearchHistory,
+        clearSearchHistory,
+
+        // Modals & Navigation Controls
         isCartOpen,
         setIsCartOpen,
         isCheckoutOpen,
@@ -239,17 +365,43 @@ export function ShopProvider({ children }) {
         setIsOrdersOpen,
         isAdminOpen,
         setIsAdminOpen,
+        isInvoiceOpen,
+        setIsInvoiceOpen,
+        activeInvoiceOrder,
+        openInvoiceModal,
         activeProductModal,
-        setActiveProductModal,
+        setActiveProductModal: (prod) => {
+          if (prod) trackRecentlyViewed(prod);
+          setActiveProductModal(prod);
+        },
 
-        // Filters
-        filters,
-        setFilters,
+        // Filters & Search State
+        searchQuery,
+        setSearchQuery,
+        selectedCategory,
+        setSelectedCategory,
+        selectedBrand,
+        setSelectedBrand,
+        priceRange,
+        setPriceRange,
+        minRating,
+        setMinRating,
+        minDiscount,
+        setMinDiscount,
+        inStockOnly,
+        setInStockOnly,
+        selectedColor,
+        setSelectedColor,
+        selectedSize,
+        setSelectedSize,
+        sortBy,
+        setSortBy,
+        categoriesList,
 
-        // Toasts
+        // Toast Notifications
         toasts,
         addToast,
-        removeToast,
+        removeToast
       }}
     >
       {children}

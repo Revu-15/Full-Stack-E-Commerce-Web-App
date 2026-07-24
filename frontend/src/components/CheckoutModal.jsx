@@ -1,393 +1,397 @@
 import React, { useState } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
-import { submitOrder } from '../services/api.js';
-import { X, CreditCard, ShieldCheck, CheckCircle2, ArrowRight, ArrowLeft, Truck, Lock, Sparkles, PackageCheck } from 'lucide-react';
+import * as api from '../services/api.js';
+import {
+  X, MapPin, CreditCard, DollarSign, CheckCircle2, ArrowRight, ShieldCheck, Tag, Smartphone, Building2, Truck
+} from 'lucide-react';
 
 export default function CheckoutModal() {
   const {
-    isCheckoutOpen,
-    setIsCheckoutOpen,
-    cart,
-    clearCart,
-    cartSubtotal,
-    discountAmount,
-    shippingFee,
-    taxAmount,
-    cartTotal,
-    setIsOrdersOpen,
-    addToast
+    isCheckoutOpen, setIsCheckoutOpen,
+    cart, clearCart,
+    cartSubtotal, discountAmount, shippingFee, taxAmount, cartTotal,
+    appliedCoupon, user, addToast, setIsOrdersOpen, openInvoiceModal
   } = useShop();
 
-  const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Confirmation
-  const [submitting, setSubmitting] = useState(false);
-  const [confirmedOrder, setConfirmedOrder] = useState(null);
-
-  // Form State
-  const [formData, setFormData] = useState({
-    name: 'Alexandra Wright',
-    email: 'alexandra@example.com',
-    phone: '+1 (555) 234-5678',
+  const [step, setStep] = useState(1); // 1: Address | 2: Payment | 3: Review
+  const [shippingAddress, setShippingAddress] = useState({
+    name: user?.name || 'Customer Name',
+    email: user?.email || 'customer@nexcart.com',
+    phone: user?.phone || '+1 (555) 0199',
     street: '742 Evergreen Terrace',
     city: 'San Francisco',
     state: 'CA',
     zip: '94107',
-    country: 'United States',
-    paymentMethod: 'Credit Card',
-    cardNumber: '4532 •••• •••• 8892',
-    cardExpiry: '08/28',
-    cardCvv: '392'
+    country: 'United States'
   });
+
+  const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery'); // COD | UPI | Credit Card | Net Banking
+  const [upiId, setUpiId] = useState('');
+  const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '', name: '' });
+  const [selectedBank, setSelectedBank] = useState('HDFC Bank');
+
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   if (!isCheckoutOpen) return null;
 
-  const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handlePlaceOrder = async (e) => {
-    e.preventDefault();
-    if (cart.length === 0) return;
-
+  const handlePlaceOrder = async () => {
+    setIsPlacingOrder(true);
     try {
-      setSubmitting(true);
+      // 1. Process simulated payment if digital
+      if (paymentMethod !== 'Cash on Delivery') {
+        await api.processPayment({
+          paymentMethod,
+          amount: cartTotal,
+          details: paymentMethod === 'UPI' ? { upiId } : paymentMethod === 'Credit Card' ? { cardLast4: cardDetails.number.slice(-4) } : { bank: selectedBank }
+        });
+      }
+
+      // 2. Submit order to backend REST API
       const orderPayload = {
-        items: cart,
+        items: cart.map(i => ({
+          id: i.id,
+          title: i.title,
+          category: i.category,
+          price: i.price,
+          quantity: i.quantity,
+          selectedColor: i.selectedColor,
+          selectedSize: i.selectedSize,
+          image: i.images?.[0]
+        })),
         subtotal: cartSubtotal,
-        discountAmount,
-        shippingFee,
+        discountAmount: discountAmount,
+        shippingFee: shippingFee,
         tax: taxAmount,
         totalAmount: cartTotal,
-        customer: { name: formData.name, email: formData.email, phone: formData.phone },
-        shippingAddress: {
-          street: formData.street,
-          city: formData.city,
-          state: formData.state,
-          zip: formData.zip,
-          country: formData.country
+        customer: {
+          name: shippingAddress.name,
+          email: shippingAddress.email,
+          phone: shippingAddress.phone
         },
-        paymentMethod: formData.paymentMethod
+        shippingAddress: {
+          street: shippingAddress.street,
+          city: shippingAddress.city,
+          state: shippingAddress.state,
+          zip: shippingAddress.zip,
+          country: shippingAddress.country
+        },
+        paymentMethod
       };
 
-      const response = await submitOrder(orderPayload);
-      setConfirmedOrder(response);
+      const createdOrder = await api.submitOrder(orderPayload);
+
       clearCart();
-      setStep(3);
-      addToast('Order placed successfully!', 'success');
+      setIsCheckoutOpen(false);
+      addToast(`Order placed successfully! Order ID: ${createdOrder.orderId}`, 'success');
+
+      // Automatically open User Orders / Invoice view
+      openInvoiceModal(createdOrder);
+      setIsOrdersOpen(true);
     } catch (err) {
-      console.error(err);
-      addToast('Failed to place order. Please try again.', 'error');
+      addToast(err.message || 'Failed to place order. Please try again.', 'error');
     } finally {
-      setSubmitting(false);
+      setIsPlacingOrder(false);
     }
   };
 
   return (
-    <div className="modal-overlay" onClick={() => setIsCheckoutOpen(false)}>
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 220,
+        background: 'rgba(15, 23, 42, 0.75)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem'
+      }}
+      onClick={() => setIsCheckoutOpen(false)}
+    >
       <div
-        className="glass-modal"
-        onClick={(e) => e.stopPropagation()}
         style={{
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border-color)',
+          borderRadius: 'var(--radius-lg)',
+          maxWidth: '900px',
           width: '100%',
-          maxWidth: '720px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
           padding: '2rem',
           position: 'relative',
-          maxHeight: '90vh',
-          overflowY: 'auto'
+          boxShadow: 'var(--shadow-lg)'
         }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={() => setIsCheckoutOpen(false)}
-          className="btn-icon"
-          style={{ position: 'absolute', top: '1.25rem', right: '1.25rem' }}
-        >
-          <X size={20} />
-        </button>
+        {/* Header & Steps Indicator */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 900 }}>NexCart Checkout</h3>
+          <button onClick={() => setIsCheckoutOpen(false)} style={{ color: 'var(--text-muted)' }}>
+            <X size={20} />
+          </button>
+        </div>
 
-        {/* Step Indicator */}
-        {step < 3 && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', marginBottom: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                background: step >= 1 ? 'var(--accent-gradient)' : 'var(--bg-tertiary)',
-                color: '#fff',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.9rem'
-              }}>
-                1
-              </div>
-              <span style={{ fontSize: '0.88rem', fontWeight: step === 1 ? 700 : 500 }}>Shipping</span>
-            </div>
+        {/* Checkout Stepper */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', background: 'var(--bg-secondary)', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
+          {[
+            { id: 1, title: '1. Shipping Address' },
+            { id: 2, title: '2. Payment Method' },
+            { id: 3, title: '3. Order Summary' }
+          ].map(s => (
+            <button
+              key={s.id}
+              onClick={() => setStep(s.id)}
+              style={{
+                fontWeight: step === s.id ? 800 : 500,
+                color: step === s.id ? 'var(--accent-primary)' : 'var(--text-muted)',
+                fontSize: '0.88rem'
+              }}
+            >
+              {s.title}
+            </button>
+          ))}
+        </div>
 
-            <div style={{ width: '40px', height: '2px', background: 'var(--border-color)' }} />
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                background: step >= 2 ? 'var(--accent-gradient)' : 'var(--bg-tertiary)',
-                color: '#fff',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.9rem'
-              }}>
-                2
-              </div>
-              <span style={{ fontSize: '0.88rem', fontWeight: step === 2 ? 700 : 500 }}>Payment</span>
-            </div>
-          </div>
-        )}
-
-        {/* STEP 1: Shipping Address Form */}
+        {/* STEP 1: SHIPPING ADDRESS */}
         {step === 1 && (
           <div>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Truck size={22} color="var(--accent-primary)" /> Shipping & Contact Details
-            </h3>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <MapPin size={18} style={{ color: 'var(--accent-primary)' }} /> Enter Shipping Details
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>Full Name</label>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Full Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
+                  value={shippingAddress.name}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, name: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>Email Address</label>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Email Address</label>
                 <input
                   type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>Street Address</label>
-              <input
-                type="text"
-                name="street"
-                value={formData.street}
-                onChange={handleChange}
-                style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
-              />
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>City</label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
+                  value={shippingAddress.email}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, email: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>State</label>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Phone Number</label>
                 <input
                   type="text"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
+                  value={shippingAddress.phone}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>ZIP Code</label>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>Street Address</label>
                 <input
                   type="text"
-                  name="zip"
-                  value={formData.zip}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
+                  value={shippingAddress.street}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, street: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
                 />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>City</label>
+                <input
+                  type="text"
+                  value={shippingAddress.city}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)' }}>State & ZIP Code</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input
+                    type="text"
+                    placeholder="State"
+                    value={shippingAddress.state}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
+                    style={{ flex: 1, padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="ZIP"
+                    value={shippingAddress.zip}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, zip: e.target.value })}
+                    style={{ flex: 1, padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                  />
+                </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <button onClick={() => setStep(2)} className="btn-primary" style={{ padding: '0.75rem 1.75rem' }}>
-                <span>Continue to Payment</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
+            <button
+              onClick={() => setStep(2)}
+              style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 800, float: 'right', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              Continue to Payment <ArrowRight size={16} />
+            </button>
           </div>
         )}
 
-        {/* STEP 2: Payment Simulation Form */}
+        {/* STEP 2: PAYMENT METHODS */}
         {step === 2 && (
-          <form onSubmit={handlePlaceOrder}>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <CreditCard size={22} color="var(--accent-primary)" /> Select Payment Gateway
-            </h3>
+          <div>
+            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <CreditCard size={18} style={{ color: 'var(--accent-primary)' }} /> Select Payment Option
+            </h4>
 
-            {/* Payment Method Tabs */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              {['Credit Card', 'Apple Pay', 'PayPal'].map(method => (
-                <button
-                  type="button"
-                  key={method}
-                  onClick={() => setFormData(prev => ({ ...prev, paymentMethod: method }))}
-                  style={{
-                    padding: '0.85rem',
-                    borderRadius: 'var(--radius-md)',
-                    border: formData.paymentMethod === method ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                    background: formData.paymentMethod === method ? 'var(--accent-light)' : 'var(--bg-secondary)',
-                    color: formData.paymentMethod === method ? 'var(--accent-primary)' : 'var(--text-primary)',
-                    fontWeight: 700,
-                    fontSize: '0.88rem'
-                  }}
-                >
-                  {method}
-                </button>
-              ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              {[
+                { id: 'Cash on Delivery', label: 'Cash on Delivery (COD)', desc: 'Pay with cash upon arrival at your doorstep', icon: DollarSign },
+                { id: 'UPI', label: 'UPI / QR Payment', desc: 'Google Pay, PhonePe, Paytm, BHIM UPI', icon: Smartphone },
+                { id: 'Credit Card', label: 'Credit / Debit Card', desc: 'Visa, Mastercard, American Express', icon: CreditCard },
+                { id: 'Net Banking', label: 'Net Banking', desc: 'Select from major supported banks', icon: Building2 }
+              ].map(method => {
+                const Icon = method.icon;
+                const isSelected = paymentMethod === method.id;
+                return (
+                  <label
+                    key={method.id}
+                    onClick={() => setPaymentMethod(method.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      padding: '1rem',
+                      borderRadius: 'var(--radius-md)',
+                      background: isSelected ? 'var(--bg-secondary)' : 'var(--bg-surface)',
+                      border: isSelected ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <input type="radio" checked={isSelected} onChange={() => setPaymentMethod(method.id)} />
+                    <Icon size={22} style={{ color: isSelected ? 'var(--accent-primary)' : 'var(--text-muted)' }} />
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>{method.label}</div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{method.desc}</div>
+                    </div>
+                  </label>
+                );
+              })}
             </div>
 
-            {/* Credit Card Fields */}
-            {formData.paymentMethod === 'Credit Card' && (
-              <div style={{ background: 'var(--bg-secondary)', padding: '1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem' }}>
-                <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>Card Number</label>
-                  <div style={{ position: 'relative' }}>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleChange}
-                      style={{ width: '100%', padding: '0.65rem 0.65rem 0.65rem 2.4rem', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontWeight: 600 }}
-                    />
-                    <CreditCard size={18} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                  </div>
-                </div>
+            {/* Sub-inputs for digital payment */}
+            {paymentMethod === 'UPI' && (
+              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem' }}>
+                <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Enter VPA / UPI ID</label>
+                <input
+                  type="text"
+                  placeholder="e.g. mobile@upi"
+                  value={upiId}
+                  onChange={(e) => setUpiId(e.target.value)}
+                  style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }}
+                />
+              </div>
+            )}
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div>
-                    <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>Expiry Date</label>
-                    <input
-                      type="text"
-                      name="cardExpiry"
-                      value={formData.cardExpiry}
-                      onChange={handleChange}
-                      style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
-                    />
-                  </div>
-                  <div>
-                    <label style={{ fontSize: '0.82rem', fontWeight: 600, display: 'block', marginBottom: '0.3rem' }}>CVV Code</label>
-                    <input
-                      type="password"
-                      name="cardCvv"
-                      value={formData.cardCvv}
-                      onChange={handleChange}
-                      style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
-                    />
-                  </div>
+            {paymentMethod === 'Credit Card' && (
+              <div style={{ background: 'var(--bg-secondary)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Card Number</label>
+                  <input
+                    type="text"
+                    placeholder="4532 •••• •••• 8910"
+                    value={cardDetails.number}
+                    onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>Expiry</label>
+                  <input
+                    type="text"
+                    placeholder="MM/YY"
+                    value={cardDetails.expiry}
+                    onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.8rem', fontWeight: 700 }}>CVV</label>
+                  <input
+                    type="password"
+                    placeholder="123"
+                    value={cardDetails.cvv}
+                    onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)' }}
+                  />
                 </div>
               </div>
             )}
 
-            {/* Total Summary */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '1rem 1.25rem',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--bg-tertiary)',
-              marginBottom: '1.5rem'
-            }}>
-              <div>
-                <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block' }}>Total Amount to Pay</span>
-                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-primary)' }}>${cartTotal.toFixed(2)}</span>
-              </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                <Lock size={14} /> 256-Bit SSL Encrypted
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <button type="button" onClick={() => setStep(1)} className="btn-secondary">
-                <ArrowLeft size={16} /> Back
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <button onClick={() => setStep(1)} style={{ padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                Back
               </button>
-              <button type="submit" disabled={submitting} className="btn-primary" style={{ padding: '0.85rem 2rem' }}>
-                <ShieldCheck size={18} />
-                <span>{submitting ? 'Processing Payment...' : `Complete Order — $${cartTotal.toFixed(2)}`}</span>
+              <button
+                onClick={() => setStep(3)}
+                style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                Review Order <ArrowRight size={16} />
               </button>
             </div>
-          </form>
+          </div>
         )}
 
-        {/* STEP 3: Order Confirmation */}
-        {step === 3 && confirmedOrder && (
-          <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-            <div style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              background: 'rgba(16, 185, 129, 0.15)',
-              color: '#10b981',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 1.25rem auto'
-            }}>
-              <CheckCircle2 size={40} />
+        {/* STEP 3: ORDER SUMMARY & PLACE ORDER */}
+        {step === 3 && (
+          <div>
+            <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <ShieldCheck size={18} style={{ color: '#16a34a' }} /> Review & Confirm Order
+            </h4>
+
+            {/* Items Summary Table */}
+            <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', padding: '1rem', marginBottom: '1.5rem', maxHeight: '200px', overflowY: 'auto' }}>
+              {cart.map(item => (
+                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)', fontSize: '0.85rem' }}>
+                  <span>{item.title} (x{item.quantity})</span>
+                  <span style={{ fontWeight: 800 }}>${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+              ))}
             </div>
 
-            <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: '0.5rem' }}>Order Confirmed!</h2>
-            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-              Thank you for shopping with AuraLuxe. We have sent a confirmation email to <strong>{confirmedOrder.customer?.email}</strong>.
-            </p>
-
-            {/* Tracking Receipt Box */}
-            <div className="glass-card" style={{ padding: '1.25rem', textAlign: 'left', marginBottom: '1.5rem', background: 'var(--bg-secondary)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.88rem' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Order Number:</span>
-                <span style={{ fontWeight: 800, color: 'var(--accent-primary)' }}>{confirmedOrder.orderNumber}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', fontSize: '0.88rem' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Tracking Number:</span>
-                <span style={{ fontWeight: 700 }}>{confirmedOrder.trackingNumber}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Estimated Delivery:</span>
-                <span style={{ fontWeight: 600, color: '#10b981' }}>2-3 Business Days</span>
+            {/* Price Calculations */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.88rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Subtotal</span><span>${cartSubtotal.toFixed(2)}</span></div>
+              {discountAmount > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a', fontWeight: 700 }}><span>Discount</span><span>-${discountAmount.toFixed(2)}</span></div>}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Shipping</span><span>{shippingFee === 0 ? 'FREE' : `$${shippingFee}`}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Tax</span><span>${taxAmount.toFixed(2)}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: 900, borderTop: '1px solid var(--border-color)', paddingTop: '0.5rem' }}>
+                <span>Total Payable</span>
+                <span>${cartTotal.toFixed(2)}</span>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-              <button
-                onClick={() => {
-                  setIsCheckoutOpen(false);
-                  setIsOrdersOpen(true);
-                }}
-                className="btn-primary"
-              >
-                <PackageCheck size={18} /> Track Order Progress
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <button onClick={() => setStep(2)} style={{ padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+                Back
               </button>
               <button
-                onClick={() => setIsCheckoutOpen(false)}
-                className="btn-secondary"
+                onClick={handlePlaceOrder}
+                disabled={isPlacingOrder}
+                style={{
+                  background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)',
+                  color: '#ffffff',
+                  padding: '0.8rem 2.5rem',
+                  borderRadius: 'var(--radius-md)',
+                  fontWeight: 900,
+                  fontSize: '1rem',
+                  boxShadow: '0 4px 14px rgba(22, 163, 74, 0.4)'
+                }}
               >
-                Continue Shopping
+                {isPlacingOrder ? 'Processing Order...' : `Pay & Place Order ($${cartTotal.toFixed(2)})`}
               </button>
             </div>
           </div>

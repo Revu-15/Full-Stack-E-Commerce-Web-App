@@ -1,25 +1,16 @@
 {
-  "name": "luxecart",
+  "name": "nexcart",
   "version": "1.0.0",
   "private": true,
-  "description": "LuxeCart — Production Full Stack E-Commerce Platform",
+  "description": "NexCart — Full Stack Amazon & Flipkart Style E-Commerce Platform",
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "type-check": "turbo run type-check",
-    "backend:dev": "pnpm --filter @luxecart/backend dev",
-    "frontend:dev": "pnpm --filter @luxecart/frontend dev",
-    "db:migrate": "pnpm --filter @luxecart/backend db:migrate",
-    "db:seed": "pnpm --filter @luxecart/backend db:seed",
-    "db:studio": "pnpm --filter @luxecart/backend db:studio"
-  },
-  "devDependencies": {
-    "turbo": "^2.0.0"
+    "dev": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend dev\"",
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend dev",
+    "seed": "node backend/seed.js",
+    "build": "npm --prefix frontend build"
   },
   "engines": {
     "node": ">=20.0.0"
-  },
-  "packageManager": "pnpm@9.15.0"
+  }
 }

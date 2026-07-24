@@ -12,6 +12,8 @@ import orderRoutes from './order.routes';
 import addressRoutes from './address.routes';
 import couponRoutes from './coupon.routes';
 import adminRoutes from './admin.routes';
+import wishlistRoutes from './wishlist.routes';
+import reviewRoutes from './review.routes';
 
 const router: IRouter = Router();
 
@@ -19,12 +21,14 @@ const router: IRouter = Router();
 
 router.use('/auth', authRoutes);
 
-// ── Phase 2 — Commerce APIs ─────────────────────────────────────────────────
+// ── Commerce APIs ────────────────────────────────────────────────────────────
 
 router.use('/products', productRoutes);
+router.use('/products/:productId/reviews', reviewRoutes);
 router.use('/categories', categoryRouter);
 router.use('/brands', brandRouter);
 router.use('/cart', cartRoutes);
+router.use('/wishlist', wishlistRoutes);
 router.use('/orders', orderRoutes);
 router.use('/addresses', addressRoutes);
 router.use('/coupons', couponRoutes);

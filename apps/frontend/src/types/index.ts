@@ -22,6 +22,14 @@ export interface Product {
     slug: string;
   } | null;
   keywords?: string[];
+  specifications?: Record<string, string>;
+  features?: string[];
+  warranty?: string;
+  returnPolicy?: string;
+  seller?: string;
+  emi?: { months: number; amount: number }[];
+  colors?: string[];
+  sizes?: string[];
   createdAt?: string;
 }
 
@@ -45,6 +53,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  phone?: string;
   role: 'CUSTOMER' | 'ADMIN';
   isVerified: boolean;
   avatar?: string;
@@ -62,18 +71,69 @@ export interface Address {
   isDefault: boolean;
 }
 
+export interface OrderItem {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  productId?: string;
+}
+
 export interface Order {
   id: string;
   createdAt: string;
-  status: 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+  status: 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED' | 'RETURNED';
+  subtotal: number;
+  discount: number;
+  shippingFee: number;
+  tax: number;
   totalPrice: number;
-  items: {
+  items: OrderItem[];
+  address: Address;
+  paymentGateway: 'STRIPE' | 'RAZORPAY' | 'COD' | 'UPI' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'NET_BANKING' | string;
+  couponCode?: string;
+  trackingId?: string;
+  estimatedDelivery?: string;
+}
+
+export interface Review {
+  id: string;
+  userId: string;
+  productId: string;
+  rating: number;
+  title?: string;
+  body: string;
+  images?: string[];
+  isVerified?: boolean;
+  createdAt: string;
+  user: {
     id: string;
     name: string;
-    image: string;
-    price: number;
-    quantity: number;
-  }[];
-  address: Address;
-  paymentGateway: string;
+    avatar?: string;
+  };
 }
+
+export interface Coupon {
+  id: string;
+  code: string;
+  type: 'PERCENTAGE' | 'FIXED';
+  value: number;
+  minAmount?: number;
+  maxDiscount?: number;
+  expiresAt?: string;
+}
+
+export interface FilterState {
+  brand: string[];
+  priceMin: number;
+  priceMax: number;
+  rating: number;
+  discount: number;
+  availability: 'all' | 'in-stock' | 'out-of-stock';
+  colors: string[];
+  sizes: string[];
+  sortBy: 'relevance' | 'price-asc' | 'price-desc' | 'newest' | 'best-selling' | 'highest-rated';
+}
+
+export type PaymentMethod = 'COD' | 'UPI' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'NET_BANKING';
