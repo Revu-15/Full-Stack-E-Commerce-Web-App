@@ -571,7 +571,7 @@ app.post('/api/payments/razorpay/verify', (req, res) => {
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
       status: 'PAID',
-      settlementAccount: 'State Bank of India (SBI A/c 91252589078)'
+      settlementAccount: 'NexCart Merchant Bank Settlement Account (Razorpay T+1)'
     });
   } catch (err) {
     console.error('Razorpay Verify Error:', err);

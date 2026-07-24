@@ -66,14 +66,11 @@ export default function AdminDashboard() {
     yearlyRevenue: 245000,
     totalRevenue: 245000,
     settlementAccount: {
-      merchantName: 'NexCart Retail',
-      bankName: 'State Bank of India (SBI)',
-      accountHolder: 'Mr. Polamreddy Revanth Reddy',
-      fatherName: 'P. Jayachandra Reddy',
-      accountType: 'Savings Bank Account',
-      accountNumber: '91252589078',
-      ifscCode: 'SBIN0003745',
-      settlementCycle: 'T+1 Business Day (Automated Razorpay Settlement)'
+      merchantName: 'NexCart Retail Private Limited',
+      bankName: 'NexCart Merchant Bank Settlement Account',
+      accountHolder: 'NexCart Retail Merchant Account',
+      accountType: 'Current Corporate Account',
+      settlementCycle: 'T+1 Business Day (Automated Razorpay Payouts)'
     }
   });
 
@@ -702,7 +699,7 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', fontWeight: 800, color: '#2563eb' }}>
-                          {p.settlementStatus || 'Settled to SBI A/c 91252589078'}
+                          {p.settlementStatus || 'Settled to Merchant Account (Razorpay T+1)'}
                         </td>
                       </tr>
                     ))}

@@ -15,9 +15,9 @@ export default function CheckoutModal() {
 
   const [step, setStep] = useState(1); // 1: Address | 2: Payment Method | 3: Itemized Summary & Pay
   const [shippingAddress, setShippingAddress] = useState({
-    name: user?.name || 'Mr. Polamreddy Revanth Reddy',
-    email: user?.email || 'revanth@nexcart.com',
-    phone: user?.phone || '+91 91252 58907',
+    name: user?.name || 'NexCart Customer',
+    email: user?.email || 'customer@nexcart.com',
+    phone: user?.phone || '+91 98765 43210',
     street: 'Plot No. 42, Hitech City Main Road',
     city: 'Hyderabad',
     state: 'Telangana',
@@ -131,7 +131,7 @@ export default function CheckoutModal() {
               };
 
               const newOrder = await api.submitOrder(orderPayload);
-              addToast(`Payment Successful! Order ${newOrder.id || 'NEX-849201'} confirmed. Settling to SBI A/c 91252589078`, 'success');
+              addToast(`Payment Successful! Order ${newOrder.id || 'NEX-849201'} confirmed. Settling to Merchant Account`, 'success');
               clearCart();
               setIsCheckoutOpen(false);
               setTimeout(() => openInvoiceModal(newOrder), 500);
@@ -150,8 +150,8 @@ export default function CheckoutModal() {
           contact: shippingAddress.phone
         },
         notes: {
-          merchant: 'NexCart Retail',
-          settlement_account: 'State Bank of India (SBI A/c 91252589078)'
+          merchant: 'NexCart Retail Private Limited',
+          settlement_account: 'NexCart Merchant Bank Settlement Account (Razorpay T+1)'
         },
         theme: {
           color: '#2563eb'
@@ -199,7 +199,7 @@ export default function CheckoutModal() {
         };
 
         const newOrder = await api.submitOrder(orderPayload);
-        addToast(`Payment Successful! Order ${newOrder.id || 'NEX-849201'} confirmed. Settling to SBI A/c 91252589078`, 'success');
+        addToast(`Payment Successful! Order ${newOrder.id || 'NEX-849201'} confirmed. Settling to Merchant Account`, 'success');
         clearCart();
         setIsCheckoutOpen(false);
         setTimeout(() => openInvoiceModal(newOrder), 500);
@@ -216,256 +216,307 @@ export default function CheckoutModal() {
       style={{
         position: 'fixed', inset: 0, zIndex: 210,
         background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(8px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem'
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '1rem', overflowY: 'auto'
       }}
       onClick={() => setIsCheckoutOpen(false)}
     >
       <div
         style={{
-          background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)',
-          maxWidth: '880px', width: '100%', maxHeight: '90vh', display: 'flex', flexDirection: 'column',
-          boxShadow: 'var(--shadow-lg)', position: 'relative', overflow: 'hidden'
+          background: 'var(--bg-surface)', color: 'var(--text-primary)',
+          borderRadius: 'var(--radius-lg)', maxWidth: '640px', width: '100%',
+          maxHeight: '90vh', overflowY: 'auto', border: '1px solid var(--border-color)',
+          boxShadow: 'var(--shadow-xl)', padding: '1.5rem', position: 'relative'
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
-        <div style={{ padding: '1.25rem 1.5rem', background: '#0f172a', color: '#ffffff', borderBottom: '1px solid #1e293b', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-              <ShieldCheck size={22} />
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <div style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.4rem', borderRadius: 'var(--radius-sm)' }}>
+              <ShieldCheck size={20} />
             </div>
             <div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#f8fafc' }}>NexCart Express Checkout (Razorpay)</h3>
-              <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Merchant: <strong>NexCart Retail</strong> • Encrypted UPI, Cards & Net Banking</p>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 900, margin: 0 }}>NexCart Express Checkout (Razorpay)</h3>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>Merchant: <strong>NexCart Retail</strong> • Encrypted UPI, Cards & Net Banking</p>
             </div>
           </div>
-          <button onClick={() => setIsCheckoutOpen(false)} style={{ color: '#94a3b8' }}><X size={20} /></button>
+          <button
+            onClick={() => setIsCheckoutOpen(false)}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+          >
+            <X size={20} />
+          </button>
         </div>
 
-        {/* Stepper Progress Bar */}
-        <div style={{ display: 'flex', borderBottom: '1px solid var(--border-color)', background: 'var(--bg-surface)' }}>
+        {/* Stepper Header */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '1.5rem', textAlign: 'center' }}>
           {[
-            { id: 1, label: '1. Shipping Address' },
-            { id: 2, label: '2. Payment Method' },
-            { id: 3, label: '3. Itemized Invoice & Pay' }
+            { step: 1, title: '1. Shipping Address' },
+            { step: 2, title: '2. Payment Method' },
+            { step: 3, title: '3. Itemized Invoice & Pay' }
           ].map(s => (
-            <button
-              key={s.id}
-              onClick={() => setStep(s.id)}
+            <div
+              key={s.step}
+              onClick={() => setStep(s.step)}
               style={{
-                flex: 1, padding: '0.75rem', fontSize: '0.82rem', fontWeight: 800,
-                borderBottom: step === s.id ? '3px solid var(--accent-primary)' : '3px solid transparent',
-                color: step === s.id ? 'var(--accent-primary)' : 'var(--text-muted)',
-                background: step === s.id ? 'var(--bg-secondary)' : 'transparent',
-                textAlign: 'center'
+                padding: '0.5rem 0.25rem', fontSize: '0.78rem', fontWeight: 800, cursor: 'pointer',
+                borderBottom: step === s.step ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                color: step === s.step ? 'var(--accent-primary)' : 'var(--text-muted)'
               }}
             >
-              {s.label}
-            </button>
+              {s.title}
+            </div>
           ))}
         </div>
 
-        {/* Modal Content Body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
-          
-          {/* STEP 1: SHIPPING ADDRESS */}
-          {step === 1 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Shipping & Billing Address</h4>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Customer Name</label>
-                  <input type="text" value={shippingAddress.name} onChange={e => setShippingAddress({ ...shippingAddress, name: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Email Address</label>
-                  <input type="email" value={shippingAddress.email} onChange={e => setShippingAddress({ ...shippingAddress, email: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Mobile Phone Number</label>
-                  <input type="text" value={shippingAddress.phone} onChange={e => setShippingAddress({ ...shippingAddress, phone: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Flat / House No. & Street</label>
-                  <input type="text" value={shippingAddress.street} onChange={e => setShippingAddress({ ...shippingAddress, street: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>City</label>
-                  <input type="text" value={shippingAddress.city} onChange={e => setShippingAddress({ ...shippingAddress, city: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>State</label>
-                  <input type="text" value={shippingAddress.state} onChange={e => setShippingAddress({ ...shippingAddress, state: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>PIN Code</label>
-                  <input type="text" value={shippingAddress.zip} onChange={e => setShippingAddress({ ...shippingAddress, zip: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>Country</label>
-                  <input type="text" value={shippingAddress.country} onChange={e => setShippingAddress({ ...shippingAddress, country: e.target.value })} style={{ width: '100%', padding: '0.6rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', marginTop: '0.2rem' }} />
-                </div>
+        {/* STEP 1: SHIPPING ADDRESS FORM */}
+        {step === 1 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 800 }}>Enter Delivery Address</h4>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>Full Name</label>
+                <input
+                  type="text"
+                  value={shippingAddress.name}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, name: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
               </div>
 
-              <button onClick={() => setStep(2)} style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                <span>Proceed to Payment Method (₹{grandTotalINR})</span> <ArrowRight size={18} />
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>Email Address</label>
+                <input
+                  type="email"
+                  value={shippingAddress.email}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, email: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>Phone Number</label>
+                <input
+                  type="text"
+                  value={shippingAddress.phone}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>Street Address</label>
+                <input
+                  type="text"
+                  value={shippingAddress.street}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, street: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>City</label>
+                <input
+                  type="text"
+                  value={shippingAddress.city}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>State</label>
+                <input
+                  type="text"
+                  value={shippingAddress.state}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.2rem' }}>PIN Code</label>
+                <input
+                  type="text"
+                  value={shippingAddress.zip}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, zip: e.target.value })}
+                  style={{ width: '100%', padding: '0.55rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem' }}
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={() => setStep(2)}
+              style={{
+                width: '100%', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#fff',
+                padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, fontSize: '0.95rem', border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginTop: '0.5rem'
+              }}
+            >
+              Proceed to Payment Method <ArrowRight size={16} />
+            </button>
+          </div>
+        )}
+
+        {/* STEP 2: PAYMENT METHOD SELECTION */}
+        {step === 2 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 800 }}>Select Preferred Payment Method</h4>
+
+            {/* Option A: Razorpay */}
+            <div
+              onClick={() => setPaymentMethod('Razorpay')}
+              style={{
+                padding: '1rem', borderRadius: 'var(--radius-md)', cursor: 'pointer',
+                border: paymentMethod === 'Razorpay' ? '2px solid #2563eb' : '1px solid var(--border-color)',
+                background: paymentMethod === 'Razorpay' ? 'rgba(37, 99, 235, 0.05)' : 'var(--bg-secondary)',
+                display: 'flex', flexDirection: 'column', gap: '0.5rem'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: paymentMethod === 'Razorpay' ? '6px solid #2563eb' : '2px solid var(--text-muted)' }} />
+                  <span style={{ fontWeight: 800, fontSize: '0.95rem' }}>Razorpay Gateway (Instant Settlement)</span>
+                </div>
+                <span style={{ background: '#2563eb', color: '#fff', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '99px' }}>RECOMMENDED</span>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0, paddingLeft: '1.75rem' }}>
+                Pay securely using <strong>Google Pay, PhonePe, Paytm, BHIM UPI, Debit/Credit Cards, or Net Banking</strong>.
+              </p>
+
+              {paymentMethod === 'Razorpay' && (
+                <div style={{ marginTop: '0.5rem', paddingLeft: '1.75rem', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  {['Google Pay', 'PhonePe', 'Paytm', 'BHIM UPI', 'Cards & NetBanking'].map((app) => (
+                    <span
+                      key={app}
+                      onClick={(e) => { e.stopPropagation(); setUpiApp(app); }}
+                      style={{
+                        padding: '0.25rem 0.6rem', borderRadius: '99px', fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer',
+                        background: upiApp === app ? '#2563eb' : 'var(--bg-surface)',
+                        color: upiApp === app ? '#ffffff' : 'var(--text-secondary)',
+                        border: '1px solid var(--border-color)'
+                      }}
+                    >
+                      {app}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Option B: Cash on Delivery */}
+            <div
+              onClick={() => setPaymentMethod('COD')}
+              style={{
+                padding: '1rem', borderRadius: 'var(--radius-md)', cursor: 'pointer',
+                border: paymentMethod === 'COD' ? '2px solid #2563eb' : '1px solid var(--border-color)',
+                background: paymentMethod === 'COD' ? 'rgba(37, 99, 235, 0.05)' : 'var(--bg-secondary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: paymentMethod === 'COD' ? '6px solid #2563eb' : '2px solid var(--text-muted)' }} />
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>Cash on Delivery (COD)</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Pay in cash upon delivery to your doorstep.</div>
+                </div>
+              </div>
+              <Truck size={20} style={{ color: 'var(--text-muted)' }} />
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+              <button
+                onClick={() => setStep(1)}
+                style={{ flex: 1, padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontWeight: 800, cursor: 'pointer' }}
+              >
+                Back to Address
+              </button>
+              <button
+                onClick={() => setStep(3)}
+                style={{ flex: 2, background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#fff', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, fontSize: '0.95rem', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+              >
+                Review Order & Invoice <ArrowRight size={16} />
               </button>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* STEP 2: PAYMENT METHOD */}
-          {step === 2 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Select Payment Method</h4>
+        {/* STEP 3: ITEMIZED SUMMARY & PAY */}
+        {step === 3 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 800 }}>Itemized Order Breakdown & Invoice</h4>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-                
-                {/* Razorpay Gateway */}
-                <div
-                  onClick={() => setPaymentMethod('Razorpay')}
-                  style={{
-                    padding: '1.2rem', borderRadius: 'var(--radius-md)',
-                    border: paymentMethod === 'Razorpay' ? '2px solid #2563eb' : '1px solid var(--border-color)',
-                    background: paymentMethod === 'Razorpay' ? 'rgba(37, 99, 235, 0.08)' : 'var(--bg-surface)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Lock size={18} />
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#2563eb' }}>Razorpay Payment Gateway</div>
-                      <span style={{ fontSize: '0.7rem', color: '#16a34a', fontWeight: 800 }}>● Instantly Settles to SBI A/c</span>
-                    </div>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    Supports Google Pay, PhonePe, Paytm, BHIM UPI, Credit/Debit Cards & SBI Net Banking.
-                  </p>
+            {/* Order Items List */}
+            <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '160px', overflowY: 'auto' }}>
+              {cart.map(item => (
+                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem' }}>
+                  <span style={{ fontWeight: 600 }}>{item.title} (x{item.quantity})</span>
+                  <span style={{ fontWeight: 800, color: 'var(--accent-primary)' }}>₹{item.price * item.quantity}</span>
                 </div>
+              ))}
+            </div>
 
-                {/* Cash on Delivery */}
-                <div
-                  onClick={() => setPaymentMethod('Cash on Delivery')}
-                  style={{
-                    padding: '1.2rem', borderRadius: 'var(--radius-md)',
-                    border: paymentMethod === 'Cash on Delivery' ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
-                    background: paymentMethod === 'Cash on Delivery' ? 'var(--bg-secondary)' : 'var(--bg-surface)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                    <Truck size={24} color="var(--accent-primary)" />
-                    <div style={{ fontWeight: 900, fontSize: '0.95rem' }}>Cash on Delivery</div>
-                  </div>
-                  <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    Pay in cash when your order is delivered to your doorstep.
-                  </p>
-                </div>
-
+            {/* Calculation Card */}
+            <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.85rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
+                <span>Product Subtotal:</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>₹{cartSubtotal}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
+                <span>Delivery Charge:</span>
+                <span style={{ fontWeight: 700, color: deliveryCharge === 0 ? '#16a34a' : 'var(--text-primary)' }}>
+                  {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
+                <span>GST (18% Goods & Services Tax):</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>₹{gstAmount}</span>
               </div>
 
-              {/* Supported UPI Badges */}
-              {paymentMethod === 'Razorpay' && (
-                <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
-                  <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: '0.6rem' }}>Razorpay Supported Payment Channels</div>
-                  <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-                    {['Google Pay', 'PhonePe', 'Paytm', 'BHIM UPI', 'HDFC / SBI / ICICI Cards', 'Net Banking'].map(b => (
-                      <span key={b} style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', padding: '0.3rem 0.65rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 800 }}>
-                        ✓ {b}
-                      </span>
-                    ))}
-                  </div>
+              {discountVal > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a', fontWeight: 700 }}>
+                  <span>Coupon Discount ({appliedCoupon.code}):</span>
+                  <span>-₹{discountVal}</span>
                 </div>
               )}
 
-              <button onClick={() => setStep(3)} style={{ background: 'var(--accent-primary)', color: '#fff', padding: '0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                <span>Review Itemized Invoice</span> <ArrowRight size={18} />
-              </button>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 900, fontSize: '1.2rem', borderTop: '2px solid var(--border-color)', paddingTop: '0.75rem', marginTop: '0.4rem', color: 'var(--text-primary)' }}>
+                <span>Grand Total Amount:</span>
+                <span style={{ color: '#2563eb' }}>₹{grandTotalINR}</span>
+              </div>
             </div>
-          )}
 
-          {/* STEP 3: ITEMIZED PRICING BREAKDOWN & PAY */}
-          {step === 3 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>Itemized Order Breakdown & Invoice</h4>
-
-              {/* Items List */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', maxHeight: '160px', overflowY: 'auto' }}>
-                {cart.map(item => (
-                  <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                    <div style={{ fontWeight: 700 }}>{item.title} (x{item.quantity})</div>
-                    <div style={{ fontWeight: 900, color: 'var(--accent-primary)' }}>₹{item.price * item.quantity}</div>
-                  </div>
-                ))}
+            {/* Merchant Settlement Summary */}
+            <div style={{ background: '#0f172a', color: '#f8fafc', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #334155' }}>
+              <div>
+                <div>Merchant Name: <strong>NexCart Retail Private Limited</strong></div>
+                <div style={{ color: '#94a3b8', marginTop: '0.1rem' }}>Receiving Account: <strong>NexCart Merchant Settlement Account (Razorpay T+1)</strong></div>
               </div>
-
-              {/* Itemized Pricing Breakdown Table */}
-              <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', padding: '1.1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.88rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Product Subtotal:</span>
-                  <strong>₹{cartSubtotal}</strong>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Delivery Charge:</span>
-                  <strong style={{ color: deliveryCharge === 0 ? '#16a34a' : 'inherit' }}>
-                    {deliveryCharge === 0 ? '₹0 (Free Express Shipping)' : `₹${deliveryCharge}`}
-                  </strong>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>GST (18% Goods & Services Tax):</span>
-                  <strong>₹{gstAmount}</strong>
-                </div>
-
-                {discountVal > 0 && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#16a34a' }}>
-                    <span>Promo Coupon Discount:</span>
-                    <strong>-₹{discountVal}</strong>
-                  </div>
-                )}
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 900, fontSize: '1.2rem', borderTop: '2px solid var(--border-color)', paddingTop: '0.75rem', marginTop: '0.4rem', color: 'var(--text-primary)' }}>
-                  <span>Grand Total Amount:</span>
-                  <span style={{ color: '#2563eb' }}>₹{grandTotalINR}</span>
-                </div>
-              </div>
-
-              {/* Merchant & Bank Settlement Summary */}
-              <div style={{ background: '#0f172a', color: '#f8fafc', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #334155' }}>
-                <div>
-                  <div>Merchant Name: <strong>NexCart Retail</strong></div>
-                  <div style={{ color: '#94a3b8', marginTop: '0.1rem' }}>Receiving Bank: <strong>State Bank of India (SBI A/c 91252589078)</strong></div>
-                </div>
-                <ShieldCheck size={22} color="#38bdf8" />
-              </div>
-
-              <button
-                onClick={handlePlaceOrderAndPay}
-                disabled={isPlacingOrder}
-                style={{
-                  background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff', padding: '0.9rem',
-                  borderRadius: 'var(--radius-md)', fontWeight: 900, fontSize: '1.05rem', border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)'
-                }}
-              >
-                <Lock size={20} />
-                <span>{isPlacingOrder ? 'Connecting to Razorpay Secure Gateway...' : `Place Order & Pay ₹${grandTotalINR} via Razorpay`}</span>
-              </button>
-
+              <ShieldCheck size={22} color="#38bdf8" />
             </div>
-          )}
 
-        </div>
+            <button
+              onClick={handlePlaceOrderAndPay}
+              disabled={isPlacingOrder}
+              style={{
+                background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff', padding: '0.9rem',
+                borderRadius: 'var(--radius-md)', fontWeight: 900, fontSize: '1.05rem', border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', boxShadow: '0 4px 14px rgba(37, 99, 235, 0.4)'
+              }}
+            >
+              <Lock size={20} />
+              <span>{isPlacingOrder ? 'Connecting to Razorpay Secure Gateway...' : `Place Order & Pay ₹${grandTotalINR} via Razorpay`}</span>
+            </button>
+
+          </div>
+        )}
+
       </div>
     </div>
   );

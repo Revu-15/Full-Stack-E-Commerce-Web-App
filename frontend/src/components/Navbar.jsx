@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useShop } from '../context/ShopContext.jsx';
 import {
   ShoppingBag, Heart, Search, User, MapPin, Sparkles, ChevronDown,
-  X, History, TrendingUp, ShieldAlert, LogOut, Package, Settings, Sun, Moon
+  X, History, TrendingUp, ShieldAlert, ShieldCheck, LogOut, Package, Settings, Sun, Moon
 } from 'lucide-react';
 
 const CATEGORIES_LIST = [

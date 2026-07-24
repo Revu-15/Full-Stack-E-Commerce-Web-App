@@ -17854,7 +17854,7 @@ export async function verifyRazorpayPayment(payload) {
     paymentId: payload.razorpay_payment_id || `pay_rzp_${Date.now().toString().slice(-8)}`,
     orderId: payload.razorpay_order_id,
     status: 'PAID',
-    settlementAccount: 'State Bank of India (SBI A/c 91252589078)'
+    settlementAccount: 'NexCart Merchant Bank Settlement Account (Razorpay T+1)'
   };
 }
 
@@ -17863,17 +17863,17 @@ export async function fetchAdminRevenue() {
   if (remote) return remote;
 
   return {
-    todayRevenue: 4250,
-    weeklyRevenue: 24890,
-    monthlyRevenue: 58900,
-    yearlyRevenue: 245000,
-    totalRevenue: 245000,
+    todayRevenue: 42500,
+    weeklyRevenue: 248900,
+    monthlyRevenue: 589000,
+    yearlyRevenue: 2450000,
+    totalRevenue: 2450000,
     settlementAccount: {
-      bankName: 'State Bank of India (SBI)',
-      accountHolder: 'Mr. Polamreddy Revanth Reddy',
-      accountNumber: '91252589078',
-      ifscCode: 'SBIN0003745',
-      settlementCycle: 'T+1 Business Day (Automated Razorpay Settlement)'
+      merchantName: 'NexCart Retail Private Limited',
+      bankName: 'NexCart Merchant Bank Settlement Account',
+      accountHolder: 'NexCart Retail Merchant Account',
+      accountType: 'Current Corporate Account',
+      settlementCycle: 'T+1 Business Day (Automated Razorpay Payouts)'
     }
   };
 }
